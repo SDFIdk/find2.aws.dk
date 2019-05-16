@@ -25,7 +25,7 @@ const view= new View({
     minZoom: 2,
     maxZoom: 13,
     center: [654500, 6176450], // start center position
-    zoom: 9, // start zoom level
+    zoom: 13, // start zoom level
     resolutions: [1638.4,819.2,409.6,204.8,102.4,51.2,25.6,12.8,6.4,3.2,1.6,0.8,0.4,0.2,0.1], // Equal to WMTS resolutions with three more detailed levels
     projection: dkProjection // use our custom projection defined earlier
   })
@@ -85,4 +85,5 @@ var geolocation = new Geolocation({
 geolocation.setTracking(true);
 geolocation.on('change', function(evt) {
   view.setCenter(geolocation.getPosition());
+  geolocation.setTracking(false);
 });
