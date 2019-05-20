@@ -9,6 +9,8 @@ import TileWMS from 'ol/source/TileWMS.js';
 import WMTS from 'ol/source/WMTS.js';
 import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
 import Geolocation from 'ol/Geolocation.js';
+import {defaults as defaultControls, Control} from 'ol/control.js';
+import * as dawaAutocomplete2 from 'dawa-autocomplete2';
 
 proj4.defs('EPSG:25832', "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs");
 register(proj4);
@@ -32,6 +34,76 @@ const view= new View({
 
 let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
 
+//
+// Define address search control.
+//
+
+/**
+ * @constructor
+ * @extends {module:ol/control/Control~Control}
+ * @param {Object=} opt_options Control options.
+ */
+
+function selected(control) {
+  return function (event) {
+    fetch(event.data.href+'?srid=25832').then( function(response) {
+      response.json().then( function ( adgangsadresse ) {
+        // var x= adgangsadresse.adgangspunkt.koordinater[1]
+        //   , y= adgangsadresse.adgangspunkt.koordinater[0];
+        // var marker= L.circleMarker(L.latLng(x, y), {color: 'red', fillColor: 'red', stroke: true, fillOpacity: 1.0, radius: 4, weight: 2, opacity: 1.0}).addTo(map);//defaultpointstyle);
+        // var popup= marker.bindPopup(L.popup().setContent("<a href='https://info.aws.dk/adgangsadresser?id="+adgangsadresse.id+"'>" + dawautil.formatAdgangsadresse(adgangsadresse) + "</a>"),{autoPan: true});
+        // if (adgangsadresse.vejpunkt) {
+        //   var vx= adgangsadresse.vejpunkt.koordinater[1]
+        //     , vy= adgangsadresse.vejpunkt.koordinater[0];
+        //   var vpmarker= L.circleMarker(L.latLng(vx, vy), {color: 'blue', fillColor: 'blue', stroke: true, fillOpacity: 1.0, radius: 4, weight: 2, opacity: 1.0}).addTo(map);//defaultpointstyle);
+        //   vpmarker.bindPopup(L.popup().setContent("<a href='https://info.aws.dk/adgangsadresser?id="+adgangsadresse.id+"'>" + dawautil.formatAdgangsadresse(adgangsadresse) + "</a>"),{autoPan: true});
+        // }
+        let map= control.getMap();
+        let view= map.getView();
+        view.animate({zoom: 12}, {center: adgangsadresse.adgangspunkt.koordinater});
+        //popup.openPopup();
+      });
+    });
+  }
+}
+
+var AddressSearchControl = (function (Control) {
+  function AddressSearchControl(opt_options) {
+    var options = opt_options || {};
+
+    var input = document.createElement('input');
+    input.type='search';
+    input.placeholder= 'vejnavn husnr, postnr'
+
+    var element = document.createElement('div');
+    element.className = 'adresseinput ol-control';
+    element.appendChild(input);
+
+    Control.call(this, {
+      element: element,
+      target: options.target
+    });
+
+    dawaAutocomplete2.dawaAutocomplete(input, {
+        select: selected(this),        
+        adgangsadresserOnly: true
+      }
+    );
+
+    input.addEventListener('click', this.handleRotateNorth.bind(this), false);
+  }
+
+  if ( Control ) AddressSearchControl.__proto__ = Control;
+  AddressSearchControl.prototype = Object.create( Control && Control.prototype );
+  AddressSearchControl.prototype.constructor = AddressSearchControl;
+
+  AddressSearchControl.prototype.handleRotateNorth = function handleRotateNorth () {
+    this.getMap().getView().setRotation(0);
+  };
+
+  return AddressSearchControl;
+}(Control));
+
 const map = new Map({
   target: 'map',
   layers: [
@@ -53,26 +125,29 @@ const map = new Map({
     //   })
     // })
     
-    new TileLayer({
-      source: new OSM()
-    }),
     // new TileLayer({
-    //   opacity: 1.0,
-    //   title:'Skærmkort',
-    //   type:'base',
-    //   visible: true, // by default this layer is visible
-    //   source: new WMTS({ 
-    //     url: "https://services.kortforsyningen.dk/topo_skaermkort?token="+kftoken,
-    //     layer: "dtk_skaermkort",
-    //     matrixSet: "View1",
-    //     format: "image/jpeg",
-    //     tileGrid: kfTileGrid,
-    //     style: 'default',
-    //     size: [256, 256]
-    //   })
-    // })
+    //   source: new OSM()
+    // }),
+    new TileLayer({
+      opacity: 1.0,
+      title:'Skærmkort',
+      type:'base',
+      visible: true, // by default this layer is visible
+      source: new WMTS({ 
+        url: "https://services.kortforsyningen.dk/topo_skaermkort?token="+kftoken,
+        layer: "dtk_skaermkort",
+        matrixSet: "View1",
+        format: "image/jpeg",
+        tileGrid: kfTileGrid,
+        style: 'default',
+        size: [256, 256]
+      })
+    })
   ],
-  view: view
+  view: view, 
+  controls: defaultControls().extend([
+    new AddressSearchControl()
+  ]),
 });
 
 var geolocation = new Geolocation({
