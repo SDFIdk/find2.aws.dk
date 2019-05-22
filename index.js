@@ -1,4 +1,5 @@
 import 'ol/ol.css';
+import './style.css';
 import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
@@ -44,6 +45,34 @@ let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
  * @param {Object=} opt_options Control options.
  */
 
+ function flyTo(location, done) {
+  var duration = 4000;
+  var zoom = view.getZoom();
+  var parts = 2;
+  var called = false;
+  function callback(complete) {
+    --parts;
+    if (called) {
+      return;
+    }
+    if (parts === 0 || !complete) {
+      called = true;
+      done(complete);
+    }
+  }
+  view.animate({
+    center: location,
+    duration: duration
+  }, callback);
+  view.animate({
+    zoom: 4,
+    duration: duration / 2
+  }, {
+    zoom: zoom,
+    duration: duration / 2
+  }, callback);
+}
+
 function selected(control) {
   return function (event) {
     fetch(event.data.href+'?srid=25832').then( function(response) {
@@ -60,7 +89,8 @@ function selected(control) {
         // }
         let map= control.getMap();
         let view= map.getView();
-        view.animate({zoom: 12}, {center: adgangsadresse.adgangspunkt.koordinater});
+        flyTo(adgangsadresse.adgangspunkt.koordinater, function() {});
+        //view.animate({center: adgangsadresse.adgangspunkt.koordinater, duration: 12000});
         //popup.openPopup();
       });
     });
@@ -73,6 +103,7 @@ var AddressSearchControl = (function (Control) {
 
     var input = document.createElement('input');
     input.type='search';
+    input.className = 'adresseinput';
     input.placeholder= 'vejnavn husnr, postnr'
 
     var element = document.createElement('div');
@@ -144,6 +175,7 @@ const map = new Map({
       })
     })
   ],
+  loadTilesWhileAnimating: true,
   view: view, 
   controls: defaultControls().extend([
     new AddressSearchControl()
