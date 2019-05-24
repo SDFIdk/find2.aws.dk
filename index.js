@@ -1,4 +1,5 @@
 import 'ol/ol.css';
+import 'ol-layerswitcher/src/ol-layerswitcher.css';
 import './style.css';
 import {Map, View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -10,7 +11,17 @@ import TileWMS from 'ol/source/TileWMS.js';
 import WMTS from 'ol/source/WMTS.js';
 import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
 import Geolocation from 'ol/Geolocation.js';
+import {Vector as VectorLayer} from 'ol/layer.js';
 import {defaults as defaultControls, Control} from 'ol/control.js';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Vector as VectorSource} from 'ol/source.js';
+import Feature from 'ol/Feature.js';
+import Point from 'ol/geom/Point.js';
+import LayerGroup from 'ol/layer/Group';
+import LayerTile from 'ol/layer/Tile';
+import LayerImage from 'ol/layer/Image';
+import LayerSwitcher from 'ol-layerswitcher';
+import SourceImageArcGISRest from 'ol/source/ImageArcGISRest';
 import * as dawaAutocomplete2 from 'dawa-autocomplete2';
 
 proj4.defs('EPSG:25832', "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs");
@@ -73,6 +84,14 @@ let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
   }, callback);
 }
 
+function markerstyle(color) {
+  const style=
+    new Style({
+      image: new CircleStyle({radius: 6, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 2})})
+    });
+  return style;
+};
+
 function selected(control) {
   return function (event) {
     fetch(event.data.href+'?srid=25832').then( function(response) {
@@ -92,6 +111,10 @@ function selected(control) {
         flyTo(adgangsadresse.adgangspunkt.koordinater, function() {});
         //view.animate({center: adgangsadresse.adgangspunkt.koordinater, duration: 12000});
         //popup.openPopup();
+        var searchFeature = new Feature();        
+        searchFeature.setStyle(markerstyle('red'));
+        searchFeature.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
+        source.addFeature(searchFeature);
       });
     });
   }
@@ -138,41 +161,59 @@ var AddressSearchControl = (function (Control) {
 const map = new Map({
   target: 'map',
   layers: [
-    // new TileLayer({
-    //   source: new OSM()
-    // })
-    // new TileLayer({
-    //   source: new TileWMS({        
-    //     url: 'https://services.kortforsyningen.dk/topo_skaermkort?token='+kftoken,
-    //     type:'base',
-    //     visible: true, // by default this layer is visible
-    //     params: {
-    //       'LAYERS':'dtk_skaermkort',
-    //       'VERSION':'1.1.1',
-    //       'TRANSPARENT':'false',
-    //       'FORMAT': "image/png",
-    //       'STYLES':'' 
-    //     }
-    //   })
-    // })
-    
-    // new TileLayer({
-    //   source: new OSM()
-    // }),
-    new TileLayer({
-      opacity: 1.0,
-      title:'Skærmkort',
-      type:'base',
-      visible: true, // by default this layer is visible
-      source: new WMTS({ 
-        url: "https://services.kortforsyningen.dk/topo_skaermkort?token="+kftoken,
-        layer: "dtk_skaermkort",
-        matrixSet: "View1",
-        format: "image/jpeg",
-        tileGrid: kfTileGrid,
-        style: 'default',
-        size: [256, 256]
-      })
+    new LayerGroup({
+      'title': 'Baggrundskort',
+      layers: [             
+        new LayerTile({
+          title:'Open Street Map',
+          type:'base',
+          source: new OSM(),
+          visible: false
+        }),
+        new LayerTile({
+          //opacity: 1.0,
+          title:'Skærmkort (WMTS)',
+          type:'base',
+          visible: false, // by default this layer is visible
+          source: new WMTS({ 
+            url: "https://services.kortforsyningen.dk/topo_skaermkort?token="+kftoken,
+            layer: "dtk_skaermkort",
+            matrixSet: "View1",
+            format: "image/jpeg",
+            tileGrid: kfTileGrid,
+            style: 'default',
+            size: [256, 256]
+          })
+        }), 
+        new LayerTile({  
+          title:'Skærmkort (WMS)',    
+          type:'base',
+          visible: true, // by default this layer is visible
+          source: new TileWMS({       
+            url: 'https://services.kortforsyningen.dk/topo_skaermkort?token='+kftoken,
+            params: {
+              'LAYERS':'dtk_skaermkort',
+              'VERSION':'1.1.1',
+              'TRANSPARENT':'false',
+              'FORMAT': "image/png",
+              'STYLES':'' 
+            }
+          })
+        })
+      ]
+    }),
+    new LayerGroup({
+      title: 'Overlays',
+      layers: [
+          new LayerImage({
+              title: 'Countries',
+              source: new SourceImageArcGISRest({
+                  ratio: 1,
+                  params: {'LAYERS': 'show:0'},
+                  url: "https://ons-inspire.esriuk.com/arcgis/rest/services/Administrative_Boundaries/Countries_December_2016_Boundaries/MapServer"
+              })
+          })
+      ]
     })
   ],
   loadTilesWhileAnimating: true,
@@ -181,6 +222,27 @@ const map = new Map({
     new AddressSearchControl()
   ]),
 });
+
+const source= new VectorSource();
+const layer= new VectorLayer({source: source});
+map.addLayer(layer);
+
+var layerSwitcher = new LayerSwitcher();
+map.addControl(layerSwitcher);
+
+var positionFeature = new Feature();
+positionFeature.setStyle(new Style({
+  image: new CircleStyle({
+    radius: 6,
+    fill: new Fill({
+      color: '#3399CC'
+    }),
+    stroke: new Stroke({
+      color: '#fff',
+      width: 2
+    })
+  })
+}));
 
 var geolocation = new Geolocation({
     // enableHighAccuracy must be set to true to have the heading value.
@@ -192,5 +254,23 @@ var geolocation = new Geolocation({
 geolocation.setTracking(true);
 geolocation.on('change', function(evt) {
   view.setCenter(geolocation.getPosition());
-  geolocation.setTracking(false);
+//  geolocation.setTracking(false);
 });
+
+geolocation.on('change:position', function() {
+  var coordinates = geolocation.getPosition();
+  positionFeature.setGeometry(coordinates ?
+    new Point(coordinates) : null);
+});
+
+var accuracyFeature = new Feature();
+geolocation.on('change:accuracyGeometry', function() {
+  accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+});
+
+new VectorLayer({
+  map: map,
+  source: new VectorSource({
+    features: [accuracyFeature, positionFeature]
+  })
+})
