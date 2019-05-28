@@ -6,10 +6,17 @@ html, body, #map {
   font-family: Arial, Helvetica;
 }
 
+.layer-switcher {
+    top: inherit;
+    right: inherit; 
+    left: .5em;
+    bottom: .5em;
+}
+
 .adresseinput {
   top: .5em;
   right: .5em;
-	width: 250px;
+  width: 250px;
 	font-size:12px;
 }
 

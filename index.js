@@ -1,62 +1,37 @@
 import 'ol/ol.css';
 import 'ol-layerswitcher/src/ol-layerswitcher.css';
 import './style.css';
-import {Map, View} from 'ol';
-import TileLayer from 'ol/layer/Tile';
-import OSM from 'ol/source/OSM';
-import proj4 from 'proj4';
-import {register} from 'ol/proj/proj4';
-import {get as getProjection} from 'ol/proj';
-import TileWMS from 'ol/source/TileWMS.js';
-import WMTS from 'ol/source/WMTS.js';
-import WMTSTileGrid from 'ol/tilegrid/WMTS.js';
-import Geolocation from 'ol/Geolocation.js';
-import {Vector as VectorLayer} from 'ol/layer.js';
-import {defaults as defaultControls, Control} from 'ol/control.js';
+import {Map} from 'ol';
+import Geolocation from 'ol/Geolocation';
+import Feature from 'ol/Feature';
+import {Vector as VectorSource} from 'ol/source';
+import {Vector as VectorLayer} from 'ol/layer';
+import Point from 'ol/geom/Point';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
-import {Vector as VectorSource} from 'ol/source.js';
-import Feature from 'ol/Feature.js';
-import Point from 'ol/geom/Point.js';
-import LayerGroup from 'ol/layer/Group';
-import LayerTile from 'ol/layer/Tile';
-import LayerImage from 'ol/layer/Image';
 import LayerSwitcher from 'ol-layerswitcher';
-import SourceImageArcGISRest from 'ol/source/ImageArcGISRest';
-import * as dawaAutocomplete2 from 'dawa-autocomplete2';
+import {defaults as defaultControls, Control} from 'ol/control';
+import {AddressSearchControl} from '/modules/AddressSearchControl';
+import * as kort from '/modules/kort';
+import * as geolocation from '/modules/geolocation';
 
-proj4.defs('EPSG:25832', "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs");
-register(proj4);
-var dkProjection = getProjection('EPSG:25832');
-dkProjection.setExtent([120000, 5661139.2, 1378291.2, 6500000]);
-
-var kfTileGrid = new WMTSTileGrid({
-  extent: [120000, 5661139.2, 1378291.2, 6500000],
-  resolutions: [1638.4,819.2,409.6,204.8,102.4,51.2,25.6,12.8,6.4,3.2,1.6,0.8,0.4,0.2],
-  matrixIds: ['L00','L01','L02','L03','L04','L05','L06','L07','L08','L09','L10','L11','L12','L13'],
+const map = new Map({
+  target: 'map',
+  layers: [kort.baggrundskort, kort.lag],
+  loadTilesWhileAnimating: true,
+  view: kort.view, 
+  controls: defaultControls().extend([
+    new AddressSearchControl({selected: selected}),
+    new LayerSwitcher()
+  ]),
 });
 
-const view= new View({
-    minZoom: 2,
-    maxZoom: 13,
-    center: [654500, 6176450], // start center position
-    zoom: 13, // start zoom level
-    resolutions: [1638.4,819.2,409.6,204.8,102.4,51.2,25.6,12.8,6.4,3.2,1.6,0.8,0.4,0.2,0.1], // Equal to WMTS resolutions with three more detailed levels
-    projection: dkProjection // use our custom projection defined earlier
-  })
+geolocation.show(map);
 
-let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
+const addressSource= new VectorSource();
+const addressLayer= new VectorLayer({source: addressSource});
+map.addLayer(addressLayer);
 
-//
-// Define address search control.
-//
-
-/**
- * @constructor
- * @extends {module:ol/control/Control~Control}
- * @param {Object=} opt_options Control options.
- */
-
- function flyTo(location, done) {
+function flyTo(location, view, done) {
   var duration = 4000;
   var zoom = view.getZoom();
   var parts = 2;
@@ -87,7 +62,7 @@ let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
 function markerstyle(color) {
   const style=
     new Style({
-      image: new CircleStyle({radius: 6, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 2})})
+      image: new CircleStyle({radius: 4, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 1})})
     });
   return style;
 };
@@ -108,169 +83,19 @@ function selected(control) {
         // }
         let map= control.getMap();
         let view= map.getView();
-        flyTo(adgangsadresse.adgangspunkt.koordinater, function() {});
+        flyTo(adgangsadresse.adgangspunkt.koordinater, view, function() {});
         //view.animate({center: adgangsadresse.adgangspunkt.koordinater, duration: 12000});
         //popup.openPopup();
-        var searchFeature = new Feature();        
-        searchFeature.setStyle(markerstyle('red'));
-        searchFeature.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
-        source.addFeature(searchFeature);
+        var adgangspunkt = new Feature();        
+        adgangspunkt.setStyle(markerstyle('red'));
+        adgangspunkt.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
+        addressSource.addFeature(adgangspunkt); 
+        var vejpunkt = new Feature();     
+        vejpunkt.setStyle(markerstyle('blue'));
+        vejpunkt.setGeometry(new Point(adgangsadresse.vejpunkt.koordinater));
+        addressSource.addFeature(vejpunkt);
       });
     });
   }
 }
 
-var AddressSearchControl = (function (Control) {
-  function AddressSearchControl(opt_options) {
-    var options = opt_options || {};
-
-    var input = document.createElement('input');
-    input.type='search';
-    input.className = 'adresseinput';
-    input.placeholder= 'vejnavn husnr, postnr'
-
-    var element = document.createElement('div');
-    element.className = 'adresseinput ol-control';
-    element.appendChild(input);
-
-    Control.call(this, {
-      element: element,
-      target: options.target
-    });
-
-    dawaAutocomplete2.dawaAutocomplete(input, {
-        select: selected(this),        
-        adgangsadresserOnly: true
-      }
-    );
-
-    input.addEventListener('click', this.handleRotateNorth.bind(this), false);
-  }
-
-  if ( Control ) AddressSearchControl.__proto__ = Control;
-  AddressSearchControl.prototype = Object.create( Control && Control.prototype );
-  AddressSearchControl.prototype.constructor = AddressSearchControl;
-
-  AddressSearchControl.prototype.handleRotateNorth = function handleRotateNorth () {
-    this.getMap().getView().setRotation(0);
-  };
-
-  return AddressSearchControl;
-}(Control));
-
-const map = new Map({
-  target: 'map',
-  layers: [
-    new LayerGroup({
-      'title': 'Baggrundskort',
-      layers: [             
-        new LayerTile({
-          title:'Open Street Map',
-          type:'base',
-          source: new OSM(),
-          visible: false
-        }),
-        new LayerTile({
-          //opacity: 1.0,
-          title:'Skærmkort (WMTS)',
-          type:'base',
-          visible: false, // by default this layer is visible
-          source: new WMTS({ 
-            url: "https://services.kortforsyningen.dk/topo_skaermkort?token="+kftoken,
-            layer: "dtk_skaermkort",
-            matrixSet: "View1",
-            format: "image/jpeg",
-            tileGrid: kfTileGrid,
-            style: 'default',
-            size: [256, 256]
-          })
-        }), 
-        new LayerTile({  
-          title:'Skærmkort (WMS)',    
-          type:'base',
-          visible: true, // by default this layer is visible
-          source: new TileWMS({       
-            url: 'https://services.kortforsyningen.dk/topo_skaermkort?token='+kftoken,
-            params: {
-              'LAYERS':'dtk_skaermkort',
-              'VERSION':'1.1.1',
-              'TRANSPARENT':'false',
-              'FORMAT': "image/png",
-              'STYLES':'' 
-            }
-          })
-        })
-      ]
-    }),
-    new LayerGroup({
-      title: 'Overlays',
-      layers: [
-          new LayerImage({
-              title: 'Countries',
-              source: new SourceImageArcGISRest({
-                  ratio: 1,
-                  params: {'LAYERS': 'show:0'},
-                  url: "https://ons-inspire.esriuk.com/arcgis/rest/services/Administrative_Boundaries/Countries_December_2016_Boundaries/MapServer"
-              })
-          })
-      ]
-    })
-  ],
-  loadTilesWhileAnimating: true,
-  view: view, 
-  controls: defaultControls().extend([
-    new AddressSearchControl()
-  ]),
-});
-
-const source= new VectorSource();
-const layer= new VectorLayer({source: source});
-map.addLayer(layer);
-
-var layerSwitcher = new LayerSwitcher();
-map.addControl(layerSwitcher);
-
-var positionFeature = new Feature();
-positionFeature.setStyle(new Style({
-  image: new CircleStyle({
-    radius: 6,
-    fill: new Fill({
-      color: '#3399CC'
-    }),
-    stroke: new Stroke({
-      color: '#fff',
-      width: 2
-    })
-  })
-}));
-
-var geolocation = new Geolocation({
-    // enableHighAccuracy must be set to true to have the heading value.
-    trackingOptions: {
-      enableHighAccuracy: true
-    },
-    projection: view.getProjection()
-  });
-geolocation.setTracking(true);
-geolocation.on('change', function(evt) {
-  view.setCenter(geolocation.getPosition());
-//  geolocation.setTracking(false);
-});
-
-geolocation.on('change:position', function() {
-  var coordinates = geolocation.getPosition();
-  positionFeature.setGeometry(coordinates ?
-    new Point(coordinates) : null);
-});
-
-var accuracyFeature = new Feature();
-geolocation.on('change:accuracyGeometry', function() {
-  accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-});
-
-new VectorLayer({
-  map: map,
-  source: new VectorSource({
-    features: [accuracyFeature, positionFeature]
-  })
-})
