@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint **/*.js --ignore-pattern node_modules/ --ignore-pattern dist/",
     "start": "parcel index.html",
     "build": "parcel build --public-url . index.html"
   },
@@ -20,11 +21,14 @@
   "homepage": "https://github.com/DanmarksAdresser/find2.aws.dk#readme",
   "dependencies": {
     "dawa-autocomplete2": "^1.0.0",
+    "dawa-util": "^0.1.13",
     "ol": "^5.3.2",
     "ol-layerswitcher": "^3.2.0",
+    "ol-popup": "^4.0.0",
     "proj4": "^2.5.0"
   },
   "devDependencies": {
+    "eslint": "^5.16.0",
     "parcel-bundler": "^1.12.3"
   }
 }

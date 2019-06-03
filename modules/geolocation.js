@@ -32,7 +32,8 @@ export function show(map) {
 
   geolocation.on('change', function(evt) {
     map.getView().setCenter(geolocation.getPosition());
-  //  geolocation.setTracking(false);
+    evt;
+    geolocation.setTracking(false);
   });
 
   geolocation.on('change:position', function() {
