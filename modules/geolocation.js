@@ -42,15 +42,15 @@ export function show(map) {
       new Point(coordinates) : null);
   });
 
-  var accuracyFeature = new Feature();
-  geolocation.on('change:accuracyGeometry', function() {
-    accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-  });
+  // var accuracyFeature = new Feature();
+  // geolocation.on('change:accuracyGeometry', function() {
+  //   accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+  // });
 
   new VectorLayer({
     map: map,
     source: new VectorSource({
-      features: [accuracyFeature, positionFeature]
+      features: [/* accuracyFeature,*/ positionFeature]
     })
   })
 
