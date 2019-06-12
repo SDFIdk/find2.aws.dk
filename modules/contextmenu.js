@@ -21,6 +21,8 @@ export function getContextMenu(map, popup, source) {
 }
 
 contextmenu.on('open', function (evt) {
+  evt.coordinate[0]= Math.round(evt.coordinate[0]*1000)/1000;
+  evt.coordinate[1]= Math.round(evt.coordinate[1]*1000)/1000;
   hvor(evt.coordinate);
 });
 
@@ -32,7 +34,7 @@ function center(obj) {
 }
 
 function koordinater(obj) { 
-  popupcm.show(obj.coordinate, '(' + obj.coordinate[0] + ', ' + obj.coordinate[0] + ')');
+  popupcm.show(obj.coordinate, '(' + obj.coordinate[0] + ', ' + obj.coordinate[1] + ')');
 }
 
 function initMenuItems() {  
@@ -42,15 +44,18 @@ function initMenuItems() {
   menuItem.callback= center;
   menuItem.classname= 'bold';
   contextmenu.push(menuItem);
-  menuItem.text= "Koordinater";
-  menuItem.callback= koordinater;
-  menuItem.classname= 'bold';
-  contextmenu.push(menuItem);
   contextmenu.push('-');
 }
 
 function hvor(coordinate) {
   initMenuItems();
+
+  let menuItem= {};
+  menuItem.text= "Koordinater: " + '(' + coordinate[0] + ', ' + coordinate[1] + ')';
+  menuItem.callback= koordinater;
+  menuItem.classname= 'bold';
+  contextmenu.push(menuItem);
+
   var antal= 0;
   var promises= [];
 
@@ -62,6 +67,11 @@ function hvor(coordinate) {
   // sogn
   promises.push(fetch(util.danUrl("https://dawa.aws.dk/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
   promises[antal].danMenuItem= danMenuItemData("Sogn", 'sogne');
+  antal++;
+
+  // supplerende bunavn
+  promises.push(fetch(util.danUrl("https://dawa.aws.dk/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832})));
+  promises[antal].danMenuItem= danMenuItemSupplerendeBynavn;
   antal++;
 
   // postnummer
@@ -140,6 +150,14 @@ function hvor(coordinate) {
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function danMenuItemSupplerendeBynavn(data) {
+  if (data.length > 0) {
+    let menuItem= {};
+    menuItem.text= "Supplerende bynavn: " +  data[0].navn;
+    contextmenu.push(menuItem);
+  }
 }
 
 function danMenuItemPostnummer(data) {
