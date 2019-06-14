@@ -44,7 +44,6 @@ function initMenuItems() {
   menuItem.callback= center;
   menuItem.classname= 'bold';
   contextmenu.push(menuItem);
-  contextmenu.push('-');
 }
 
 function hvor(coordinate) {
@@ -55,9 +54,20 @@ function hvor(coordinate) {
   menuItem.callback= koordinater;
   menuItem.classname= 'bold';
   contextmenu.push(menuItem);
+  contextmenu.push('-');
 
   var antal= 0;
   var promises= [];
+
+  // adgangsadresse
+  promises.push(fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
+  promises[antal].danMenuItem= danMenuItemAdgangsadresse;
+  antal++;
+
+  // bygning
+  promises.push(fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
+  promises[antal].danMenuItem= danMenuItemBygning;
+  antal++;
 
   // jordstykke
   promises.push(fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
@@ -158,6 +168,36 @@ function danMenuItemSupplerendeBynavn(data) {
     menuItem.text= "Supplerende bynavn: " +  data[0].navn;
     contextmenu.push(menuItem);
   }
+}
+
+function danMenuItemAdgangsadresse(data) {
+  let menuItem= {};
+  menuItem.text= "Adgangsadresse: " +  util.formatAdgangsadresse(data,false);
+  contextmenu.push(menuItem);
+}
+
+function danMenuItemBygning(data) {
+  for (var i= 0; i < data.features.length; i++) {
+    let menuItem= {};
+    menuItem.text= data.features[i].properties.bygningstype;
+    menuItem.data= data.features[i];
+    menuItem.callback= visBygning;
+    contextmenu.push(menuItem);
+  }
+}
+
+function visBygning(data) {  
+  var bygning = new Feature();        
+  //bygning.setStyle(markerstyle('red'));
+  bygning.setGeometry(new Polygon(data.data.geometry.coordinates));
+  bygning.setProperties({data: data.data, popupTekst: bygningPopupTekst(data.data.properties)});
+  sourcecm.addFeature(bygning);
+}
+
+function bygningPopupTekst(data) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + data.bygningstype + '</a></p>'
+  } 
 }
 
 function danMenuItemPostnummer(data) {
