@@ -1,7 +1,9 @@
 import 'ol/ol.css';
 import 'ol-layerswitcher/src/ol-layerswitcher.css';
 import 'ol-popup/src/ol-popup.css';
-import './style.css';
+import './styles/style.css';
+import './styles/dawa-autocomplete.css';
+import './styles/autocomplete.css';
 import {Map} from 'ol';
 import Feature from 'ol/Feature';
 import {Vector as VectorSource} from 'ol/source';
@@ -12,11 +14,13 @@ import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
 import {AddressSearchControl} from '/modules/AddressSearchControl';
+import {JordstykkeControl} from '/modules/jordstykkecontrol';
 import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
 import Popup from 'ol-popup';
 import * as util from 'dawa-util';
+import * as vis from '/modules/vis';
 
 const map = new Map({
   target: 'map',
@@ -24,7 +28,8 @@ const map = new Map({
   loadTilesWhileAnimating: true,
   view: kort.view, 
   controls: defaultControls().extend([
-    new AddressSearchControl({selected: selected}),
+    //new AddressSearchControl({selected: addressSelected}),
+    new JordstykkeControl({selected: jordstykkeSelected}),
     new LayerSwitcher()
   ]),
 });
@@ -100,7 +105,7 @@ function markerstyle(color) {
   return style;
 }
 
-function selected(control) {
+function addressSelected(control) {
   return function (event) {
     fetch(event.data.href+'?srid=25832').then( function(response) {
       response.json().then( function ( adgangsadresse ) {
@@ -133,6 +138,19 @@ function selected(control) {
       });
     });
   }
+}
+
+function jordstykkeSelected(valgt) {
+  fetch(valgt.jordstykke.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+    response.json().then( function ( data ) {
+      if (data.geometri || data.features && data.features.length === 0) {
+            alert('Søgning gav intet resultat');
+            return;
+      }
+      flyTo(data.properties.visueltcenter, map.getView(), function() {});
+      vis.visJordstykke(addressSource, data);
+    });
+  });
 }
 
 function adgangsadressePopupTekst(data) {

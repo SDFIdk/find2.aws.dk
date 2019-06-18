@@ -3,6 +3,7 @@ import ContextMenu from 'ol-contextmenu';
 import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';
 import * as util from 'dawa-util';
+import * as vis from '/modules/vis';
 
 var mapcm, popupcm, sourcecm;
 
@@ -33,8 +34,14 @@ function center(obj) {
   });
 }
 
-function koordinater(obj) { 
-  popupcm.show(obj.coordinate, '(' + obj.coordinate[0] + ', ' + obj.coordinate[1] + ')');
+function koordinater(obj) {
+  let tekst= '(' + obj.coordinate[0] + ', ' + obj.coordinate[1] + ')'; 
+  popupcm.show(obj.coordinate, tekst);
+  navigator.permissions.query({name: "clipboard-write"}).then(result => {
+    if (result.state == "granted" || result.state == "prompt") {
+      navigator.clipboard.writeText(tekst);
+    }
+  });
 }
 
 function initMenuItems() {  
@@ -227,23 +234,15 @@ function danMenuItemValglandsdel(data) {
 function danMenuItemJordstykke(data) {
   let menuItem= {};
   menuItem.text= "Jordstykke: " + data.properties.matrikelnr + " " + data.properties.ejerlav.navn;
-  menuItem.callback= visJordstykke;
+  menuItem.callback= danVisJordstykke(sourcecm);
   menuItem.data= data;
   contextmenu.push(menuItem);
 }
 
-function visJordstykke(data) {  
-  var jordstykke = new Feature();        
-  //jordstykke.setStyle(markerstyle('red'));
-  jordstykke.setGeometry(new Polygon(data.data.geometry.coordinates));
-  jordstykke.setProperties({data: data.data, popupTekst: jordstykkePopupTekst(data.data.properties)});
-  sourcecm.addFeature(jordstykke);
-}
-
-function jordstykkePopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Jordstykke: ' + data.matrikelnr + " " + data.ejerlav.navn + '</a></p>'
-  } 
+function danVisJordstykke(source) {
+  return function (data) {    
+    vis.visJordstykke(source, data.data);
+  }
 }
 
 function danMenuItemStednavne(data) {

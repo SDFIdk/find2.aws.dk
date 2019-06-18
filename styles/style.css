@@ -1,0 +1,24 @@
+html, body, #map {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+  font-family: Arial, Helvetica;
+}
+
+.layer-switcher {
+    top: inherit;
+    right: inherit; 
+    left: .5em;
+    bottom: .5em;
+}
+
+.jordstykkecontainer, .adresseinput {
+  top: .5em;
+  right: .5em;
+  width: 250px;
+}
+
+.jordstykkeinput {
+  font-size:12px;
+}

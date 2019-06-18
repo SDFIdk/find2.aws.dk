@@ -1,24 +1,3 @@
-html, body, #map {
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-  font-family: Arial, Helvetica;
-}
-
-.layer-switcher {
-    top: inherit;
-    right: inherit; 
-    left: .5em;
-    bottom: .5em;
-}
-
-.adresseinput {
-  top: .5em;
-  right: .5em;
-  width: 250px;
-	font-size:12px;
-}
 
 .autocomplete-container {
     /* relative position for at de absolut positionerede forslag får korrekt placering.*/
