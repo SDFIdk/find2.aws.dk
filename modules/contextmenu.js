@@ -53,7 +53,7 @@ function initMenuItems() {
   contextmenu.push(menuItem);
 }
 
-function hvor(coordinate) {
+async function hvor(coordinate) {
   initMenuItems();
 
   let menuItem= {};
@@ -69,6 +69,16 @@ function hvor(coordinate) {
   // adgangsadresse
   promises.push(fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
   promises[antal].danMenuItem= danMenuItemAdgangsadresse;
+  antal++;
+
+  // navngiven vej
+  promises.push(fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
+  promises[antal].danMenuItem= danMenuItemNavngivenvej;
+  antal++;
+
+  // vejstykke
+  promises.push(fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
+  promises[antal].danMenuItem= danMenuItemVejstykke;
   antal++;
 
   // bygning
@@ -141,28 +151,59 @@ function hvor(coordinate) {
   promises[antal].danMenuItem= danMenuItemStednavne;
   antal++;
 
-  Promise.all(promises) 
-  .catch(function (error) {
-    alert(error.message);
-  })
-  .then(function(responses) {      
-    for (var i= responses.length-1; i>=0; i--) {
-      if (responses[i].ok) {
-        responses[i]= responses[i].json();
-      }
-      else {
-        responses.splice(i, 1);
-        promises.splice(i, 1);
-      }
+  // Promise.all(promises) 
+  // .catch(function (error) {
+  //   alert(error.message);
+  // })
+  // .then(function(responses) {      
+  //   for (var i= responses.length-1; i>=0; i--) {
+  //     if (responses[i].ok) {
+  //       responses[i]= responses[i].json();
+  //     }
+  //     else {
+  //       responses.splice(i, 1);
+  //       promises.splice(i, 1);
+  //     }
+  //   }
+  //   return Promise.all(responses);
+  // })
+  // .then(function(data) {
+  //   if (data.length === 0) return;
+  //   for(let i=0; i<data.length; i++) {
+  //     promises[i].danMenuItem(data[i]);
+  //   } 
+  // });
+
+  // Prøv at tilpas Babel til at håndtere async/await. 
+  // Se eventuelt på https://babeljs.io/
+  // og https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
+
+  const maxsamtidige= 10;
+  let start= 0;
+  let responses= [];
+  while (start < promises.length) {
+    responses= responses.concat(await Promise.all(promises.slice(start, start+maxsamtidige))); 
+    start= start+maxsamtidige;
+  }
+  for (var i= responses.length-1; i>=0; i--) {
+    if (responses[i].ok) {
+      responses[i]= responses[i].json();
     }
-    return Promise.all(responses);
-  })
-  .then(function(data) {
-    if (data.length === 0) return;
-    for(let i=0; i<data.length; i++) {
-      promises[i].danMenuItem(data[i]);
-    } 
-  });
+    else {
+      responses.splice(i, 1);
+      promises.splice(i, 1);
+    }
+  }
+  start= 0;
+  let data= [];
+  while (start < responses.length) {
+    data= data.concat(await Promise.all(responses.slice(start, start+maxsamtidige))); 
+    start= start+maxsamtidige;
+  }
+  if (data.length === 0) return;
+  for(let i=0; i<data.length; i++) {
+    promises[i].danMenuItem(data[i]);
+  } 
 }
 
 function capitalizeFirstLetter(string) {
@@ -181,6 +222,34 @@ function danMenuItemAdgangsadresse(data) {
   let menuItem= {};
   menuItem.text= "Adgangsadresse: " +  util.formatAdgangsadresse(data,false);
   contextmenu.push(menuItem);
+}
+
+function danMenuItemNavngivenvej(data) {
+  let menuItem= {};
+  menuItem.text= "Navngivenvej: " + data.features[0].properties.navn;
+  menuItem.callback= danVisNavngivenvej(sourcecm);
+  menuItem.data= data.features[0];
+  contextmenu.push(menuItem);
+}
+
+function danVisNavngivenvej(source) {
+  return function (data) {    
+    vis.visNavngivenvej(source, data.data);
+  }
+}
+
+function danMenuItemVejstykke(data) {
+  let menuItem= {};
+  menuItem.text= "Vejstykke: " + data.properties.navn + '(' + data.properties.kode;
+  menuItem.callback= danVisVejstykke(sourcecm);
+  menuItem.data= data;
+  contextmenu.push(menuItem);
+}
+
+function danVisVejstykke(source) {
+  return function (data) {    
+    vis.visVejstykke(source, data.data);
+  }
 }
 
 function danMenuItemBygning(data) {
@@ -260,5 +329,3 @@ function danMenuItemData(titel) {
     contextmenu.push(menuItem);
   }
 }
-
-

@@ -4,6 +4,8 @@ import 'ol-popup/src/ol-popup.css';
 import './styles/style.css';
 import './styles/dawa-autocomplete.css';
 import './styles/autocomplete.css';
+import 'babel-polyfill';
+import 'whatwg-fetch';
 import {Map} from 'ol';
 import Feature from 'ol/Feature';
 import {Vector as VectorSource} from 'ol/source';

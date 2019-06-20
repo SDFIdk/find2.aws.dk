@@ -21,6 +21,7 @@
   "homepage": "https://github.com/DanmarksAdresser/find2.aws.dk#readme",
   "dependencies": {
     "autocomplete.js": "^0.36.0",
+    "babel-polyfill": "^6.26.0",
     "dawa-autocomplete2": "^1.0.0",
     "dawa-util": "^0.1.13",
     "modules": "^0.4.0",
@@ -30,7 +31,8 @@
     "ol-popup": "^4.0.0",
     "proj4": "^2.5.0",
     "styles": "^0.2.1",
-    "vis": "^4.21.0"
+    "vis": "^4.21.0",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
