@@ -67,7 +67,7 @@ async function hvor(coordinate) {
   var promises= [];
 
   // adgangsadresse
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));});
   promises[antal].danMenuItem= danMenuItemAdgangsadresse;
   antal++;
 
