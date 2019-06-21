@@ -63,93 +63,140 @@ async function hvor(coordinate) {
   contextmenu.push(menuItem);
   contextmenu.push('-');
 
-  var antal= 0;
-  var promises= [];
+  let promises= []
+    , danMenuItems= [];
 
   // adgangsadresse
   promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));});
-  promises[antal].danMenuItem= danMenuItemAdgangsadresse;
-  antal++;
+  danMenuItems.push(danMenuItemAdgangsadresse);
 
   // navngiven vej
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemNavngivenvej;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
+      danMenuItem= danMenuItemNavngivenvej;
+    }
+  );
 
   // vejstykke
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemVejstykke;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
+      danMenuItem= danMenuItemVejstykke;
+    }
+  );
 
   // bygning
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemBygning;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
+      danMenuItem= danMenuItemBygning;
+    }
+  );
 
   // jordstykke
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemJordstykke;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
+      danMenuItem= danMenuItemJordstykke;
+    }
+  );
 
   // sogn
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemData("Sogn", 'sogne');
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemData("Sogn", 'sogne');
+    }
+  );
 
   // supplerende bunavn
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemSupplerendeBynavn;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemSupplerendeBynavn;
+    }
+  );
 
   // postnummer
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/postnumre/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemPostnummer;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/postnumre/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemPostnummer;
+    }
+  );
 
   // kommune
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/kommuner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemData("Kommune", 'kommuner');
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/kommuner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemData("Kommune", 'kommuner');
+    }
+  );
 
   // region
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/regioner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemData("Region",'regioner');
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/regioner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemData("Region",'regioner');
+    }
+  );
 
   // retskreds
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/retskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemData("Retskreds", 'retskredse');
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/retskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemData("Retskreds", 'retskredse');
+    }
+  );
 
   // politikreds
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/politikredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemData("Politikreds", 'politikredse');
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/politikredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemData("Politikreds", 'politikredse');
+    }
+  );
 
   // afstemningsområde
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/afstemningsomraader/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemAfstemningsområde;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/afstemningsomraader/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemAfstemningsområde;
+    }
+  );
 
   // opstillingskreds
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/opstillingskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemData("Opstillingskreds", 'opstillingskredse');
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/opstillingskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemData("Opstillingskreds", 'opstillingskredse');
+    }
+  );
 
   // storkreds
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/storkredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemStorkreds;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/storkredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemStorkreds;
+    }
+  );
 
   // valglandsdel
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/valglandsdele/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemValglandsdel;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/valglandsdele/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemValglandsdel;
+    }
+  );
 
   // stednavne
-  promises.push(fetch(util.danUrl("https://dawa.aws.dk/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832})));
-  promises[antal].danMenuItem= danMenuItemStednavne;
-  antal++;
+  promises.push(
+    {
+      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
+      danMenuItem= danMenuItemStednavne;
+    }
+  );
 
   // Promise.all(promises) 
   // .catch(function (error) {
@@ -182,14 +229,13 @@ async function hvor(coordinate) {
   let start= 0;
   let responses= [];
   while (start < promises.length) {
+    let stop= Math.min(start+maxsamtidige, promises.length);
+    for (let i= start; i < stop; i++) promises[i].request= promises[i].request();
     responses= responses.concat(await Promise.all(promises.slice(start, start+maxsamtidige))); 
     start= start+maxsamtidige;
   }
   for (var i= responses.length-1; i>=0; i--) {
-    if (responses[i].ok) {
-      responses[i]= responses[i].json();
-    }
-    else {
+    if (!responses[i].ok) {
       responses.splice(i, 1);
       promises.splice(i, 1);
     }
@@ -197,6 +243,8 @@ async function hvor(coordinate) {
   start= 0;
   let data= [];
   while (start < responses.length) {
+    let stop= Math.min(start+maxsamtidige, responses.length);
+    for (let i= start; i < stop; i++) responses[i]= responses[i].json();
     data= data.concat(await Promise.all(responses.slice(start, start+maxsamtidige))); 
     start= start+maxsamtidige;
   }
