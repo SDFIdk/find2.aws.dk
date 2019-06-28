@@ -13,8 +13,14 @@ html, body, #map {
     bottom: .5em;
 }
 
-.jordstykkecontainer, .adresseinput {
+.multisearchcontainer  {
   top: .5em;
+  right: .5em;
+  width: 250px;
+}
+
+.jordstykkecontainer, .adresseinput {
+  top: 1.5em;
   right: .5em;
   width: 250px;
 }

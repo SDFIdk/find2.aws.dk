@@ -15,6 +15,7 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
+import {MultiSearchControl} from '/modules/MultiSearchControl';
 import {AddressSearchControl} from '/modules/AddressSearchControl';
 import {JordstykkeControl} from '/modules/jordstykkecontrol';
 import * as kort from '/modules/kort';
@@ -30,8 +31,9 @@ const map = new Map({
   loadTilesWhileAnimating: true,
   view: kort.view, 
   controls: defaultControls().extend([
+    new MultiSearchControl({selected: addressSelected}),
     //new AddressSearchControl({selected: addressSelected}),
-    new JordstykkeControl({selected: jordstykkeSelected}),
+    //new JordstykkeControl({selected: jordstykkeSelected}),
     new LayerSwitcher()
   ]),
 });
@@ -99,14 +101,6 @@ function flyTo(location, view, done) {
   }, callback);
 }
 
-function markerstyle(color) {
-  const style=
-    new Style({
-      image: new CircleStyle({radius: 4, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 1})})
-    });
-  return style;
-}
-
 function addressSelected(control) {
   return function (event) {
     fetch(event.data.href+'?srid=25832').then( function(response) {
@@ -126,17 +120,7 @@ function addressSelected(control) {
         flyTo(adgangsadresse.adgangspunkt.koordinater, view, function() {});
         //view.animate({center: adgangsadresse.adgangspunkt.koordinater, duration: 12000});
         //popup.openPopup();
-        var adgangspunkt = new Feature();        
-        adgangspunkt.setStyle(markerstyle('red'));
-        adgangspunkt.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
-        adgangspunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
-        addressSource.addFeature(adgangspunkt);
-
-        var vejpunkt = new Feature();     
-        vejpunkt.setStyle(markerstyle('blue'));
-        vejpunkt.setGeometry(new Point(adgangsadresse.vejpunkt.koordinater));
-        vejpunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
-        addressSource.addFeature(vejpunkt);
+        vis.visAdgangsadresse(addressSource, adgangsadresse);
       });
     });
   }
@@ -153,12 +137,6 @@ function jordstykkeSelected(valgt) {
       vis.visJordstykke(addressSource, data);
     });
   });
-}
-
-function adgangsadressePopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p>'
-  } 
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));

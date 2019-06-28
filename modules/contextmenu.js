@@ -28,9 +28,13 @@ contextmenu.on('open', function (evt) {
 });
 
 function center(obj) {
+  centrer(obj.coordinate);
+}
+
+function centrer(koordinater) {
   mapcm.getView().animate({
     duration: 700,
-    center: obj.coordinate
+    center: koordinater
   });
 }
 
@@ -67,136 +71,72 @@ async function hvor(coordinate) {
     , danMenuItems= [];
 
   // adgangsadresse
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));});
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemAdgangsadresse);
 
   // navngiven vej
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
-      danMenuItem= danMenuItemNavngivenvej;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  danMenuItems.push(danMenuItemNavngivenvej);
 
   // vejstykke
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
-      danMenuItem= danMenuItemVejstykke;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  danMenuItems.push(danMenuItemVejstykke);
 
   // bygning
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
-      danMenuItem= danMenuItemBygning;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  danMenuItems.push(danMenuItemBygning);
 
   // jordstykke
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}));},
-      danMenuItem= danMenuItemJordstykke;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  danMenuItems.push(danMenuItemJordstykke);
 
   // sogn
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemData("Sogn", 'sogne');
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemData("Sogn", 'sogne'));
 
   // supplerende bunavn
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemSupplerendeBynavn;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemSupplerendeBynavn);
 
   // postnummer
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/postnumre/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemPostnummer;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/postnumre/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemPostnummer);
 
   // kommune
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/kommuner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemData("Kommune", 'kommuner');
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/kommuner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemData("Kommune", 'kommuner'));
 
   // region
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/regioner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemData("Region",'regioner');
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/regioner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemData("Region",'regioner'));
 
   // retskreds
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/retskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemData("Retskreds", 'retskredse');
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/retskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemData("Retskreds", 'retskredse'));
 
   // politikreds
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/politikredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemData("Politikreds", 'politikredse');
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/politikredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemData("Politikreds", 'politikredse'));
 
   // afstemningsområde
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/afstemningsomraader/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemAfstemningsområde;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/afstemningsomraader/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemAfstemningsområde);
 
   // opstillingskreds
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/opstillingskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemData("Opstillingskreds", 'opstillingskredse');
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/opstillingskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemData("Opstillingskreds", 'opstillingskredse'));
 
   // storkreds
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/storkredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemStorkreds;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/storkredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemStorkreds);
 
   // valglandsdel
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/valglandsdele/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemValglandsdel;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/valglandsdele/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemValglandsdel);
 
   // stednavne
-  promises.push(
-    {
-      request: () => {return fetch(util.danUrl("https://dawa.aws.dk/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832}));},
-      danMenuItem= danMenuItemStednavne;
-    }
-  );
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemStednavne);
 
   // Promise.all(promises) 
   // .catch(function (error) {
@@ -229,29 +169,31 @@ async function hvor(coordinate) {
   let start= 0;
   let responses= [];
   while (start < promises.length) {
-    let stop= Math.min(start+maxsamtidige, promises.length);
-    for (let i= start; i < stop; i++) promises[i].request= promises[i].request();
+    let stop= start+maxsamtidige<promises.length?start+maxsamtidige:promises.length;
+    for (let i= start; i < stop; i++) promises[i]= promises[i]();
     responses= responses.concat(await Promise.all(promises.slice(start, start+maxsamtidige))); 
     start= start+maxsamtidige;
   }
   for (var i= responses.length-1; i>=0; i--) {
     if (!responses[i].ok) {
       responses.splice(i, 1);
-      promises.splice(i, 1);
+      danMenuItems.splice(i, 1);
     }
   }
   start= 0;
   let data= [];
   while (start < responses.length) {
-    let stop= Math.min(start+maxsamtidige, responses.length);
-    for (let i= start; i < stop; i++) responses[i]= responses[i].json();
+    var stop= start+maxsamtidige<responses.length?start+maxsamtidige:responses.length;
+    for (let i= start; i < stop; i++) {
+      responses[i]= responses[i].json();
+      //console.log('i: ' + i + ', start: ' + start + ', stop: ' + stop);
+    }
     data= data.concat(await Promise.all(responses.slice(start, start+maxsamtidige))); 
+    for(let i=start; i<stop; i++) {
+      danMenuItems[i](data[i]);
+    } 
     start= start+maxsamtidige;
   }
-  if (data.length === 0) return;
-  for(let i=0; i<data.length; i++) {
-    promises[i].danMenuItem(data[i]);
-  } 
 }
 
 function capitalizeFirstLetter(string) {
@@ -269,7 +211,16 @@ function danMenuItemSupplerendeBynavn(data) {
 function danMenuItemAdgangsadresse(data) {
   let menuItem= {};
   menuItem.text= "Adgangsadresse: " +  util.formatAdgangsadresse(data,false);
+  menuItem.callback= danVisAdgangsadresse(sourcecm);
+  menuItem.data= data;
   contextmenu.push(menuItem);
+}
+
+function danVisAdgangsadresse(source) {
+  return function (data) { 
+    centrer(data.data.adgangspunkt.koordinater);    
+    vis.visAdgangsadresse(source, data.data);
+  }
 }
 
 function danMenuItemNavngivenvej(data) {
@@ -281,7 +232,7 @@ function danMenuItemNavngivenvej(data) {
 }
 
 function danVisNavngivenvej(source) {
-  return function (data) {    
+  return function (data) {   
     vis.visNavngivenvej(source, data.data);
   }
 }
