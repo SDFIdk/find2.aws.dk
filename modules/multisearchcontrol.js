@@ -35,40 +35,51 @@ export var MultiSearchControl = (function (Control) {
   function MultiSearchControl(opt_options) {
     let options = opt_options || {};
 
-    let selektor = document.createElement('select');
-    selektor.id='selector';
-    selektor.className = 'ol-control';
+    let selector = document.createElement('select');
+    selector.id='selector';
+    selector.className = 'selector';
 
     ressourcer.forEach( (element) => {
       let option= document.createElement('option');
       option.value= element.navn;
       let content = document.createTextNode(element.navn);
       option.appendChild(content);  
-      selektor.appendChild(option);  
+      selector.appendChild(option);  
     })
 
-    var input = document.createElement('input');
-    input.type='search';
-    input.className = 'jordstykkeinput ol-control';
-    input.placeholder= 'matrikelnr ejerlav'
+    var selectorcontainer = document.createElement('div');
+    selectorcontainer.className = 'selectorcontainer';
+    //jordstykkecontainer.className = 'jordstykkeinput ol-control';
+    selectorcontainer.appendChild(selector);
 
-    var element = document.createElement('div');
-    element.className = 'jordstykkecontainer ol-control';
-    //element.className = 'jordstykkeinput ol-control';
-    element.appendChild(input);
+    var jordstykke = document.createElement('input');
+    jordstykke.type='search';
+    jordstykke.className = 'jordstykke';
+    jordstykke.placeholder= 'matrikelnr ejerlav'
+
+    var jordstykkecontainer = document.createElement('div');
+    jordstykkecontainer.className = 'jordstykkecontainer';
+    //jordstykkecontainer.className = 'jordstykkeinput ol-control';
+    jordstykkecontainer.appendChild(jordstykke);
 
     var combi = document.createElement('div');
     combi.className = 'multisearchcontainer ol-control';
     //element.className = 'jordstykkeinput ol-control';
-    combi.appendChild(selektor);
-    combi.appendChild(element);
+    combi.appendChild(selectorcontainer);
+    combi.appendChild(jordstykkecontainer);
+    jordstykkecontainer.remove();
+    combi.appendChild(jordstykkecontainer);
+
+    selector.addEventListener('change', (event) => {
+      alert(`You like ${event.target.value}`);
+    });
 
     Control.call(this, {
       element: combi,
       target: options.target
     });
 
-    autocomplete(input, { debug: true, hint: false, templates: { empty: 'empty' }, autoselect: true }, [
+    autocomplete(jordstykke, { debug: true, hint: false, templates: { empty: 'empty' }, autoselect: true }, [
         {
           source: search,
           displayKey: 'tekst',

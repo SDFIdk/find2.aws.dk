@@ -76,6 +76,70 @@ export var baggrundskort= new LayerGroup({
       }), 
       new LayerTile({
         //opacity: 1.0,
+        title:'Ortofoto Sommer 1999 (WMS)',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_1999?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_1999',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto Sommer 2002 (WMS)',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_2002?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_2002',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }), 
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto Sommer 2005 (WMS)',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_2005?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_2005',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }), 
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto Sommer 2008 (WMS)',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_2008?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_2008',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }), 
+      new LayerTile({
+        //opacity: 1.0,
         title:'Ortofoto Temp (WMS)',
         type:'base',
         visible: true, // by default this layer is visible
