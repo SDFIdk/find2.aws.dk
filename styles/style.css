@@ -29,11 +29,11 @@ html, body, #map {
   font-size: inherit;
 }
 
-.jordstykkecontainer { 
+.container { 
   width: inherit;
 }
 
-.jordstykke { 
+.input { 
   width: inherit;
   font-size: inherit;
 }

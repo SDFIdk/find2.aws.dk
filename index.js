@@ -25,18 +25,28 @@ import Popup from 'ol-popup';
 import * as util from 'dawa-util';
 import * as vis from '/modules/vis';
 
+
+const ressourcer= [
+  {navn: 'Adresser', selected: adresseSelected},
+  {navn: 'Adgangsadresser', selected: adgangsadresseSelected},
+  {navn: 'Jordstykker', selected: jordstykkeSelected},
+  {navn: 'Vejstykker'}
+]
+
 const map = new Map({
   target: 'map',
   layers: [kort.baggrundskort, kort.lag],
   loadTilesWhileAnimating: true,
   view: kort.view, 
   controls: defaultControls().extend([
-    new MultiSearchControl({selected: addressSelected}),
+    new MultiSearchControl(ressourcer),
     //new AddressSearchControl({selected: addressSelected}),
     //new JordstykkeControl({selected: jordstykkeSelected}),
     new LayerSwitcher()
   ]),
 });
+
+document.getElementsByClassName('input')[0].focus();
 
 geolocation.show(map);
 
@@ -73,9 +83,43 @@ map.on('pointermove', function (e) {
   //console.log(hit + ', ' + map.getTargetElement().style.cursor)
 });
 
+function beregnAfstand(location1, location2) {
+  let l= Math.sqrt(Math.pow(location1[0]-location2[0], 2) + Math.pow(location1[0]-location2[0], 2));
+  return l;
+}
+
+function beregnZoomniveau(afstand, zoom) {
+  let z= 3;
+  if (afstand < 1000) z= 13;
+  else if (afstand < 1500) z= 12;
+  else if (afstand < 2000) z= 11;
+  else if (afstand < 5000) z= 10;
+  else if (afstand < 9000) z= 9;
+  else if (afstand < 11000) z= 8;
+  else if (afstand < 13000) z= 7;
+  else if (afstand < 50000) z= 6;
+  else if (afstand < 75000) z= 5;
+  else if (afstand < 100000) z= 4;
+  return (z > zoom)?zoom:z;
+}
+
+function beregnVarighed(afstand) {
+  let v= 4000;
+  if (afstand < 500) v= 100;
+  else if (afstand < 2500) v= 1500;
+  else if (afstand < 5000) v= 1750;
+  else if (afstand < 7500) v= 2000;
+  else if (afstand < 10000) v= 2500;
+  else if (afstand < 12500) v= 3000;
+  else if (afstand < 15000) v= 3500;
+  return v;
+}
+
 function flyTo(location, view, done) {
-  var duration = 4000;
+  let afstand= beregnAfstand(location, view.getCenter());
+  var duration = beregnVarighed(afstand);
   var zoom = view.getZoom();
+  //console.log('Afstand: ' + afstand + 'Zoom start: ' + zoom);
   var parts = 2;
   var called = false;
   function callback(complete) {
@@ -93,7 +137,7 @@ function flyTo(location, view, done) {
     duration: duration
   }, callback);
   view.animate({
-    zoom: 4,
+    zoom: beregnZoomniveau(afstand,zoom),
     duration: duration / 2
   }, {
     zoom: zoom,
@@ -101,29 +145,22 @@ function flyTo(location, view, done) {
   }, callback);
 }
 
-function addressSelected(control) {
-  return function (event) {
-    fetch(event.data.href+'?srid=25832').then( function(response) {
-      response.json().then( function ( adgangsadresse ) {
-        // var x= adgangsadresse.adgangspunkt.koordinater[1]
-        //   , y= adgangsadresse.adgangspunkt.koordinater[0];
-        // var marker= L.circleMarker(L.latLng(x, y), {color: 'red', fillColor: 'red', stroke: true, fillOpacity: 1.0, radius: 4, weight: 2, opacity: 1.0}).addTo(map);//defaultpointstyle);
-        // var popup= marker.bindPopup(L.popup().setContent("<a href='https://info.aws.dk/adgangsadresser?id="+adgangsadresse.id+"'>" + dawautil.formatAdgangsadresse(adgangsadresse) + "</a>"),{autoPan: true});
-        // if (adgangsadresse.vejpunkt) {
-        //   var vx= adgangsadresse.vejpunkt.koordinater[1]
-        //     , vy= adgangsadresse.vejpunkt.koordinater[0];
-        //   var vpmarker= L.circleMarker(L.latLng(vx, vy), {color: 'blue', fillColor: 'blue', stroke: true, fillOpacity: 1.0, radius: 4, weight: 2, opacity: 1.0}).addTo(map);//defaultpointstyle);
-        //   vpmarker.bindPopup(L.popup().setContent("<a href='https://info.aws.dk/adgangsadresser?id="+adgangsadresse.id+"'>" + dawautil.formatAdgangsadresse(adgangsadresse) + "</a>"),{autoPan: true});
-        // }
-        let map= control.getMap();
-        let view= map.getView();
-        flyTo(adgangsadresse.adgangspunkt.koordinater, view, function() {});
-        //view.animate({center: adgangsadresse.adgangspunkt.koordinater, duration: 12000});
-        //popup.openPopup();
-        vis.visAdgangsadresse(addressSource, adgangsadresse);
-      });
+async function adgangsadresseSelected(event) {
+  let response= await fetch(event.data.href+'?srid=25832');
+  let adgangsadresse= await response.json();
+  let view= map.getView();
+  flyTo(adgangsadresse.adgangspunkt.koordinater, view, function() {});
+  vis.visAdgangsadresse(addressSource, adgangsadresse);
+}
+
+function adresseSelected(event) {
+  fetch(event.data.href+'?srid=25832').then( function(response) {
+    response.json().then( function ( adresse ) {
+      let view= map.getView();
+      flyTo(adresse.adgangsadresse.adgangspunkt.koordinater, view, function() {});
+      vis.visAdresse(addressSource, adresse);
     });
-  }
+  });
 }
 
 function jordstykkeSelected(valgt) {

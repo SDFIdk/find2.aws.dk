@@ -4,6 +4,22 @@ import MultiLineString from 'ol/geom/MultiLineString';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import Point from 'ol/geom/Point';
 import * as util from 'dawa-util';
+import 'babel-polyfill';
+import 'whatwg-fetch';
+
+export function vis(source, data, titel) { 
+  var område = new Feature();        
+  //område.setStyle(markerstyle('red'));
+  område.setGeometry(new Polygon(data.geometry.coordinates));
+  område.setProperties({data: data, popupTekst: popupTekst(data.properties, titel)});
+  source.addFeature(område);
+}
+
+function popupTekst(data, titel) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + titel + ': ' + data.kode + " " + data.navn + '</a></p>'
+  } 
+}
 
 export function visJordstykke(source, data) { 
   var jordstykke = new Feature();        
@@ -47,18 +63,46 @@ function vejstykkePopupTekst(data) {
   } 
 }
 
-export function visAdgangsadresse(source, adgangsadresse) {
- 	var adgangspunkt = new Feature();        
-	adgangspunkt.setStyle(markerstyle('red'));
-	adgangspunkt.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
-	adgangspunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
-	source.addFeature(adgangspunkt);
+export function visAdresse(source, adresse) {
+  var adgangspunkt = new Feature();        
+  adgangspunkt.setStyle(markerstyle('red'));
+  adgangspunkt.setGeometry(new Point(adresse.adgangsadresse.adgangspunkt.koordinater));
+  adgangspunkt.setProperties({data: adresse, popupTekst: adressePopupTekst(adresse)});
+  source.addFeature(adgangspunkt);
 
-	var vejpunkt = new Feature();     
-	vejpunkt.setStyle(markerstyle('blue'));
-	vejpunkt.setGeometry(new Point(adgangsadresse.vejpunkt.koordinater));
-	vejpunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
-	source.addFeature(vejpunkt);
+  var vejpunkt = new Feature();     
+  vejpunkt.setStyle(markerstyle('blue'));
+  vejpunkt.setGeometry(new Point(adresse.adgangsadresse.vejpunkt.koordinater));
+  vejpunkt.setProperties({data: adresse, popupTekst: adressePopupTekst(adresse)});
+  source.addFeature(vejpunkt);
+}
+
+function adressePopupTekst(data) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p>'
+  } 
+}
+
+function formatAdresse (data, enlinje= true) {
+  let separator= enlinje?", ":"<br/>";
+  let etagedør= (data.etage?", "+data.etage+".":"") + (data.dør?" "+data.dør:"");
+
+  let supplerendebynavn= data.supplerendebynavn?separator + data.supplerendebynavn:"";
+  return data.adgangsadresse.vejstykke.navn + " " + data.adgangsadresse.husnr + etagedør + supplerendebynavn + separator + data.adgangsadresse.postnummer.nr + " " + data.adgangsadresse.postnummer.navn
+}
+
+export function visAdgangsadresse(source, adgangsadresse) {
+  var adgangspunkt = new Feature();        
+  adgangspunkt.setStyle(markerstyle('red'));
+  adgangspunkt.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
+  adgangspunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
+  source.addFeature(adgangspunkt);
+
+  var vejpunkt = new Feature();     
+  vejpunkt.setStyle(markerstyle('blue'));
+  vejpunkt.setGeometry(new Point(adgangsadresse.vejpunkt.koordinater));
+  vejpunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
+  source.addFeature(vejpunkt);
 }
 
 function adgangsadressePopupTekst(data) {

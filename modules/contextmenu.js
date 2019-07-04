@@ -4,6 +4,8 @@ import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';
 import * as util from 'dawa-util';
 import * as vis from '/modules/vis';
+import 'babel-polyfill';
+import 'whatwg-fetch';
 
 var mapcm, popupcm, sourcecm;
 
@@ -75,19 +77,19 @@ async function hvor(coordinate) {
   danMenuItems.push(danMenuItemAdgangsadresse);
 
   // navngiven vej
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemNavngivenvej);
 
   // vejstykke
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemVejstykke);
 
   // bygning
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemBygning);
 
   // jordstykke
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], format: 'geojson', struktur: 'nestet', srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemJordstykke);
 
   // sogn
@@ -225,21 +227,25 @@ function danVisAdgangsadresse(source) {
 
 function danMenuItemNavngivenvej(data) {
   let menuItem= {};
-  menuItem.text= "Navngivenvej: " + data.features[0].properties.navn;
+  menuItem.text= "Navngivenvej: " + data[0].navn;
   menuItem.callback= danVisNavngivenvej(sourcecm);
-  menuItem.data= data.features[0];
+  menuItem.data= data[0];
   contextmenu.push(menuItem);
 }
 
 function danVisNavngivenvej(source) {
-  return function (data) {   
-    vis.visNavngivenvej(source, data.data);
-  }
+  return function (data) {
+    fetch(data.data.href+'?srid=25832&format=geojson&struktur=nestet').then( function(response) {
+      response.json().then( function ( navngivenvej ) { 
+        vis.visNavngivenvej(source, navngivenvej);
+      });
+    });
+  };
 }
 
 function danMenuItemVejstykke(data) {
   let menuItem= {};
-  menuItem.text= "Vejstykke: " + data.properties.navn + '(' + data.properties.kode;
+  menuItem.text= "Vejstykke: " + data.navn + '(' + data.kode;
   menuItem.callback= danVisVejstykke(sourcecm);
   menuItem.data= data;
   contextmenu.push(menuItem);
@@ -252,10 +258,10 @@ function danVisVejstykke(source) {
 }
 
 function danMenuItemBygning(data) {
-  for (var i= 0; i < data.features.length; i++) {
+  for (var i= 0; i < data.length; i++) {
     let menuItem= {};
-    menuItem.text= data.features[i].properties.bygningstype;
-    menuItem.data= data.features[i];
+    menuItem.text= data[i].bygningstype;
+    menuItem.data= data[i];
     menuItem.callback= visBygning;
     contextmenu.push(menuItem);
   }
@@ -301,7 +307,7 @@ function danMenuItemValglandsdel(data) {
 
 function danMenuItemJordstykke(data) {
   let menuItem= {};
-  menuItem.text= "Jordstykke: " + data.properties.matrikelnr + " " + data.properties.ejerlav.navn;
+  menuItem.text= "Jordstykke: " + data.matrikelnr + " " + data.ejerlav.navn;
   menuItem.callback= danVisJordstykke(sourcecm);
   menuItem.data= data;
   contextmenu.push(menuItem);
@@ -325,6 +331,14 @@ function danMenuItemData(titel) {
   return function (data) { 
     let menuItem= {};
     menuItem.text= titel + ": " + data.navn + " (" + data.kode + ")";
+    menuItem.callback= danVis(sourcecm, titel);
+    menuItem.data= data;
     contextmenu.push(menuItem);
+  }
+}
+
+function danVis(source, titel) {
+  return function (data) {    
+    vis.vis(source, data.data, titel);
   }
 }
