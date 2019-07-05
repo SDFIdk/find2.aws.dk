@@ -9,6 +9,11 @@ import 'whatwg-fetch';
 
 var mapcm, popupcm, sourcecm;
 
+var dawa= util.getQueryVariable('dawa');
+if (!dawa) {
+  dawa= 'https://dawa.aws.dk';
+}
+
 var contextmenu_items = [];
 
 const contextmenu = new ContextMenu({
@@ -73,71 +78,71 @@ async function hvor(coordinate) {
     , danMenuItems= [];
 
   // adgangsadresse
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemAdgangsadresse);
 
   // navngiven vej
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/navngivneveje",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/navngivneveje",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemNavngivenvej);
 
   // vejstykke
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemVejstykke);
 
   // bygning
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/bygninger",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/bygninger",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemBygning);
 
   // jordstykke
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemJordstykke);
 
   // sogn
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/sogne/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemData("Sogn", 'sogne'));
 
   // supplerende bunavn
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemSupplerendeBynavn);
 
   // postnummer
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/postnumre/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/postnumre/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemPostnummer);
 
   // kommune
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/kommuner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/kommuner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemData("Kommune", 'kommuner'));
 
   // region
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/regioner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/regioner/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemData("Region",'regioner'));
 
   // retskreds
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/retskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/retskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemData("Retskreds", 'retskredse'));
 
   // politikreds
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/politikredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/politikredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemData("Politikreds", 'politikredse'));
 
   // afstemningsområde
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/afstemningsomraader/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/afstemningsomraader/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemAfstemningsområde);
 
   // opstillingskreds
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/opstillingskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/opstillingskredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemData("Opstillingskreds", 'opstillingskredse'));
 
   // storkreds
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/storkredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/storkredse/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemStorkreds);
 
   // valglandsdel
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/valglandsdele/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/valglandsdele/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemValglandsdel);
 
   // stednavne
-  promises.push(() => {return fetch(util.danUrl("https://dawa.aws.dk/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemStednavne);
 
   // Promise.all(promises) 

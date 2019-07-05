@@ -11,6 +11,9 @@ import Feature from 'ol/Feature';
 import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
 import Point from 'ol/geom/Point';
+import Polygon from 'ol/geom/Polygon';
+import MultiLineString from 'ol/geom/MultiLineString';
+import MultiPolygon from 'ol/geom/MultiPolygon';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
@@ -30,7 +33,8 @@ const ressourcer= [
   {navn: 'Adresser', selected: adresseSelected},
   {navn: 'Adgangsadresser', selected: adgangsadresseSelected},
   {navn: 'Jordstykker', selected: jordstykkeSelected},
-  {navn: 'Vejstykker'}
+  {navn: 'Vejstykker', selected: vejstykkeSelected},
+  {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected}
 ]
 
 const map = new Map({
@@ -164,14 +168,44 @@ function adresseSelected(event) {
 }
 
 function jordstykkeSelected(valgt) {
-  fetch(valgt.jordstykke.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
     response.json().then( function ( data ) {
       if (data.geometri || data.features && data.features.length === 0) {
             alert('Søgning gav intet resultat');
             return;
       }
-      flyTo(data.properties.visueltcenter, map.getView(), function() {});
+      //flyTo(data.properties.visueltcenter, map.getView(), function() {});
+      map.getView().fit(new Polygon(data.geometry.coordinates), {duration: 1000});
       vis.visJordstykke(addressSource, data);
+    });
+  });
+}
+
+function vejstykkeSelected(valgt) {
+  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+    response.json().then( function ( data ) {
+      if (data.geometri || data.features && data.features.length === 0) {
+            alert('Søgning gav intet resultat');
+            return;
+      }
+      //flyTo(data.properties.visueltcenter, map.getView(), function() {});
+      map.getView().fit(new MultiLineString(data.geometry.coordinates), {duration: 1000});
+      vis.visVejstykke(addressSource, data);
+    });
+  });
+}
+
+function supplerendeBynavnSelected(valgt) {
+//  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+  fetch('https://dawa-test.aws.dk/supplerendebynavne2/' + valgt.dagi_id + '?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+    response.json().then( function ( data ) {
+      if (data.geometri || data.features && data.features.length === 0) {
+            alert('Søgning gav intet resultat');
+            return;
+      }
+      //flyTo(data.properties.visueltcenter, map.getView(), function() {});
+      map.getView().fit(new MultiPolygon(data.geometry.coordinates), {duration: 1000});
+      vis.visSupplerendeBynavn(addressSource, data);
     });
   });
 }

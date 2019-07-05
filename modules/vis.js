@@ -1,6 +1,7 @@
 import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';
 import MultiLineString from 'ol/geom/MultiLineString';
+import MultiPolygon from 'ol/geom/MultiPolygon';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import Point from 'ol/geom/Point';
 import * as util from 'dawa-util';
@@ -60,6 +61,20 @@ export function visVejstykke(source, data) {
 function vejstykkePopupTekst(data) {
   return function () {
     return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Vejstykke: ' + data.navn + '(' + data.kode + ')</a></p>'
+  } 
+}
+
+export function visSupplerendeBynavn(source, data) { 
+  var supplerendeBynavn = new Feature();        
+  //supplerendeBynavn.setStyle(markerstyle('red'));
+  supplerendeBynavn.setGeometry(new MultiPolygon(data.geometry.coordinates));
+  supplerendeBynavn.setProperties({data: data, popupTekst: supplerendeBynavnPopupTekst(data.properties)});
+  source.addFeature(supplerendeBynavn);
+}
+
+function supplerendeBynavnPopupTekst(data) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Supplerende bynavn: ' + data.tekst + '</a></p>';
   } 
 }
 
