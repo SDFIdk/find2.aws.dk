@@ -195,7 +195,7 @@ async function hvor(coordinate) {
       responses[i]= responses[i].json();
       //console.log('i: ' + i + ', start: ' + start + ', stop: ' + stop);
     }
-    data= data.concat(await Promise.all(responses.slice(start, start+maxsamtidige))); 
+    data= data.concat(await Promise.all(responses.slice(start, start+stop))); 
     for(let i=start; i<stop; i++) {
       danMenuItems[i](data[i]);
     } 
@@ -319,8 +319,12 @@ function danMenuItemJordstykke(data) {
 }
 
 function danVisJordstykke(source) {
-  return function (data) {    
-    vis.visJordstykke(source, data.data);
+  return function (data) { 
+    fetch(data.data.href+'?srid=25832&format=geojson&struktur=nestet').then( function(response) {
+      response.json().then( function ( vejstykke ) { 
+        vis.visJordstykke(source, vejstykke);
+      });
+    });   
   }
 }
 

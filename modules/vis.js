@@ -78,6 +78,48 @@ function supplerendeBynavnPopupTekst(data) {
   } 
 }
 
+export function visPostnummer(source, data) { 
+  var postnummer = new Feature();        
+  //postnummer.setStyle(markerstyle('red'));
+  postnummer.setGeometry(new MultiPolygon(data.geometry.coordinates));
+  postnummer.setProperties({data: data, popupTekst: postnummerPopupTekst(data.properties)});
+  source.addFeature(postnummer);
+}
+
+function postnummerPopupTekst(data) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Postnummer: ' + data.tekst + '</a></p>';
+  } 
+}
+
+export function visBy(source, data) { 
+  var by = new Feature();        
+  //by.setStyle(markerstyle('red'));
+  by.setGeometry(new Polygon(data.geometry.coordinates));
+  by.setProperties({data: data, popupTekst: byPopupTekst(data.properties)});
+  source.addFeature(by);
+}
+
+function byPopupTekst(data) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">By: ' + data.tekst + '</a></p>';
+  } 
+}
+
+export function visLandsdel(source, data) { 
+  var landsdel = new Feature();        
+  //landsdel.setStyle(markerstyle('red'));
+  landsdel.setGeometry(new MultiPolygon(data.geometry.coordinates));
+  landsdel.setProperties({data: data, popupTekst: landsdelPopupTekst(data.properties)});
+  source.addFeature(landsdel);
+}
+
+function landsdelPopupTekst(data) {
+  return function () {
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Landsdel: ' + data.tekst + '</a></p>';
+  } 
+}
+
 export function visAdresse(source, adresse) {
   var adgangspunkt = new Feature();        
   adgangspunkt.setStyle(markerstyle('red'));

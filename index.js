@@ -30,11 +30,14 @@ import * as vis from '/modules/vis';
 
 
 const ressourcer= [
-  {navn: 'Adresser', selected: adresseSelected},
-  {navn: 'Adgangsadresser', selected: adgangsadresseSelected},
-  {navn: 'Jordstykker', selected: jordstykkeSelected},
-  {navn: 'Vejstykker', selected: vejstykkeSelected},
-  {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected}
+  {navn: 'Adresser', selected: adresseSelected, init: false},
+  {navn: 'Adgangsadresser', selected: adgangsadresseSelected, init: true},
+  {navn: 'Vejstykker', selected: vejstykkeSelected, init: false},
+  {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected, init: false},
+  {navn: 'Postnumre', selected: postnummerSelected, init: false}, 
+  {navn: 'Byer', selected: bySelected, init: false}, 
+  {navn: 'Jordstykker', selected: jordstykkeSelected, init: false},
+  {navn: 'Landsdele', selected: landsdelSelected, init: false}
 ]
 
 const map = new Map({
@@ -139,12 +142,33 @@ function flyTo(location, view, done) {
   view.animate({
     center: location,
     duration: duration
-  }, callback);
+  }, callback); 
   view.animate({
     zoom: beregnZoomniveau(afstand,zoom),
     duration: duration / 2
   }, {
     zoom: zoom,
+    duration: duration / 2
+  }, callback);
+}
+
+function flyToGeometry(location, geometry, view, done) {
+  let afstand= beregnAfstand(location, view.getCenter());
+  var duration = beregnVarighed(afstand);
+  var zoom = view.getZoom();
+  //console.log('Afstand: ' + afstand + 'Zoom start: ' + zoom);
+  var parts = 2;
+  var called = false;
+  function callback(complete) {
+    view.fit(geometry, {'duration': duration / 2});
+    done(true);
+  }
+  view.animate({
+    center: location,
+    duration: duration
+  }); 
+  view.animate({
+    zoom: beregnZoomniveau(afstand,zoom),
     duration: duration / 2
   }, callback);
 }
@@ -170,12 +194,8 @@ function adresseSelected(event) {
 function jordstykkeSelected(valgt) {
   fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
     response.json().then( function ( data ) {
-      if (data.geometri || data.features && data.features.length === 0) {
-            alert('Søgning gav intet resultat');
-            return;
-      }
-      //flyTo(data.properties.visueltcenter, map.getView(), function() {});
-      map.getView().fit(new Polygon(data.geometry.coordinates), {duration: 1000});
+      flyToGeometry(data.properties.visueltcenter, new Polygon(data.geometry.coordinates), map.getView(), function() {});
+      //map.getView().fit(new Polygon(data.geometry.coordinates), {duration: 1000});
       vis.visJordstykke(addressSource, data);
     });
   });
@@ -184,12 +204,8 @@ function jordstykkeSelected(valgt) {
 function vejstykkeSelected(valgt) {
   fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
     response.json().then( function ( data ) {
-      if (data.geometri || data.features && data.features.length === 0) {
-            alert('Søgning gav intet resultat');
-            return;
-      }
-      //flyTo(data.properties.visueltcenter, map.getView(), function() {});
-      map.getView().fit(new MultiLineString(data.geometry.coordinates), {duration: 1000});
+      flyToGeometry(data.properties.visueltcenter, new MultiLineString(data.geometry.coordinates), map.getView(), function() {});
+      //map.getView().fit(new MultiLineString(data.geometry.coordinates), {duration: 1000});
       vis.visVejstykke(addressSource, data);
     });
   });
@@ -199,15 +215,38 @@ function supplerendeBynavnSelected(valgt) {
 //  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
   fetch('https://dawa-test.aws.dk/supplerendebynavne2/' + valgt.dagi_id + '?format=geojson&struktur=nestet&srid=25832').then( function(response) {
     response.json().then( function ( data ) {
-      if (data.geometri || data.features && data.features.length === 0) {
-            alert('Søgning gav intet resultat');
-            return;
-      }
-      //flyTo(data.properties.visueltcenter, map.getView(), function() {});
-      map.getView().fit(new MultiPolygon(data.geometry.coordinates), {duration: 1000});
+      flyToGeometry(data.properties.visueltcenter, new MultiPolygon(data.geometry.coordinates), map.getView(), function() {});
+      //map.getView().fit(new MultiPolygon(data.geometry.coordinates), {duration: 1000});
       vis.visSupplerendeBynavn(addressSource, data);
     });
   });
+}
+
+function postnummerSelected(valgt) {
+  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+    response.json().then( function ( data ) {
+      flyToGeometry(data.properties.visueltcenter, new MultiPolygon(data.geometry.coordinates), map.getView(), function() {});
+      //map.getView().fit(new MultiPolygon(data.geometry.coordinates), {duration: 1000});
+      vis.visPostnummer(addressSource, data);
+    });
+  });
+}
+
+function bySelected(valgt) {
+  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
+    response.json().then( function ( data ) {
+      flyToGeometry(data.properties.sted.visueltcenter, new Polygon(data.geometry.coordinates), map.getView(), function() {});
+      //map.getView().fit(new MultiPolygon(data.geometry.coordinates), {duration: 1000});
+      vis.visBy(addressSource, data);
+    });
+  });
+}
+
+async function landsdelSelected(valgt) {
+  let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
+  let data= await response.json();
+  flyToGeometry(data.properties.visueltcenter, new MultiPolygon(data.geometry.coordinates), map.getView(), function() {});
+  vis.visLandsdel(addressSource, data);
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));

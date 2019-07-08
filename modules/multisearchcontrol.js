@@ -93,109 +93,84 @@ function initAdgangsadresse(selected) {
   return element;
 }
 
-function initJordstykke(selected)
+function initInput(placeholder, url, selected)
 {
-  var jordstykke = document.createElement('input');
-  jordstykke.type='search';
-  jordstykke.className = 'input';
-  jordstykke.placeholder= 'matrikelnr ejerlav'
+  var input = document.createElement('input');
+  input.type='search';
+  input.className = 'input';
+  input.placeholder= placeholder;
 
-  var jordstykkecontainer = document.createElement('div');
-  jordstykkecontainer.className = 'container';
-  //jordstykkecontainer.className = 'jordstykkeinput ol-control';
-  jordstykkecontainer.appendChild(jordstykke);
+  var container = document.createElement('div');
+  container.className = 'container';
+  //postnummercontainer.className = 'postnummerinput ol-control';
+  container.appendChild(input);
 
-  initAutocomplete(jordstykke, dawa + "/jordstykker?autocomplete&q=", selected);
+  initAutocomplete(input, url, selected);
 
-  return jordstykkecontainer;
-} 
-
-function initVejstykke(selected)
-{
-  var vejstykke = document.createElement('input');
-  vejstykke.type='search';
-  vejstykke.className = 'input';
-  vejstykke.placeholder= 'matrikelnr ejerlav'
-
-  var vejstykkecontainer = document.createElement('div');
-  vejstykkecontainer.className = 'container';
-  //vejstykkecontainer.className = 'vejstykkeinput ol-control';
-  vejstykkecontainer.appendChild(vejstykke);
-
-  initAutocomplete(vejstykke, dawa + "/vejstykker?autocomplete&q=", selected);
-
-  return vejstykkecontainer;
-}
-
-function initSupplerendeBynavn(selected)
-{
-  var supplerendeBynavn = document.createElement('input');
-  supplerendeBynavn.type='search';
-  supplerendeBynavn.className = 'input';
-  supplerendeBynavn.placeholder= 'matrikelnr ejerlav'
-
-  var supplerendeBynavncontainer = document.createElement('div');
-  supplerendeBynavncontainer.className = 'container';
-  //supplerendeBynavncontainer.className = 'supplerendeBynavninput ol-control';
-  supplerendeBynavncontainer.appendChild(supplerendeBynavn);
-
-  initAutocomplete(supplerendeBynavn, dawa + "/supplerendebynavne2?autocomplete&q=", selected);
-
-  return supplerendeBynavncontainer;
+  return container;
 }
 
 export var MultiSearchControl = (function (Control) {
   function MultiSearchControl(ressourcer) {
 
-    const adresseRessource = ressourcer.find( ressource => ressource.navn === 'Adresser' );
-    let adressecontainer= initAdresse(adresseRessource.selected);
-    adresseRessource.element= adressecontainer;
-
-    const adgangsadresseRessource = ressourcer.find( ressource => ressource.navn === 'Adgangsadresser' );
-    let adgangsadressecontainer= initAdgangsadresse(adgangsadresseRessource.selected);
-    adgangsadresseRessource.element= adgangsadressecontainer;
-
-    const jordstykkeRessource = ressourcer.find( ressource => ressource.navn === 'Jordstykker' );
-    let jordstykkecontainer= initJordstykke(jordstykkeRessource.selected); 
-    jordstykkeRessource.element= jordstykkecontainer;
-
-    const vejstykkeRessource = ressourcer.find( ressource => ressource.navn === 'Vejstykker' );
-    let vejstykkecontainer= initVejstykke(vejstykkeRessource.selected); 
-    vejstykkeRessource.element= vejstykkecontainer;
-
-    const supplerendeBynavnRessource = ressourcer.find( ressource => ressource.navn === 'Supplerende bynavne' );
-    let supplerendeBynavncontainer= initSupplerendeBynavn(supplerendeBynavnRessource.selected); 
-    supplerendeBynavnRessource.element= supplerendeBynavncontainer;
-
-    let aktuelRessourcenavn= 'Adgangsadresser';
-    let aktuelRessource= ressourcer.find( ressource => ressource.navn === aktuelRessourcenavn );
+    let aktuelRessource;
 
     // selektor til datatype
     let selector = document.createElement('select');
     selector.id='selector';
     selector.className = 'selector';
 
-    ressourcer.forEach( (element) => {
+    ressourcer.forEach(ressource => {
+
       let option= document.createElement('option');
-      option.value= element.navn;
-      let content = document.createTextNode(element.navn);
-      if (element.navn === aktuelRessourcenavn) {
+      option.value= ressource.navn;
+      let content = document.createTextNode(ressource.navn);
+      if (ressource.init) {
         option.setAttribute('selected','');
+       aktuelRessource= ressource;
       }
       option.appendChild(content);  
-      selector.appendChild(option);  
-    })
+      selector.appendChild(option); 
+
+      switch (ressource.navn) {
+      case 'Adresser':
+        ressource.element= initAdresse(ressource.selected);
+        break;
+      case 'Adgangsadresser':
+        ressource.element= initAdgangsadresse(ressource.selected);
+        break;
+      case 'Jordstykker':
+        ressource.element= initInput('matrikelnr ejerlav', dawa + "/jordstykker?autocomplete&q=", ressource.selected);
+        break;
+      case 'Vejstykker':
+        ressource.element= initInput('vejnavn, kommunenavn', dawa + "/vejstykker?autocomplete&q=", ressource.selected);
+        break;
+      case 'Supplerende bynavne':
+        ressource.element= initInput('supplerende bynavn, kommune', dawa + "/supplerendebynavne2?autocomplete&q=", ressource.selected);
+        break;
+      case 'Postnumre':
+        ressource.element= initInput('postnr postnummernavn', dawa + "/postnumre?autocomplete&q=", ressource.selected);
+        break; 
+      case 'Byer':
+        ressource.element= initInput('by', dawa + "/stednavne2?autocomplete&undertype=by&q=", ressource.selected);
+        break;  
+      case 'Landsdele':
+        ressource.element= initInput('landsdel', dawa + "/landsdele?autocomplete&q=", ressource.selected);
+        break; 
+      }
+    });
 
     var selectorcontainer = document.createElement('div');
     selectorcontainer.className = 'selectorcontainer';
-    //jordstykkecontainer.className = 'jordstykkeinput ol-control';
     selectorcontainer.appendChild(selector);
 
     // control
     var combi = document.createElement('div');
     combi.className = 'multisearchcontainer ol-control';
     //element.className = 'jordstykkeinput ol-control';
-    combi.appendChild(selectorcontainer);
+    if (ressourcer.length !== 1) {
+      combi.appendChild(selectorcontainer);
+    }
     combi.appendChild(aktuelRessource.element);
 
     selector.addEventListener('change', (event) => {
