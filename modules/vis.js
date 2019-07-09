@@ -1,122 +1,45 @@
 import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';
-import MultiLineString from 'ol/geom/MultiLineString';
 import MultiPolygon from 'ol/geom/MultiPolygon';
+import LineString from 'ol/geom/LineString';
+import MultiLineString from 'ol/geom/MultiLineString';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import Point from 'ol/geom/Point';
 import * as util from 'dawa-util';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
+export function geometriklasse(data) {
+  let klasse;
+  switch (data.geometry.type) {
+  case 'Polygon':
+    klasse= Polygon;
+    break;
+  case 'MultiPolygon':
+    klasse= MultiPolygon;
+    break;
+  case 'LineString':
+    klasse= LineString;
+    break;
+  case 'MultiLineString':
+    klasse= MultiLineString;
+    break;
+  }
+  return klasse;
+}
+
 export function vis(source, data, titel) { 
-  var område = new Feature();        
+  var område = new Feature(); 
+  let klasse= geometriklasse(data);       
   //område.setStyle(markerstyle('red'));
-  område.setGeometry(new Polygon(data.geometry.coordinates));
+  område.setGeometry(new klasse(data.geometry.coordinates));
   område.setProperties({data: data, popupTekst: popupTekst(data.properties, titel)});
   source.addFeature(område);
 }
 
 function popupTekst(data, titel) {
   return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + titel + ': ' + data.kode + " " + data.navn + '</a></p>'
-  } 
-}
-
-export function visJordstykke(source, data) { 
-  var jordstykke = new Feature();        
-  //jordstykke.setStyle(markerstyle('red'));
-  jordstykke.setGeometry(new Polygon(data.geometry.coordinates));
-  jordstykke.setProperties({data: data, popupTekst: jordstykkePopupTekst(data.properties)});
-  source.addFeature(jordstykke);
-}
-
-function jordstykkePopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Jordstykke: ' + data.matrikelnr + " " + data.ejerlav.navn + '</a></p>'
-  } 
-}
-
-export function visNavngivenvej(source, data) { 
-  var navngivenvej = new Feature();        
-  //Navngivenvej.setStyle(markerstyle('red'));
-  navngivenvej.setGeometry(new MultiLineString(data.geometry.coordinates));
-  navngivenvej.setProperties({data: data, popupTekst: navngivenvejPopupTekst(data.properties)});
-  source.addFeature(navngivenvej);
-}
-
-function navngivenvejPopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Navngiven vej: ' + data.navn + '</a></p>'
-  } 
-}
-
-export function visVejstykke(source, data) { 
-  var vejstykke = new Feature();        
-  //vejstykke.setStyle(markerstyle('red'));
-  vejstykke.setGeometry(new MultiLineString(data.geometry.coordinates));
-  vejstykke.setProperties({data: data, popupTekst: vejstykkePopupTekst(data.properties)});
-  source.addFeature(vejstykke);
-}
-
-function vejstykkePopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Vejstykke: ' + data.navn + '(' + data.kode + ')</a></p>'
-  } 
-}
-
-export function visSupplerendeBynavn(source, data) { 
-  var supplerendeBynavn = new Feature();        
-  //supplerendeBynavn.setStyle(markerstyle('red'));
-  supplerendeBynavn.setGeometry(new MultiPolygon(data.geometry.coordinates));
-  supplerendeBynavn.setProperties({data: data, popupTekst: supplerendeBynavnPopupTekst(data.properties)});
-  source.addFeature(supplerendeBynavn);
-}
-
-function supplerendeBynavnPopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Supplerende bynavn: ' + data.tekst + '</a></p>';
-  } 
-}
-
-export function visPostnummer(source, data) { 
-  var postnummer = new Feature();        
-  //postnummer.setStyle(markerstyle('red'));
-  postnummer.setGeometry(new MultiPolygon(data.geometry.coordinates));
-  postnummer.setProperties({data: data, popupTekst: postnummerPopupTekst(data.properties)});
-  source.addFeature(postnummer);
-}
-
-function postnummerPopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Postnummer: ' + data.tekst + '</a></p>';
-  } 
-}
-
-export function visBy(source, data) { 
-  var by = new Feature();        
-  //by.setStyle(markerstyle('red'));
-  by.setGeometry(new Polygon(data.geometry.coordinates));
-  by.setProperties({data: data, popupTekst: byPopupTekst(data.properties)});
-  source.addFeature(by);
-}
-
-function byPopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">By: ' + data.tekst + '</a></p>';
-  } 
-}
-
-export function visLandsdel(source, data) { 
-  var landsdel = new Feature();        
-  //landsdel.setStyle(markerstyle('red'));
-  landsdel.setGeometry(new MultiPolygon(data.geometry.coordinates));
-  landsdel.setProperties({data: data, popupTekst: landsdelPopupTekst(data.properties)});
-  source.addFeature(landsdel);
-}
-
-function landsdelPopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">Landsdel: ' + data.tekst + '</a></p>';
+    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + titel + ': ' + data.tekst + '</a></p>'
   } 
 }
 

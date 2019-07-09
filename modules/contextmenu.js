@@ -172,6 +172,7 @@ async function hvor(coordinate) {
   // Se eventuelt på https://babeljs.io/
   // og https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
 
+  // var t0 = performance.now();
   const maxsamtidige= 10;
   let start= 0;
   let responses= [];
@@ -187,6 +188,8 @@ async function hvor(coordinate) {
       danMenuItems.splice(i, 1);
     }
   }
+  //var t1 = performance.now();
+  // console.log("Reverse midt" + (t1 - t0) + " milliseconds.")
   start= 0;
   let data= [];
   while (start < responses.length) {
@@ -201,6 +204,8 @@ async function hvor(coordinate) {
     } 
     start= start+maxsamtidige;
   }
+  // var t2 = performance.now();
+  // console.log("Reverse " + (t2 - t0) + " milliseconds.")
 }
 
 function capitalizeFirstLetter(string) {
@@ -242,7 +247,7 @@ function danVisNavngivenvej(source) {
   return function (data) {
     fetch(data.data.href+'?srid=25832&format=geojson&struktur=nestet').then( function(response) {
       response.json().then( function ( navngivenvej ) { 
-        vis.visNavngivenvej(source, navngivenvej);
+        vis.vis(source, navngivenvej, 'Navngiven vej');
       });
     });
   };
@@ -250,7 +255,7 @@ function danVisNavngivenvej(source) {
 
 function danMenuItemVejstykke(data) {
   let menuItem= {};
-  menuItem.text= "Vejstykke: " + data.navn + '(' + data.kode;
+  menuItem.text= "Vejstykke: " + data.navn + ' (' + data.kode + ')';
   menuItem.callback= danVisVejstykke(sourcecm);
   menuItem.data= data;
   contextmenu.push(menuItem);
@@ -258,7 +263,7 @@ function danMenuItemVejstykke(data) {
 
 function danVisVejstykke(source) {
   return function (data) {    
-    vis.visVejstykke(source, data.data);
+    vis.vis(source, data.data, 'Vejstykke');
   }
 }
 
