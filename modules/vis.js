@@ -87,7 +87,7 @@ export function visAdgangsadresse(source, adgangsadresse) {
 
 function adgangsadressePopupTekst(data) {
   return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p>'
+    return '<p>Adgangsadresse:<br/><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p>'
   } 
 }
 

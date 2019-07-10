@@ -226,3 +226,88 @@ export var lag= new LayerGroup({
     }),
   ]
 });
+
+function beregnAfstand(location1, location2) {
+  let l= Math.sqrt(Math.pow(location1[0]-location2[0], 2) + Math.pow(location1[0]-location2[0], 2));
+  return l;
+}
+
+function beregnZoomniveau(afstand, zoom) {
+  let z= 3;
+  if (afstand < 1000) z= 13;
+  else if (afstand < 1500) z= 12;
+  else if (afstand < 2000) z= 11;
+  else if (afstand < 5000) z= 10;
+  else if (afstand < 9000) z= 9;
+  else if (afstand < 11000) z= 8;
+  else if (afstand < 13000) z= 7;
+  else if (afstand < 50000) z= 6;
+  else if (afstand < 75000) z= 5;
+  else if (afstand < 100000) z= 4;
+  return (z > zoom)?zoom:z;
+}
+
+function beregnVarighed(afstand) {
+  let v= 4000;
+  if (afstand < 500) v= 1000;
+  else if (afstand < 2500) v= 1500;
+  else if (afstand < 5000) v= 1750;
+  else if (afstand < 7500) v= 2000;
+  else if (afstand < 10000) v= 2500;
+  else if (afstand < 12500) v= 3000;
+  else if (afstand < 15000) v= 3500;
+  return v;
+}
+
+export function flyTo(location, view, done) {
+  let afstand= beregnAfstand(location, view.getCenter());
+  var duration = beregnVarighed(afstand);
+  var zoom = view.getZoom();
+  //console.log('Afstand: ' + afstand + 'Zoom start: ' + zoom);
+  var parts = 2;
+  var called = false;
+  function callback(complete) {
+    --parts;
+    if (called) {
+      return;
+    }
+    if (parts === 0 || !complete) {
+      called = true;
+      done(complete);
+    }
+  }
+  view.animate({
+    center: location,
+    duration: duration
+  }, callback); 
+  view.animate({
+    zoom: beregnZoomniveau(afstand,zoom),
+    duration: duration / 2
+  }, {
+    zoom: zoom,
+    duration: duration / 2
+  }, callback);
+}
+
+export function flyToGeometry(location, geometry, view, done) {
+  let afstand= location?beregnAfstand(location, view.getCenter()):1000;
+  var duration = beregnVarighed(afstand);
+  var zoom = view.getZoom();
+  //console.log('Afstand: ' + afstand + 'Zoom start: ' + zoom);
+  var parts = 2;
+  var called = false;
+  function callback(complete) {
+    view.fit(geometry, {'duration': duration / 2});
+    done(true);
+  }
+  if (location) {
+    view.animate({
+      center: location,
+      duration: duration
+    }); 
+  }
+  view.animate({
+    zoom: beregnZoomniveau(afstand,zoom),
+    duration: duration / 2
+  }, callback);
+}
