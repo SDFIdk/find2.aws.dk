@@ -34,10 +34,21 @@ const ressourcer= [
   {navn: 'Adgangsadresser', selected: adgangsadresseSelected, init: true},
   {navn: 'Vejstykker', selected: vejstykkeSelected, init: false},
   {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected, init: false},
-  {navn: 'Postnumre', selected: postnummerSelected, init: false}, 
+  {navn: 'Postnumre', selected: showSelected, init: false}, 
   {navn: 'Byer', selected: bySelected, init: false}, 
-  {navn: 'Jordstykker', selected: jordstykkeSelected, init: false},
-  {navn: 'Landsdele', selected: landsdelSelected, init: false}
+  {navn: 'Jordstykker', selected: showSelected, init: false},
+  {navn: 'Ejerlav', selected: showSelected, init: false},
+  {navn: 'Sogne', selected: showSelected, init: false},
+  {navn: 'Kommuner', selected: showSelected, init: false},
+  {navn: 'Regioner', selected: showSelected, init: false},
+  {navn: 'Landsdele', selected: showSelected, init: false},
+  {navn: 'Politikredse', selected: showSelected, init: false},
+  {navn: 'Retskredse', selected: showSelected, init: false},
+  {navn: 'Afstemningsområder', selected: showSelected, init: false},
+  {navn: 'Opstillingskredse', selected: showSelected, init: false},
+  {navn: 'Storkredse', selected: showSelected, init: false},
+  {navn: 'Valglandsdele', selected: showSelected, init: false},
+  {navn: 'Menighedsrådsafstemningsområder', selected: showSelected, init: false}
 ]
 
 const map = new Map({
@@ -189,7 +200,7 @@ async function adgangsadresseSelected(event) {
   vis.visAdgangsadresse(addressSource, adgangsadresse);
 }
 
-async function jordstykkeSelected(valgt) {
+async function showSelected(valgt) {
   let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
@@ -201,7 +212,7 @@ async function vejstykkeSelected(valgt) {
   let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
-  flyToGeometry(data.geometry.coordinates[0][0], new klasse(data.geometry.coordinates), map.getView(), function() {});
+  flyToGeometry(data.geometry.coordinates[0][0], new klasse(data.geometry.coordinates), map.getView(), function() {}); // to do: hvis vejstykke bliver forsynet med visuelt center, så brug show selected
   vis.vis(addressSource, data);
 }
 
@@ -214,28 +225,12 @@ async function supplerendeBynavnSelected(valgt) {
   vis.vis(addressSource, data);
 }
 
-async function postnummerSelected(valgt) {
-  let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
-  let data= await response.json();
-  let klasse= vis.geometriklasse(data);
-  flyToGeometry(data.properties.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
-  vis.vis(addressSource, data, 'Postnummer');
-}
-
 async function bySelected(valgt) {
   let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
   flyToGeometry(data.properties.sted.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
   vis.vis(addressSource, data, 'By');
-}
-
-async function landsdelSelected(valgt) {
-  let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
-  let data= await response.json();
-  let klasse= vis.geometriklasse(data);
-  flyToGeometry(data.properties.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
-  vis.vis(addressSource, data, 'Landsdel');
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));
