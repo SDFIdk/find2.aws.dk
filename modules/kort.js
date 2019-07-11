@@ -35,7 +35,8 @@ export const view= new View({
 let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
 
 export var baggrundskort= new LayerGroup({
-    'title': 'Baggrundskort',
+    'title': 'Basiskort',
+    'fold': 'open',
     layers: [             
       new LayerTile({
         title:'Open Street Map',
@@ -45,7 +46,7 @@ export var baggrundskort= new LayerGroup({
       }),
       new LayerTile({
         //opacity: 1.0,
-        title:'Ortofoto (WMTS)',
+        title:'Ortofoto',
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
@@ -57,121 +58,71 @@ export var baggrundskort= new LayerGroup({
           style: 'default',
           size: [256, 256]
         })
-      }), 
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Ortofoto Temp 10 (WMS)',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar_temp?token="+kftoken,
-          params: {
-            'LAYERS':'quickorto_10cm',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'' 
-          }
-        })
-      }), 
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Ortofoto Sommer 1999 (WMS)',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_1999?token="+kftoken,
-          params: {
-            'LAYERS':'orto_sommer_1999',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'' 
-          }
-        })
       }),  
+      // new LayerTile({  
+      //   title:'Skærmkort (WMS)',    
+      //   type:'base',
+      //   visible: false, // by default this layer is visible
+      //   source: new TileWMS({       
+      //     url: 'https://services.kortforsyningen.dk/topo_skaermkort?token='+kftoken,
+      //     params: {
+      //       'LAYERS':'dtk_skaermkort',
+      //       'VERSION':'1.1.1',
+      //       'TRANSPARENT':'false',
+      //       'FORMAT': "image/png",
+      //       'STYLES':'' 
+      //     }
+      //   })
+      // }),  
       new LayerTile({
         //opacity: 1.0,
-        title:'Ortofoto Sommer 2002 (WMS)',
+        title:'Forvaltningskort',
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_2002?token="+kftoken,
+          url: "https://services.kortforsyningen.dk/forvaltning?token="+kftoken,
           params: {
-            'LAYERS':'orto_sommer_2002',
+            'LAYERS':'basis_kort',
             'VERSION':'1.1.1',
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
-            'STYLES':'' 
+            'STYLES':'default' 
           }
         })
-      }), 
+      }),   
       new LayerTile({
         //opacity: 1.0,
-        title:'Ortofoto Sommer 2005 (WMS)',
+        title:'Skærmkort - grå',
         type:'base',
         visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_2005?token="+kftoken,
-          params: {
-            'LAYERS':'orto_sommer_2005',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'' 
-          }
-        })
-      }), 
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Ortofoto Sommer 2008 (WMS)',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_2008?token="+kftoken,
-          params: {
-            'LAYERS':'orto_sommer_2008',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'' 
-          }
-        })
-      }), 
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Ortofoto Temp (WMS)',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar_temp?token="+kftoken,
-          params: {
-            'LAYERS':'quickorto',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'' 
-          }
-        })
-      }), 
-      new LayerTile({  
-        title:'Skærmkort (WMS)',    
-        type:'base',
-        visible: false, // by default this layer is visible
-        source: new TileWMS({       
-          url: 'https://services.kortforsyningen.dk/topo_skaermkort?token='+kftoken,
-          params: {
-            'LAYERS':'dtk_skaermkort',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'' 
-          }
+        source: new WMTS({ 
+          url: "https://services.kortforsyningen.dk/topo_skaermkort_graa?token="+kftoken,
+          layer: "dtk_skaermkort_graa",
+          matrixSet: "View1",
+          format: "image/jpeg",
+          tileGrid: kfTileGrid,
+          style: 'default',
+          size: [256, 256]
         })
       }),
       new LayerTile({
         //opacity: 1.0,
-        title:'Skærmkort (WMTS)',
+        title:'Skærmkort - dæmpet',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new WMTS({ 
+          url: "https://services.kortforsyningen.dk/topo_skaermkort_daempet?token="+kftoken,
+          layer: "dtk_skaermkort_daempet",
+          matrixSet: "View1",
+          format: "image/jpeg",
+          tileGrid: kfTileGrid,
+          style: 'default',
+          size: [256, 256]
+        })
+      }),
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Skærmkort',
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
@@ -187,9 +138,345 @@ export var baggrundskort= new LayerGroup({
     ]
   });
 
-export var lag= new LayerGroup({
-  title: 'Overlays',
+export var historiskeOrtofoto= new LayerGroup({
+    'title': 'Historiske ortofoto',
+    'fold': 'close',
+    layers: [  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto Temp 10',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_foraar_temp?token="+kftoken,
+          params: {
+            'LAYERS':'quickorto_10cm',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }),
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2008',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_2008?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_2008',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }), 
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2005',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_2005?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_2005',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2002',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_2002?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_2002',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 1999',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_sommer_1999?token="+kftoken,
+          params: {
+            'LAYERS':'orto_sommer_1999',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          }
+        })
+      })
+    ]
+  });
+
+export var historiskeKort= new LayerGroup({
+    'title': 'Historiske kort',
+    'fold': 'close',
+    layers: [  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'1980 - 2001',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/topo4cm_1980_2001?token="+kftoken,
+          params: {
+            'LAYERS':'dtk_4cm_1980_2001',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'default' 
+          }
+        })
+      }),   
+      new LayerTile({
+        //opacity: 1.0,
+        title:'1953 - 1976',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/topo4cm_1953_1976?token="+kftoken,
+          params: {
+            'LAYERS':'dtk_4cm_1953_1976',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'default' 
+          }
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'1928 - 1940',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/topo20_lave_maalebordsblade?token="+kftoken,
+          params: {
+            'LAYERS':'dtk_lave_maalebordsblade',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'default' 
+          }
+        })
+      }), 
+      new LayerTile({
+        //opacity: 1.0,
+        title:'1842 - 1899',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/topo20_hoeje_maalebordsblade?token="+kftoken,
+          params: {
+            'LAYERS':'dtk_hoeje_maalebordsblade',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'default' 
+          }
+        })
+      })
+    ]
+  });
+
+export var adresselag= new LayerGroup({
+  title: 'Adresselag',
+  fold: 'open',
   layers: [
+    new ImageLayer({
+      title:'Vejtilslutningspunkter',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
+        params:{
+          'LAYERS':'vejtilslutningspunkter',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Vejnavneområder',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
+        params:{
+          'LAYERS':'vejnavneomraader',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Vejpunktlinjer',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
+        params:{
+          'LAYERS':'vejpunktlinjer',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Vejpunkter',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
+        params:{
+          'LAYERS':'vejpunkter',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Adgangsadresser',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
+        params:{
+          'LAYERS':'adgangsadresser',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    })
+  ]
+});
+
+export var lag= new LayerGroup({
+  title: 'Andre lag',
+  fold: 'close',
+  layers: [
+    new ImageLayer({
+      title:'Retskreds',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        params:{
+          'LAYERS':'retskreds',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Politikreds',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        params:{
+          'LAYERS':'politikreds',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Sogn',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        params:{
+          'LAYERS':'sogn',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Postnummer',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        params:{
+          'LAYERS':'postdistrikt',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
+    new ImageLayer({
+      title:'Kommune',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        params:{
+          'LAYERS':'kommune',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },
+      })
+    }),
     new ImageLayer({
       title:'Matrikel',
       type:'overlay',
@@ -206,24 +493,7 @@ export var lag= new LayerGroup({
           'STYLES':'' 
         },
       })
-    }),
-    new ImageLayer({
-      title:'Adresser',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
-        params:{
-          'LAYERS':'adgangsadresser',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },
-      })
-    }),
+    })
   ]
 });
 

@@ -20,6 +20,7 @@ export function show(map) {
       })
     })
   }));
+  positionFeature.setProperties({popupTekst: '<p>Her er du</p>'});
 
   var geolocation = new Geolocation({
     trackingOptions: {

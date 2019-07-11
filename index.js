@@ -53,13 +53,11 @@ const ressourcer= [
 
 const map = new Map({
   target: 'map',
-  layers: [kort.baggrundskort, kort.lag],
+  layers: [kort.historiskeOrtofoto, kort.historiskeKort, kort.lag, kort.adresselag, kort.baggrundskort],
   loadTilesWhileAnimating: true,
   view: kort.view, 
   controls: defaultControls().extend([
     new MultiSearchControl(ressourcer),
-    //new AddressSearchControl({selected: addressSelected}),
-    //new JordstykkeControl({selected: jordstykkeSelected}),
     new LayerSwitcher()
   ]),
 });
@@ -84,7 +82,7 @@ select.on('select', function(e) {
     // let data= features.getArray()[0].getProperties()['data'];
     let popupTekst= features.getArray()[0].getProperties()['popupTekst'];
     //alert('href: ' + features.getArray()[0].getProperties()['href'] );
-    popup.show(e.mapBrowserEvent.coordinate, popupTekst())
+    popup.show(e.mapBrowserEvent.coordinate, popupTekst);
     href;
   }
   features.clear(); // deselect feature

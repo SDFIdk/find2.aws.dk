@@ -38,9 +38,7 @@ export function vis(source, data, titel) {
 }
 
 function popupTekst(data, titel) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + titel + ': ' + data.tekst + '</a></p>'
-  } 
+  return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + titel + ': ' + data.tekst + '</a></p>';
 }
 
 export function visAdresse(source, adresse) {
@@ -58,9 +56,7 @@ export function visAdresse(source, adresse) {
 }
 
 function adressePopupTekst(data) {
-  return function () {
-    return '<p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p>'
-  } 
+  return '<p>Adgangsadresse:<br/><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p>';
 }
 
 function formatAdresse (data, enlinje= true) {
@@ -86,9 +82,7 @@ export function visAdgangsadresse(source, adgangsadresse) {
 }
 
 function adgangsadressePopupTekst(data) {
-  return function () {
-    return '<p>Adgangsadresse:<br/><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p>'
-  } 
+  return '<p>Adresse:<br/><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p>';
 }
 
 function markerstyle(color) {
