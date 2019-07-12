@@ -7,25 +7,16 @@ import './styles/autocomplete.css';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 import {Map} from 'ol';
-import Feature from 'ol/Feature';
 import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
-import Point from 'ol/geom/Point';
-import Polygon from 'ol/geom/Polygon';
-import MultiLineString from 'ol/geom/MultiLineString';
-import MultiPolygon from 'ol/geom/MultiPolygon';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
 import {MultiSearchControl} from '/modules/MultiSearchControl';
-import {AddressSearchControl} from '/modules/AddressSearchControl';
-import {JordstykkeControl} from '/modules/jordstykkecontrol';
 import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
 import Popup from 'ol-popup';
-import * as util from 'dawa-util';
 import * as vis from '/modules/vis';
 
 

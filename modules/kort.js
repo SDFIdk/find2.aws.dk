@@ -32,6 +32,10 @@ export const view= new View({
     projection: dkProjection // use our custom projection defined earlier
   })
 
+function getAttributions() {
+  return '<p>Kort fra <a href="https://kortforsyningen.dk" target="_blank">Kortforsyningen</a>. Data fra <a href="https://dawa.aws.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfe.dk" target="_blank">SDFE</a>.</p>';
+}
+
 let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
 
 export var baggrundskort= new LayerGroup({
@@ -86,8 +90,9 @@ export var baggrundskort= new LayerGroup({
             'VERSION':'1.1.1',
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
-            'STYLES':'default' 
-          }
+            'STYLES':'default', 
+          },          
+          attributions: getAttributions()
         })
       }),   
       new LayerTile({
@@ -102,7 +107,8 @@ export var baggrundskort= new LayerGroup({
           format: "image/jpeg",
           tileGrid: kfTileGrid,
           style: 'default',
-          size: [256, 256]
+          size: [256, 256],          
+          attributions: getAttributions()
         })
       }),
       new LayerTile({
@@ -117,7 +123,8 @@ export var baggrundskort= new LayerGroup({
           format: "image/jpeg",
           tileGrid: kfTileGrid,
           style: 'default',
-          size: [256, 256]
+          size: [256, 256],          
+          attributions: getAttributions()
         })
       }),
       new LayerTile({
@@ -132,7 +139,8 @@ export var baggrundskort= new LayerGroup({
           format: "image/jpeg",
           tileGrid: kfTileGrid,
           style: 'default',
-          size: [256, 256]
+          size: [256, 256],          
+          attributions: getAttributions()
         })
       })
     ]
@@ -155,7 +163,8 @@ export var historiskeOrtofoto= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }),
       new LayerTile({
@@ -171,7 +180,8 @@ export var historiskeOrtofoto= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }), 
       new LayerTile({
@@ -187,7 +197,8 @@ export var historiskeOrtofoto= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }),  
       new LayerTile({
@@ -203,7 +214,8 @@ export var historiskeOrtofoto= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }),  
       new LayerTile({
@@ -219,7 +231,8 @@ export var historiskeOrtofoto= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'' 
-          }
+          },          
+          attributions: getAttributions()
         })
       })
     ]
@@ -242,7 +255,8 @@ export var historiskeKort= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'default' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }),   
       new LayerTile({
@@ -258,7 +272,8 @@ export var historiskeKort= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'default' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }),  
       new LayerTile({
@@ -274,7 +289,8 @@ export var historiskeKort= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'default' 
-          }
+          },          
+          attributions: getAttributions()
         })
       }), 
       new LayerTile({
@@ -290,7 +306,8 @@ export var historiskeKort= new LayerGroup({
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
             'STYLES':'default' 
-          }
+          },          
+          attributions: getAttributions()
         })
       })
     ]
@@ -314,7 +331,8 @@ export var adresselag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -331,7 +349,8 @@ export var adresselag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -348,7 +367,8 @@ export var adresselag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -365,7 +385,8 @@ export var adresselag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -382,7 +403,8 @@ export var adresselag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     })
   ]
@@ -406,7 +428,8 @@ export var lag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -423,7 +446,8 @@ export var lag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -440,7 +464,8 @@ export var lag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -457,7 +482,8 @@ export var lag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -474,7 +500,8 @@ export var lag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     }),
     new ImageLayer({
@@ -491,7 +518,8 @@ export var lag= new LayerGroup({
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
-        },
+        },          
+        attributions: getAttributions()
       })
     })
   ]
@@ -564,9 +592,7 @@ export function flyToGeometry(location, geometry, view, done) {
   var duration = beregnVarighed(afstand);
   var zoom = view.getZoom();
   //console.log('Afstand: ' + afstand + 'Zoom start: ' + zoom);
-  var parts = 2;
-  var called = false;
-  function callback(complete) {
+  function callback() {
     view.fit(geometry, {'duration': duration / 2});
     done(true);
   }

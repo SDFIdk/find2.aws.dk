@@ -55,10 +55,12 @@ export var JordstykkeControl = (function (Control) {
           }
         }
       ]).on('autocomplete:selected', function(even, suggestion, dataset) {
+        even, dataset;
         //console.log('selected', suggestion, dataset);
         options.selected(suggestion);
         //visjordstykke(map, suggestion);
       }).on('autocomplete:cursorchanged', function(even, suggestion, dataset) {
+        even, suggestion, dataset;
         //console.log('cursorchanged', suggestion, dataset);
       });
 

@@ -1,7 +1,5 @@
 import 'ol-contextmenu/dist/ol-contextmenu.css';
 import ContextMenu from 'ol-contextmenu';
-import Feature from 'ol/Feature';
-import Polygon from 'ol/geom/Polygon';
 import * as util from 'dawa-util';
 import * as vis from '/modules/vis';
 import * as kort from '/modules/kort';
@@ -34,10 +32,6 @@ contextmenu.on('open', function (evt) {
   evt.coordinate[1]= Math.round(evt.coordinate[1]*1000)/1000;
   hvor(evt.coordinate);
 });
-
-function center(obj) {
-  centrer(obj.coordinate);
-}
 
 function centrer(koordinater) {
   mapcm.getView().animate({
@@ -278,13 +272,13 @@ function danMenuItemBygning(data) {
     let menuItem= {};
     menuItem.text= data[i].bygningstype;
     menuItem.data= data[i];
-    menuItem.callback=  danVis(sourcecm, 'Bygning');;
+    menuItem.callback=  danVis(sourcecm, 'Bygning');
     contextmenu.push(menuItem);
   }
 }
 
 function danMenuItemJordstykke(data) {
-  let menuItem= {};
+  let menuItem= {}
   menuItem.text= "Jordstykke: <strong>" + data.matrikelnr + " " + data.ejerlav.navn + '</strong>';
   menuItem.callback= danVis(sourcecm, 'Jordstykke');
   menuItem.data= data;
