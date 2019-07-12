@@ -34,7 +34,7 @@ function initAutocomplete(input, url, selected) {
     }
   }
 
-  autocomplete(input, { debug: true, hint: false, templates: { empty: 'empty' }, autoselect: true }, [
+  autocomplete(input, { debug: true, hint: false, templates: { empty: '' }, autoselect: true }, [
     {
       source: search(url),
       displayKey: 'tekst',
