@@ -152,7 +152,10 @@ export var MultiSearchControl = (function (Control) {
         break;
       case 'Byer':
         ressource.element= initInput('by', dawa + "/stednavne2?autocomplete&undertype=by&q=", ressource.selected);
-        break;  
+        break; 
+      case 'Stednavne':
+        ressource.element= initInput('Stednavne', dawa + "/stednavne2?autocomplete&q=", ressource.selected);
+        break;   
       case 'Jordstykker':
         ressource.element= initInput('matrikelnr ejerlavsnavn', dawa + "/jordstykker?autocomplete&q=", ressource.selected);
         break; 
@@ -178,7 +181,7 @@ export var MultiSearchControl = (function (Control) {
         ressource.element= initInput('retskredsnavn', dawa + "/retskredse?autocomplete&q=", ressource.selected);
         break; 
       case 'Afstemningsområder':
-        ressource.element= initInput('afstemningsområdenavn', dawa + "/afstemningsomraader?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('afstemningsområdenavn, kommune', dawa + "/afstemningsomraader?autocomplete&q=", ressource.selected);
         break; 
       case 'Opstillingskredse':
         ressource.element= initInput('opstillingskredsnavn', dawa + "/opstillingskredse?autocomplete&q=", ressource.selected);

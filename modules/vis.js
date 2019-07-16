@@ -5,6 +5,7 @@ import LineString from 'ol/geom/LineString';
 import MultiLineString from 'ol/geom/MultiLineString';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import Point from 'ol/geom/Point';
+import MultiPoint from 'ol/geom/MultiPoint';
 import * as util from 'dawa-util';
 import 'babel-polyfill';
 import 'whatwg-fetch';
@@ -23,6 +24,12 @@ export function geometriklasse(data) {
     break;
   case 'MultiLineString':
     klasse= MultiLineString;
+    break;
+  case 'Point':
+    klasse= Point;
+    break;
+  case 'MultiPoint':
+    klasse= MultiPoint;
     break;
   }
   return klasse;

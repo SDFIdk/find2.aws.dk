@@ -26,7 +26,8 @@ const ressourcer= [
   {navn: 'Vejstykker', selected: vejstykkeSelected, init: false},
   {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected, init: false},
   {navn: 'Postnumre', selected: showSelected('Postnummer'), init: false}, 
-  {navn: 'Byer', selected: bySelected, init: false}, 
+  {navn: 'Byer', selected: stednavnSelected, init: false},  
+  {navn: 'Stednavne', selected: stednavnSelected, init: false}, 
   {navn: 'Jordstykker', selected: showSelected('Jordstykke'), init: false},
   {navn: 'Ejerlav', selected: showSelected('Ejerlav'), init: false},
   {navn: 'Sogne', selected: showSelected('Sogn'), init: false},
@@ -139,12 +140,16 @@ async function supplerendeBynavnSelected(valgt) {
   vis.vis(addressSource, data, 'Supplerende vejnavn');
 }
 
-async function bySelected(valgt) {
+async function stednavnSelected(valgt) {
   let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
   kort.flyToGeometry(data.properties.sted.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
-  vis.vis(addressSource, data, 'By');
+  vis.vis(addressSource, data, capitalizeFirstLetter(data.properties.sted.undertype));
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));
