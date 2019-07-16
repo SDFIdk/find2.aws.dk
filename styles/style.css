@@ -36,4 +36,9 @@ html, body, #map {
 .input { 
   width: inherit;
   font-size: inherit;
+  margin-top: 9px;
+}
+
+.popupoverskrift {
+  margin: 0;
 }

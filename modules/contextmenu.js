@@ -136,7 +136,7 @@ async function hvor(coordinate) {
   danMenuItems.push(danMenuItemValglandsdel);
 
   // stednavne
-  promises.push(() => {return fetch(util.danUrl(dawa + "/stednavne",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/steder",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemStednavne);
 
   // Promise.all(promises) 
@@ -333,7 +333,7 @@ function danMenuItemValglandsdel(data) {
 function danMenuItemStednavne(data) {
   for (var i= 0; i<data.length;i++) {
     let menuItem= {};
-    menuItem.text= capitalizeFirstLetter(data[i].undertype) + ": <strong>" + data[i].navn + '</strong>';
+    menuItem.text= capitalizeFirstLetter(data[i].undertype) + ": <strong>" + data[i].primærtnavn + '</strong>';
     menuItem.callback= danVis(sourcecm, capitalizeFirstLetter(data[i].undertype));
     menuItem.data= data[i];
     contextmenu.push(menuItem);

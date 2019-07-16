@@ -69,12 +69,18 @@ map.addInteraction(select);
 select.on('select', function(e) {
   let features= e.target.getFeatures();
   if (features.getLength() > 0) {
-    let href= features.getArray()[0].getProperties()['href'];
+    let feature= features.getArray()[0];
+    let href= feature.getProperties()['href'];
     // let data= features.getArray()[0].getProperties()['data'];
     let popupTekst= features.getArray()[0].getProperties()['popupTekst'];
     //alert('href: ' + features.getArray()[0].getProperties()['href'] );
     popup.show(e.mapBrowserEvent.coordinate, popupTekst);
     href;
+    let btn= document.getElementById('fjern');
+    btn.onclick=  function(e) {
+      addressSource.removeFeature(feature);
+      popup.hide();
+    }
   }
   features.clear(); // deselect feature
 });
