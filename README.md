@@ -1,7 +1,9 @@
 # find2.aws.dk
 
-Installer: npm install
+Installer: 
+	¤ npm install copyfiles -g
+	¤ npm install
 
-Test: npm start
+Test lokalt: npm start
 
 Build: npm run build
