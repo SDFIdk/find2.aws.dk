@@ -144,6 +144,9 @@ export var MultiSearchControl = (function (Control) {
       case 'Vejstykker':
         ressource.element= initInput('vejnavn, kommunenavn', dawa + "/vejstykker?autocomplete&q=", ressource.selected);
         break;
+      case 'Navngivne veje':
+        ressource.element= initInput('vejnavn, kommunenavn', dawa + "/navngivneveje?autocomplete&q=", ressource.selected);
+        break;
       case 'Supplerende bynavne':
         ressource.element= initInput('supplerende bynavn, kommune', dawa + "/supplerendebynavne2?autocomplete&q=", ressource.selected);
         break;

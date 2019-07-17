@@ -24,6 +24,7 @@ const ressourcer= [
   {navn: 'Adresser', selected: adresseSelected, init: false},
   {navn: 'Adgangsadresser', selected: adgangsadresseSelected, init: true},
   {navn: 'Vejstykker', selected: vejstykkeSelected, init: false},
+  {navn: 'Navngivne veje', selected: showSelected('Navngivne veje'), init: false},
   {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected, init: false},
   {navn: 'Postnumre', selected: showSelected('Postnummer'), init: false}, 
   {navn: 'Byer', selected: stednavnSelected, init: false},  
@@ -78,9 +79,11 @@ select.on('select', function(e) {
     popup.show(e.mapBrowserEvent.coordinate, popupTekst);
     href;
     let btn= document.getElementById('fjern');
-    btn.onclick=  function(e) {
-      addressSource.removeFeature(feature);
-      popup.hide();
+    if (btn) {
+      btn.onclick=  function(e) { e;
+        addressSource.removeFeature(feature);
+        popup.hide();
+      }
     }
   }
   features.clear(); // deselect feature

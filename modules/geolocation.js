@@ -31,10 +31,14 @@ export function show(map) {
 
   geolocation.setTracking(true);
 
+  let init= false;
   geolocation.on('change', function(evt) {
-    map.getView().setCenter(geolocation.getPosition());
+    if (!init) {
+      map.getView().setCenter(geolocation.getPosition());
+      init= true;
+    }
     evt;
-    geolocation.setTracking(false);
+    //geolocation.setTracking(false);
   });
 
   geolocation.on('change:position', function() {
