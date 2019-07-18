@@ -1,6 +1,7 @@
 import 'ol-contextmenu/dist/ol-contextmenu.css';
 import ContextMenu from 'ol-contextmenu';
 import * as util from 'dawa-util';
+import * as futil from '/modules/futil';
 import * as vis from '/modules/vis';
 import * as kort from '/modules/kort';
 import 'babel-polyfill';
@@ -8,10 +9,7 @@ import 'whatwg-fetch';
 
 var mapcm, popupcm, sourcecm;
 
-var dawa= util.getQueryVariable('dawa');
-if (!dawa) {
-  dawa= 'https://dawa.aws.dk';
-}
+var dawa= futil.getDawaUrl();
 
 var contextmenu_items = [];
 

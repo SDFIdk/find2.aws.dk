@@ -12,7 +12,7 @@ import {Vector as VectorLayer} from 'ol/layer';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
-import {MultiSearchControl} from '/modules/MultiSearchControl';
+import {MultiSearchControl} from '/modules/multisearchcontrol';
 import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';

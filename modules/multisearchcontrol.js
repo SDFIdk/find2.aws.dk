@@ -2,11 +2,10 @@ import {Control} from 'ol/control';
 import autocomplete from 'autocomplete.js';
 import * as dawaAutocomplete2 from 'dawa-autocomplete2';
 import * as util from 'dawa-util';
+import * as futil from '/modules/futil';
 
-var dawa= util.getQueryVariable('dawa');
-if (!dawa) {
-  dawa= 'https://dawa.aws.dk';
-}
+
+var dawa= futil.getDawaUrl();
 
 function initAutocomplete(input, url, selected) {
 
