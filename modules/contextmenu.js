@@ -200,10 +200,6 @@ async function hvor(coordinate) {
   // console.log("Reverse " + (t2 - t0) + " milliseconds.")
 }
 
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function danVis(source, titel) {
   return function (data) {
     fetch(data.data.href+'?srid=25832&format=geojson&struktur=nestet').then( function(response) {
@@ -331,8 +327,8 @@ function danMenuItemValglandsdel(data) {
 function danMenuItemStednavne(data) {
   for (var i= 0; i<data.length;i++) {
     let menuItem= {};
-    menuItem.text= capitalizeFirstLetter(data[i].undertype) + ": <strong>" + data[i].primærtnavn + '</strong>';
-    menuItem.callback= danVis(sourcecm, capitalizeFirstLetter(data[i].undertype));
+    menuItem.text= futil.capitalizeFirstLetter(data[i].undertype) + ": <strong>" + data[i].primærtnavn + '</strong>';
+    menuItem.callback= danVis(sourcecm, futil.capitalizeFirstLetter(data[i].undertype));
     menuItem.data= data[i];
     contextmenu.push(menuItem);
   }

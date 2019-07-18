@@ -60,7 +60,8 @@ export var baggrundskort= new LayerGroup({
           format: "image/jpeg",
           tileGrid: kfTileGrid,
           style: 'default',
-          size: [256, 256]
+          size: [256, 256],          
+          attributions: getAttributions()
         })
       }),  
       // new LayerTile({  

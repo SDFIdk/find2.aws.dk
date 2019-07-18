@@ -7,6 +7,7 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import Point from 'ol/geom/Point';
 import MultiPoint from 'ol/geom/MultiPoint';
 import * as util from 'dawa-util';
+import * as futil from '/modules/futil';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
@@ -45,7 +46,7 @@ export function vis(source, data, titel) {
 }
 
 function popupTekst(data, titel) {
-  return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + data.tekst + '</a></p><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + data.tekst + '</a></p><button id="kortlink">Link til kort</button><button id="fjern">Fjern</button>';
 }
 
 export function visAdresse(source, adresse) {
@@ -63,7 +64,7 @@ export function visAdresse(source, adresse) {
 }
 
 function adressePopupTekst(data) {
-  return '<h4 class=popupoverskrift>Adresse</h4><p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>Adresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p><button id="kortlink">Kortlink</button><button id="fjern">Fjern</button>';
 }
 
 function formatAdresse (data, enlinje= true) {
@@ -89,7 +90,7 @@ export function visAdgangsadresse(source, adgangsadresse) {
 }
 
 function adgangsadressePopupTekst(data) {
-  return '<h4 class=popupoverskrift>Adgangsadresse</h4><p><a href="' + data.href.replace('dawa', 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>Adgangsadresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p><button id="kortlink">Kortlink</button><button id="fjern">Fjern</button>';
 }
 
 function markerstyle(color) {

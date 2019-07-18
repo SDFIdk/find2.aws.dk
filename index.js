@@ -18,6 +18,7 @@ import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
 import Popup from 'ol-popup';
 import * as vis from '/modules/vis';
+import * as futil from '/modules/futil';
 
 
 const ressourcer= [
@@ -72,17 +73,25 @@ select.on('select', function(e) {
   let features= e.target.getFeatures();
   if (features.getLength() > 0) {
     let feature= features.getArray()[0];
-    let href= feature.getProperties()['href'];
-    // let data= features.getArray()[0].getProperties()['data'];
+    let data= feature.getProperties()['data'];
     let popupTekst= features.getArray()[0].getProperties()['popupTekst'];
     //alert('href: ' + features.getArray()[0].getProperties()['href'] );
     popup.show(e.mapBrowserEvent.coordinate, popupTekst);
-    href;
-    let btn= document.getElementById('fjern');
-    if (btn) {
-      btn.onclick=  function(e) { e;
+    let fbtn= document.getElementById('fjern');
+    if (fbtn) {
+      fbtn.onclick=  function(e) { e;
         addressSource.removeFeature(feature);
         popup.hide();
+      }
+    }
+    let kbtn= document.getElementById('kortlink');
+    if (kbtn) {
+      kbtn.onclick=  function(e) { e;
+        navigator.permissions.query({name: "clipboard-write"}).then(result => {
+          if (result.state == "granted" || result.state == "prompt") {
+            navigator.clipboard.writeText(futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true');
+          }
+        });
       }
     }
   }
@@ -148,11 +157,7 @@ async function stednavnSelected(valgt) {
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
   kort.flyToGeometry(data.properties.sted.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
-  vis.vis(addressSource, data, capitalizeFirstLetter(data.properties.sted.undertype));
-}
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  vis.vis(addressSource, data, futil.capitalizeFirstLetter(data.properties.sted.undertype));
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));

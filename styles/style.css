@@ -42,3 +42,7 @@ html, body, #map {
 .popupoverskrift {
   margin: 0;
 }
+
+#kortlink, #fjern {
+  margin-right: 10px;
+}
