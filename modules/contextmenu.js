@@ -48,15 +48,38 @@ function koordinater(obj) {
   });
 }
 
+function højde(obj) {
+  let tekst= 'Terrænhøjde: ' + obj.data.hoejde + ' m'; 
+  popupcm.show(obj.coordinate, tekst);
+  navigator.permissions.query({name: "clipboard-write"}).then(result => {
+    if (result.state == "granted" || result.state == "prompt") {
+      navigator.clipboard.writeText(tekst);
+    }
+  });
+}
+
 async function hvor(coordinate) { 
   contextmenu.clear(); 
 
   let menuItem= {};
+
   menuItem.text= "Koordinater: <strong>" + coordinate[0] + ', ' + coordinate[1] + '</strong>';
   menuItem.callback= koordinater;
   menuItem.classname= 'bold';
   contextmenu.push(menuItem);
-  contextmenu.push('-');
+
+  fetch(util.danUrl('https://services.kortforsyningen.dk',{servicename: 'RestGeokeys_v2', method: 'hoejde', elevationmodel:'dtm', geop:coordinate[0] + ',' + coordinate[1], token: futil.getKortforsyningstoken()}))
+  .then((response) => {
+    if (response.status >= 200 && response.status <=299 ){
+      response.json().then((svar) => {        
+        menuItem.text= "Højde: <strong>" + svar.hoejde + '</strong>';
+        menuItem.callback= højde;
+        menuItem.data= svar;
+        menuItem.classname= 'bold';
+        contextmenu.push(menuItem);
+      });
+    };
+  }) 
 
   let promises= []
     , danMenuItems= [];

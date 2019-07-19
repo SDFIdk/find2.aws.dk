@@ -11,6 +11,7 @@ import TileWMS from 'ol/source/TileWMS';
 import ImageWMS from 'ol/source/ImageWMS';
 import WMTS from 'ol/source/WMTS';
 import WMTSTileGrid from 'ol/tilegrid/WMTS';
+import * as futil from '/modules/futil';
 
 proj4.defs('EPSG:25832', "+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs");
 register(proj4);
@@ -36,7 +37,7 @@ function getAttributions() {
   return '<p>Kort fra <a href="https://kortforsyningen.dk" target="_blank">Kortforsyningen</a>. Data fra <a href="https://dawa.aws.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfe.dk" target="_blank">SDFE</a>.</p>';
 }
 
-let kftoken= 'd23aed4ea6f89420aae2fcf89b47e95b';
+let kftoken= futil.getKortforsyningstoken(); 'd23aed4ea6f89420aae2fcf89b47e95b';
 
 export var baggrundskort= new LayerGroup({
     'title': 'Basiskort',

@@ -17,3 +17,7 @@ export function setSubdomain(url, subdomain) {
 export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+export function getKortforsyningstoken() {
+	return 'd23aed4ea6f89420aae2fcf89b47e95b';
+}

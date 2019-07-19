@@ -89,7 +89,7 @@ select.on('select', function(e) {
       kbtn.onclick=  function(e) { e;
         navigator.permissions.query({name: "clipboard-write"}).then(result => {
           if (result.state == "granted" || result.state == "prompt") {
-            //let baselayers= map.getLayers();
+            let baselayers= map.getLayers();
             navigator.clipboard.writeText(futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true');
           }
         });
