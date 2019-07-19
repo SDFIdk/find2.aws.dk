@@ -609,3 +609,35 @@ export function flyToGeometry(location, geometry, view, done) {
     duration: duration / 2
   }, callback);
 }
+
+export function mapKort(findkort) {
+  let viskort= 'Skærmkort';
+  switch (findkort) {
+    case 'Skærmkort - grå':
+    case 'Skærmkort - dæmpet':
+      viskort= 'Skærmkort - dæmpet';
+      break;
+    case '1980 - 2001':
+    case '1953 - 1976':
+    case 'Open Street Map':
+    case 'Forvaltningskort':
+    case 'Skærmkort':
+      viskort= 'Skærmkort';
+      break;
+    case 'Ortofoto':
+    case 'Ortofoto Temp 10':
+    case 'Ortofoto 2008':
+    case 'Ortofoto 2005':
+    case 'Ortofoto 2002':
+    case 'Ortofoto 1999':
+      viskort= 'Ortofoto';
+      break;
+    case '1928 - 1940':
+      viskort= 'Historisk 1928-1940';
+      break;
+    case '1842 - 1899':
+      viskort= 'Historisk 1842-1899';
+      break;
+  }
+  return viskort;
+}

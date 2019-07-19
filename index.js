@@ -9,6 +9,7 @@ import 'whatwg-fetch';
 import {Map} from 'ol';
 import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
+import LayerGroup from 'ol/layer/Group';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
@@ -89,8 +90,21 @@ select.on('select', function(e) {
       kbtn.onclick=  function(e) { e;
         navigator.permissions.query({name: "clipboard-write"}).then(result => {
           if (result.state == "granted" || result.state == "prompt") {
+            let findkort= 'Skærmkort';
             let baselayers= map.getLayers();
-            navigator.clipboard.writeText(futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true');
+            baselayers.forEach( (element) => {
+              if (element instanceof LayerGroup) {
+                let layers= element.getLayers();
+                layers.forEach((layer) => {
+                  let prop= layer.getProperties();
+                  if (prop.visible) {
+                    findkort= prop.title;
+                  }
+                })
+              };
+            });
+            let viskort= kort.mapKort(findkort);
+            navigator.clipboard.writeText(futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true&kort='+viskort);
           }
         });
       }
