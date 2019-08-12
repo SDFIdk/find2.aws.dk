@@ -7,6 +7,8 @@ import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 
 export function show(map) {
 
+  map.getView().setCenter([722125.86, 6178892.29]);
+
   var positionFeature = new Feature();
   positionFeature.setStyle(new Style({
     image: new CircleStyle({
