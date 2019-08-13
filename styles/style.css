@@ -13,6 +13,11 @@ html, body, #map {
   bottom: .5em;
 }
 
+.geolocation-toggle  {
+        top: 65px;
+        left: .5em;
+}
+
 .multisearchcontainer  { 
   top: .5em;
   right: .5em;

@@ -28,11 +28,7 @@ export function getContextMenu(map, popup, source) {
 contextmenu.on('open', function (evt) {
   evt.coordinate[0]= Math.round(evt.coordinate[0]*1000)/1000;
   evt.coordinate[1]= Math.round(evt.coordinate[1]*1000)/1000;
-  hvor(evt.coordinate);
-  let pixel= evt.pixel;
-  pixel[0]= pixel[0]-100;
-  pixel[1]= pixel[1]-100;
-  contextmenu.updatePosition(pixel);
+  hvor(evt.coordinate, evt.pixel);
 });
 
 function centrer(koordinater) {
@@ -62,7 +58,7 @@ function højde(obj) {
   });
 }
 
-async function hvor(coordinate) { 
+async function hvor(coordinate, pixel) { 
   contextmenu.clear(); 
 
   let menuItem= {};
@@ -225,6 +221,8 @@ async function hvor(coordinate) {
   }
   // var t2 = performance.now();
   // console.log("Reverse " + (t2 - t0) + " milliseconds.")
+
+  contextmenu.updatePosition(pixel);
 }
 
 function danVis(source, titel) {

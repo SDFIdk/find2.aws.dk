@@ -61,7 +61,7 @@ export var baggrundskort= new LayerGroup({
           format: "image/jpeg",
           tileGrid: kfTileGrid,
           style: 'default',
-          size: [256, 256],          
+          size: [256, 256],         
           attributions: getAttributions()
         })
       }),  
@@ -160,7 +160,7 @@ export var historiskeOrtofoto= new LayerGroup({
         source: new TileWMS({ 
           url: "https://services.kortforsyningen.dk/orto_foraar_temp?token="+kftoken,
           params: {
-            'LAYERS':'quickorto_10cm',
+            'LAYERS':'quickorto,quickorto_10cm',
             'VERSION':'1.1.1',
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
@@ -169,6 +169,74 @@ export var historiskeOrtofoto= new LayerGroup({
           attributions: getAttributions()
         })
       }),
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2018',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          params: {
+            'LAYERS':'geodanmark_2018_10cm,geodanmark_2018_12_5cm',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          },          
+          attributions: getAttributions()
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2017',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          params: {
+            'LAYERS':'geodanmark_2017_10cm,geodanmark_2017_12_5cm',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          },          
+          attributions: getAttributions()
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2016',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          params: {
+            'LAYERS':'geodanmark_2016_12_5cm',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          },          
+          attributions: getAttributions()
+        })
+      }),  
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Ortofoto 2015',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          params: {
+            'LAYERS':'geodanmark_2015_12_5cm,hrks_2015_10cm',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'' 
+          },          
+          attributions: getAttributions()
+        })
+      }), 
       new LayerTile({
         //opacity: 1.0,
         title:'Ortofoto 2008',
@@ -417,6 +485,42 @@ export var lag= new LayerGroup({
   fold: 'close',
   layers: [
     new ImageLayer({
+      title:'Terræn',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dhm?token="+kftoken,
+        params:{
+          'LAYERS':'dhm_terraen_skyggekort_transparent_overdrevet',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },          
+        attributions: getAttributions()
+      })
+    }),
+    new ImageLayer({
+      title:'Overflade',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dhm?token="+kftoken,
+        params:{
+          'LAYERS':'dhm_overflade_skyggekort_transparent',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },          
+        attributions: getAttributions()
+      })
+    }),
+    new ImageLayer({
       title:'Retskreds',
       type:'overlay',
       visible: false,
@@ -626,6 +730,10 @@ export function mapKort(findkort) {
       break;
     case 'Ortofoto':
     case 'Ortofoto Temp 10':
+    case 'Ortofoto 2018':
+    case 'Ortofoto 2017':
+    case 'Ortofoto 2016':
+    case 'Ortofoto 2015':
     case 'Ortofoto 2008':
     case 'Ortofoto 2005':
     case 'Ortofoto 2002':

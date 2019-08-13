@@ -20,6 +20,7 @@ import * as geolocation from '/modules/geolocation';
 import Popup from 'ol-popup';
 import * as vis from '/modules/vis';
 import * as futil from '/modules/futil';
+import GeolocationToggle from 'ol-geolocation';
 
 
 const ressourcer= [
@@ -52,6 +53,7 @@ const map = new Map({
   loadTilesWhileAnimating: true,
   view: kort.view, 
   controls: defaultControls().extend([
+    new GeolocationToggle(),
     new MultiSearchControl(ressourcer),
     new LayerSwitcher()
   ]),
