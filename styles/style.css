@@ -13,9 +13,13 @@ html, body, #map {
   bottom: .5em;
 }
 
-.geolocation-toggle  {
-        top: 65px;
-        left: .5em;
+.geolocationcontrol {
+  top: 65px;
+  left: .5em;
+}
+
+.ol-touch .geolocationcontrol {
+  top: 80px;
 }
 
 .multisearchcontainer  { 

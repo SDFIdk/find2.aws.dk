@@ -14,13 +14,13 @@ import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
 import {MultiSearchControl} from '/modules/multisearchcontrol';
+import {GeolocationControl} from '/modules/geolocationcontrol';
 import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
 import Popup from 'ol-popup';
 import * as vis from '/modules/vis';
 import * as futil from '/modules/futil';
-import GeolocationToggle from 'ol-geolocation';
 
 
 const ressourcer= [
@@ -53,8 +53,8 @@ const map = new Map({
   loadTilesWhileAnimating: true,
   view: kort.view, 
   controls: defaultControls().extend([
-    new GeolocationToggle(),
     new MultiSearchControl(ressourcer),
+    new GeolocationControl({}),
     new LayerSwitcher()
   ]),
 });

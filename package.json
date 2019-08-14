@@ -29,7 +29,6 @@
     "modules": "^0.4.0",
     "ol": "^5.3.3",
     "ol-contextmenu": "^3.3.1",
-    "ol-geolocation": "^0.1.0",
     "ol-layerswitcher": "^3.2.0",
     "ol-popup": "^4.0.0",
     "proj4": "^2.5.0",

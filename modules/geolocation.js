@@ -5,6 +5,12 @@ import {Vector as VectorLayer} from 'ol/layer';
 import Point from 'ol/geom/Point';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 
+var geolocation= null;
+
+export function getPosition() {
+  return geolocation.getPosition();
+}
+
 export function show(map) {
 
   map.getView().setCenter([722125.86, 6178892.29]);
@@ -24,7 +30,7 @@ export function show(map) {
   }));
   positionFeature.setProperties({popupTekst: '<p>Her er du</p>'});
 
-  var geolocation = new Geolocation({
+  geolocation = new Geolocation({
     trackingOptions: {
       enableHighAccuracy: true
     },
