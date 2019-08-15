@@ -10,6 +10,7 @@ import Point from 'ol/geom/Point';
 import MultiPoint from 'ol/geom/MultiPoint';
 import * as util from 'dawa-util';
 import * as futil from '/modules/futil';
+import * as kortlink from '/modules/kortlink';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 

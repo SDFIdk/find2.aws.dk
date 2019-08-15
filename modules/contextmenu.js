@@ -160,33 +160,6 @@ async function hvor(coordinate, pixel) {
   promises.push(() => {return fetch(util.danUrl(dawa + "/steder",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemStednavne);
 
-  // Promise.all(promises) 
-  // .catch(function (error) {
-  //   alert(error.message);
-  // })
-  // .then(function(responses) {      
-  //   for (var i= responses.length-1; i>=0; i--) {
-  //     if (responses[i].ok) {
-  //       responses[i]= responses[i].json();
-  //     }
-  //     else {
-  //       responses.splice(i, 1);
-  //       promises.splice(i, 1);
-  //     }
-  //   }
-  //   return Promise.all(responses);
-  // })
-  // .then(function(data) {
-  //   if (data.length === 0) return;
-  //   for(let i=0; i<data.length; i++) {
-  //     promises[i].danMenuItem(data[i]);
-  //   } 
-  // });
-
-  // Prøv at tilpas Babel til at håndtere async/await. 
-  // Se eventuelt på https://babeljs.io/
-  // og https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
-
   // var t0 = performance.now();
   const maxsamtidige= 10;
   let start= 0;

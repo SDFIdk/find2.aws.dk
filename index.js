@@ -18,6 +18,7 @@ import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
 import {GeolocationControl} from '/modules/geolocationcontrol';
+//import * as kortlink from '/modules/kortlink';
 import Popup from 'ol-popup';
 import * as vis from '/modules/vis';
 import * as futil from '/modules/futil';
@@ -85,6 +86,9 @@ select.on('select', function(e) {
       fbtn.onclick=  function(e) { e;
         addressSource.removeFeature(feature);
         popup.hide();
+        // if (addressSource.getFeatures().length === 0) {
+        //   kortlink.fjernKortlinkControl(map);
+        // }
       }
     }
     let kbtn= document.getElementById('kortlink');
@@ -106,7 +110,9 @@ select.on('select', function(e) {
               };
             });
             let viskort= kort.mapKort(findkort);
-            navigator.clipboard.writeText(futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true&kort='+viskort);
+            let url= futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true&kort='+viskort;
+            navigator.clipboard.writeText(url);
+            window.open(url, 'Link_til_kort');
           }
         });
       }
