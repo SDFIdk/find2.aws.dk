@@ -14,13 +14,14 @@ import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
 import {MultiSearchControl} from '/modules/multisearchcontrol';
-import {GeolocationControl} from '/modules/geolocationcontrol';
 import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
+import {GeolocationControl} from '/modules/geolocationcontrol';
 import Popup from 'ol-popup';
 import * as vis from '/modules/vis';
 import * as futil from '/modules/futil';
+import * as util from 'dawa-util';
 
 
 const ressourcer= [
@@ -54,7 +55,6 @@ const map = new Map({
   view: kort.view, 
   controls: defaultControls().extend([
     new MultiSearchControl(ressourcer),
-    new GeolocationControl({}),
     new LayerSwitcher()
   ]),
 });
@@ -125,6 +125,24 @@ map.on('pointermove', function (e) {
   map.getTargetElement().style.cursor = hit ? 'pointer' : '';
   //console.log(hit + ', ' + map.getTargetElement().style.cursor)
 });
+
+map.on('singleclick', function (evt) {
+  console.log(evt.coordinate);
+  if (!map.hasFeatureAtPixel(evt.pixel)) {
+  //if (addressSource.getFeaturesAtCoordinate(evt.coordinate).length === 0) {
+    visNærmesteAdgangsadresse(evt.coordinate);
+  } 
+});
+
+var dawa= futil.getDawaUrl();
+
+async function visNærmesteAdgangsadresse(coordinate) {
+  let response= await fetch(util.danUrl(dawa + "/adgangsadresser/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}));
+  let adgangsadresse= await response.json();
+  let view= map.getView();
+  kort.flyTo(adgangsadresse.adgangspunkt.koordinater, view, function() {});
+  vis.visAdgangsadresse(addressSource, adgangsadresse);
+}
 
 async function adresseSelected(event) {
   let response= await fetch(event.data.href+'?srid=25832');

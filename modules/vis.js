@@ -1,9 +1,11 @@
 import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';
 import MultiPolygon from 'ol/geom/MultiPolygon';
+import Circle from 'ol/geom/Circle';
 import LineString from 'ol/geom/LineString';
 import MultiLineString from 'ol/geom/MultiLineString';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Stroke, Style, RegularShape} from 'ol/style';
+//import CircleStyle from 'ol/style/Circle';
 import Point from 'ol/geom/Point';
 import MultiPoint from 'ol/geom/MultiPoint';
 import * as util from 'dawa-util';
@@ -49,6 +51,8 @@ function popupTekst(data, titel) {
   return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + data.tekst + '</a></p><button id="kortlink">Link til kort</button><button id="fjern">Fjern</button>';
 }
 
+let markerradius= 4;
+
 export function visAdresse(source, adresse) {
   var adgangspunkt = new Feature();        
   adgangspunkt.setStyle(markerstyle('red'));
@@ -76,9 +80,10 @@ function formatAdresse (data, enlinje= true) {
 }
 
 export function visAdgangsadresse(source, adgangsadresse) {
-  var adgangspunkt = new Feature();        
+  var adgangspunkt = new Feature();             
   adgangspunkt.setStyle(markerstyle('red'));
   adgangspunkt.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
+  //adgangspunkt.setGeometry(new Circle(adgangsadresse.adgangspunkt.koordinater));
   adgangspunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
   source.addFeature(adgangspunkt);
 
@@ -96,7 +101,7 @@ function adgangsadressePopupTekst(data) {
 function markerstyle(color) {
   const style=
     new Style({
-      image: new CircleStyle({radius: 4, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 1})})
+      image: new CircleStyle({radius: markerradius, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 1})})
     });
   return style;
 }

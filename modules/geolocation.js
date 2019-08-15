@@ -4,6 +4,7 @@ import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
 import Point from 'ol/geom/Point';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {GeolocationControl} from '/modules/geolocationcontrol';
 
 var geolocation= null;
 
@@ -39,13 +40,21 @@ export function show(map) {
 
   geolocation.setTracking(true);
 
+  let geolocationcontrol= new GeolocationControl();
+
   let init= false;
   geolocation.on('change', function(evt) {
     if (!init) {
       map.getView().setCenter(geolocation.getPosition());
+      map.addControl(geolocationcontrol);
       init= true;
     }
     evt;
+    //geolocation.setTracking(false);
+  });
+
+  geolocation.on('error', function(evt) {
+    console.log(evt);
     //geolocation.setTracking(false);
   });
 
