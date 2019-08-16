@@ -39,11 +39,77 @@ export function geometriklasse(data) {
   return klasse;
 }
 
-export function vis(source, data, titel) { 
-  var område = new Feature(); 
-  let klasse= geometriklasse(data);       
-  //område.setStyle(markerstyle('red'));
-  område.setGeometry(new klasse(data.geometry.coordinates));
+function getStyle(href) {
+  let url= new URL(href);
+  let arr= url.pathname.split('/');
+  let ressource= arr[1];
+  let strokeColor= 'rgba(255, 0, 0, 0.85)';
+  let fillColor= 'rgba(255, 0, 0, 0.2)';
+  let zindex= 100;
+  switch (ressource) {
+  case 'navngivneveje':
+  case 'vejstykker':
+    strokeColor= 'rgba(0, 0, 255, 0.85)';
+    fillColor= 'rgba(0, 0, 255, 0.2)';
+    zindex= 800;
+    break;
+  case 'ejerlav': 
+  case 'jordstykker':
+    strokeColor= 'rgba(0, 255, 0, 1.0)';
+    fillColor= 'rgba(0, 255, 0, 0.2)';
+    zindex= 600;
+    break;  
+  case 'bygninger':
+    strokeColor= 'rgba(0, 255, 255, 0.85)';
+    fillColor= 'rgba(0, 255, 255, 0.2)';
+    zindex= 700;
+    break;   
+  case 'supplerendebynavne2': 
+  case 'postnumre': 
+  case 'sogne':
+  case 'politikredse':
+  case 'retskredse':
+  case 'regioner':
+  case 'landsdele': 
+  case 'kommuner':
+  case 'afstemningsomraader': 
+  case 'menighedsraadsafstemningsomraader':
+  case 'opstillingskredse':
+  case 'storkredse':
+  case 'valglandsdele':
+    strokeColor= 'rgba(255, 0, 0, 0.85)';
+    fillColor= 'rgba(255, 0, 0, 0.2)';
+    zindex= 400;
+    break;
+  case 'bebyggelser':
+  case 'stednavne':
+  case 'stednavne2':
+  case 'steder':
+    strokeColor= 'rgba(0, 255, 0, 0.75)';
+    fillColor= 'rgba(0, 255, 0, 0.2)';
+    zindex= 500;
+    break; 
+  }
+
+  const style=
+    new Style({
+      stroke: new Stroke({
+        color: strokeColor,
+        width: 2
+      }),
+      fill: new Fill({
+        color: fillColor
+      }),
+      zindex: zindex
+    });
+  return style;
+}
+
+export function vis(source, data, titel) {
+  let klasse= geometriklasse(data);  
+  var område = new Feature(new klasse(data.geometry.coordinates)); 
+  //område.setGeometry();      
+  område.setStyle(getStyle(data.properties.href));
   område.setProperties({data: data, popupTekst: popupTekst(data.properties, titel)});
   source.addFeature(område);
 }
@@ -85,13 +151,14 @@ export function visAdgangsadresse(source, adgangsadresse) {
   adgangspunkt.setStyle(markerstyle('red'));
   adgangspunkt.setGeometry(new Point(adgangsadresse.adgangspunkt.koordinater));
   //adgangspunkt.setGeometry(new Circle(adgangsadresse.adgangspunkt.koordinater));
-  adgangspunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
+  let popuptekst= adgangsadressePopupTekst(adgangsadresse);
+  adgangspunkt.setProperties({data: adgangsadresse, popupTekst: popuptekst});
   source.addFeature(adgangspunkt);
 
   var vejpunkt = new Feature();     
   vejpunkt.setStyle(markerstyle('blue'));
   vejpunkt.setGeometry(new Point(adgangsadresse.vejpunkt.koordinater));
-  vejpunkt.setProperties({data: adgangsadresse, popupTekst: adgangsadressePopupTekst(adgangsadresse)});
+  vejpunkt.setProperties({data: adgangsadresse, popupTekst: popuptekst});
   source.addFeature(vejpunkt);
 }
 
@@ -102,7 +169,21 @@ function adgangsadressePopupTekst(data) {
 function markerstyle(color) {
   const style=
     new Style({
-      image: new CircleStyle({radius: markerradius, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 1})})
+      image: new CircleStyle({radius: markerradius, fill: new Fill({color: color}), stroke: new Stroke({color: color, width: 1}), zindex: 999})
     });
+  return style;
+}
+
+function style(color) {
+  const style=
+     new Style({
+          stroke: new Stroke({
+            color: 'rgba(255, 0, 0, 0.75)',
+            width: 2
+          }),
+          fill: new Fill({
+            color: 'rgba(255, 0, 0, 0.1)'
+          })
+        });
   return style;
 }
