@@ -39,7 +39,7 @@ export function geometriklasse(data) {
   return klasse;
 }
 
-function getStyle(href) {
+function getStyle(href, klasse) {
   let url= new URL(href);
   let arr= url.pathname.split('/');
   let ressource= arr[1];
@@ -91,31 +91,97 @@ function getStyle(href) {
     break; 
   }
 
-  const style=
-    new Style({
-      stroke: new Stroke({
-        color: strokeColor,
-        width: 2
-      }),
-      fill: new Fill({
-        color: fillColor
-      }),
-      zindex: zindex
-    });
+  let style;
+  if (klasse === Point || klasse === MultiPoint) {
+    style= markerstyle('green');
+  }
+  else {
+    style=
+      new Style({
+        stroke: new Stroke({
+          color: strokeColor,
+          width: 2
+        }),
+        fill: new Fill({
+          color: fillColor
+        }),
+        zindex: zindex
+      });
+  };
   return style;
+}
+
+
+function getBetegnelse(data) {
+  let url= new URL(data.href);
+  let arr= url.pathname.split('/');
+  let ressource= arr[1];
+  let betegnelse= 'betegnelse ikke implementeret';
+  switch (ressource) {
+  case 'navngivneveje':
+    betegnelse= data.navn + ', ' + data.administrerendekommune.navn + ' Kommune';
+    break;
+  case 'supplerendebynavne2':
+    betegnelse= data.navn + ', ' + data.kommune.navn + ' Kommune';
+    break;   
+  case 'sogne':
+  case 'vejstykker':
+  case 'ejerlav':
+  case 'politikredse':
+  case 'retskredse':
+  case 'regioner': 
+  case 'kommuner':
+    betegnelse= data.navn + ' (' + data.kode + ')';
+    break;  
+  case 'jordstykker':
+    betegnelse= data.matrikelnr + ' ' + data.ejerlav.navn;
+    break;  
+  case 'bygninger':
+    betegnelse= data.id;
+    break;   
+  case 'postnumre':
+    betegnelse= data.nr + ' ' + data.navn;
+    break;
+  case 'landsdel': 
+  case 'landsdele': 
+    betegnelse= data.navn + ' (' + data.nuts3 + ')';
+    break;
+  case 'afstemningsomraader': 
+  case 'menighedsraadsafstemningsomraader':
+  case 'opstillingskredse':
+  case 'storkredse':
+    betegnelse= data.navn + ' (' + data.nummer + ')';
+    break;
+  case 'valglandsdele':
+    betegnelse= data.navn + ' (' + data.bogstav + ')';
+    break;
+  case 'bebyggelser':
+    betegnelse= data.navn + ' (' + data.type + ')';
+    break;
+  case 'stednavne':
+    betegnelse= data.navn + ' (' + data.undertype + ')';
+    break;
+  case 'stednavne2':
+    betegnelse= data.navn + ' (' + data.sted.undertype + ')';
+    break;
+  case 'steder':
+    betegnelse= data.primærtnavn + ' (' + data.undertype + ')';
+    break; 
+  }
+  return betegnelse;
 }
 
 export function vis(source, data, titel) {
   let klasse= geometriklasse(data);  
   var område = new Feature(new klasse(data.geometry.coordinates)); 
   //område.setGeometry();      
-  område.setStyle(getStyle(data.properties.href));
+  område.setStyle(getStyle(data.properties.href, klasse));
   område.setProperties({data: data, popupTekst: popupTekst(data.properties, titel)});
   source.addFeature(område);
 }
 
 function popupTekst(data, titel) {
-  return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + data.tekst + '</a></p><button id="kortlink">Link til kort</button><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + getBetegnelse(data) + '</a></p><button id="kortlink">Link til kort</button><button id="fjern">Fjern</button>';
 }
 
 let markerradius= 4;

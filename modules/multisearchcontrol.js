@@ -52,6 +52,12 @@ function initAutocomplete(input, url, selected) {
   });
 }
 
+
+function stopEvent(ev) {
+  ev.stopPropagation();
+  ev.preventDefault();
+}
+
 function initAdresse(selected) {
 
   var input = document.createElement('input');
@@ -62,6 +68,7 @@ function initAdresse(selected) {
   var element = document.createElement('div');
   element.className = 'container';
   element.appendChild(input);
+  element.addEventListener("contextmenu", stopEvent, false);
 
   dawaAutocomplete2.dawaAutocomplete(input, {
       select: selected,        
@@ -71,6 +78,7 @@ function initAdresse(selected) {
 
   return element;
 }
+
 
 function initAdgangsadresse(selected) {
 
@@ -82,6 +90,7 @@ function initAdgangsadresse(selected) {
   var element = document.createElement('div');
   element.className = 'container';
   element.appendChild(input);
+  element.addEventListener("contextmenu", stopEvent, false);
 
   dawaAutocomplete2.dawaAutocomplete(input, {
       select: selected,        
@@ -104,6 +113,7 @@ function initInput(placeholder, url, selected)
   container.className = 'container';
   //postnummercontainer.className = 'postnummerinput ol-control';
   container.appendChild(input);
+  container.addEventListener("contextmenu", stopEvent, false);
 
   initAutocomplete(input, url, selected);
 
