@@ -424,6 +424,24 @@ export var adresselag= new LayerGroup({
       })
     }),
     new ImageLayer({
+      title:'Vejnavnelinjer',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://kort.aws.dk/geoserver/aws4_wms/wms",
+        params:{
+          'LAYERS':'vejnavnelinjer',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },          
+        attributions: getAttributions()
+      })
+    }),
+    new ImageLayer({
       title:'Vejpunktlinjer',
       type:'overlay',
       visible: false,
