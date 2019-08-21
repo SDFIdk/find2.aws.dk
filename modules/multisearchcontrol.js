@@ -38,7 +38,7 @@ function initAutocomplete(input, url, selected) {
       displayKey: 'tekst',
       templates: {
         suggestion: function(suggestion) {
-          return '<div>' + suggestion.tekst + '</div>';
+          return '<div>' + suggestion.betegnelse + '</div>';
         }
       }
     }

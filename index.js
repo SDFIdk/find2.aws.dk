@@ -185,8 +185,8 @@ async function vejstykkeSelected(valgt) {
 }
 
 async function supplerendeBynavnSelected(valgt) {
-//  fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832').then( function(response) {
-  let response= await fetch('https://dawa-test.aws.dk/supplerendebynavne2/' + valgt.dagi_id + '?format=geojson&struktur=nestet&srid=25832');
+  let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
+//  let response= await fetch('https://dawa-test.aws.dk/supplerendebynavne2/' + valgt.dagi_id + '?format=geojson&struktur=nestet&srid=25832');
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
   kort.flyToGeometry(data.properties.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
