@@ -132,7 +132,7 @@ map.on('pointermove', function (e) {
   //console.log(hit + ', ' + map.getTargetElement().style.cursor)
 });
 
-map.on('singleclick', function (evt) {
+map.on('dblclick', function (evt) {
   console.log(evt.coordinate);
   if (!map.hasFeatureAtPixel(evt.pixel)) {
   //if (addressSource.getFeaturesAtCoordinate(evt.coordinate).length === 0) {
