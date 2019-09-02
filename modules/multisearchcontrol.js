@@ -55,7 +55,7 @@ function initAutocomplete(input, url, selected) {
 
 function stopEvent(ev) {
   ev.stopPropagation();
-  ev.preventDefault();
+  //ev.preventDefault();
 }
 
 function initAdresse(selected) {
@@ -212,6 +212,7 @@ export var MultiSearchControl = (function (Control) {
     var selectorcontainer = document.createElement('div');
     selectorcontainer.className = 'selectorcontainer';
     selectorcontainer.appendChild(selector);
+    selectorcontainer.addEventListener("contextmenu", stopEvent, false);
 
     // control
     var combi = document.createElement('div');
