@@ -35,7 +35,7 @@ function initAutocomplete(input, url, selected) {
   autocomplete(input, { debug: true, hint: false, templates: { empty: '' }, autoselect: true }, [
     {
       source: search(url),
-      displayKey: 'tekst',
+      displayKey: 'betegnelse',
       templates: {
         suggestion: function(suggestion) {
           return '<div>' + suggestion.betegnelse + '</div>';
