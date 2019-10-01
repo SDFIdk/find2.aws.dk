@@ -94,27 +94,44 @@ select.on('select', function(e) {
     let kbtn= document.getElementById('kortlink');
     if (kbtn) {
       kbtn.onclick=  function(e) { e;
+        let findkort= 'Skærmkort';
+        let baselayers= map.getLayers();
+        baselayers.forEach( (element) => {
+          if (element instanceof LayerGroup) {
+            let layers= element.getLayers();
+            layers.forEach((layer) => {
+              let prop= layer.getProperties();
+              if (prop.visible) {
+                findkort= prop.title;
+              }
+            })
+          };
+        });
+        let viskort= kort.mapKort(findkort);
+        let url= futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true&kort='+viskort;
+        window.open(url, 'Link_til_kort');
         navigator.permissions.query({name: "clipboard-write"}).then(result => {
           if (result.state == "granted" || result.state == "prompt") {
-            let findkort= 'Skærmkort';
-            let baselayers= map.getLayers();
-            baselayers.forEach( (element) => {
-              if (element instanceof LayerGroup) {
-                let layers= element.getLayers();
-                layers.forEach((layer) => {
-                  let prop= layer.getProperties();
-                  if (prop.visible) {
-                    findkort= prop.title;
-                  }
-                })
-              };
-            });
-            let viskort= kort.mapKort(findkort);
-            let url= futil.setSubdomain(data.href?data.href:data.properties.href, 'vis') + '?vispopup=true&kort='+viskort;
             navigator.clipboard.writeText(url);
-            window.open(url, 'Link_til_kort');
           }
         });
+      }
+    }
+    let sfbtn= document.getElementById('skråfotolink');
+    if (sfbtn) {
+      let href= data.href?data.href:data.properties.href;
+      let koor= visueltcenter(futil.getDawaRessource(href), data);
+      if (koor) {
+        sfbtn.hidden= false;
+        sfbtn.onclick=  function(e) { e;
+          let url= "https://skraafoto.kortforsyningen.dk/oblivisionjsoff/index.aspx?project=Denmark&x=" + koor[0] + "&y=" + koor[1];
+          window.open(url, 'Link_til_kort');
+          navigator.permissions.query({name: "clipboard-write"}).then(result => {
+            if (result.state == "granted" || result.state == "prompt") {
+              navigator.clipboard.writeText(url);
+            }
+          });
+        }
       }
     }
   }
@@ -202,6 +219,94 @@ async function stednavnSelected(valgt) {
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));
+
+function visueltcenter(ressource,data) {
+  let koor= null;
+  switch (ressource) {
+  case 'adresser':
+    koor= data.adgangsadresse.adgangspunkt.koordinater;
+    break;
+  case 'adgangsadresser':
+    koor= data.adgangspunkt.koordinater;
+    break;    
+  case 'navngivneveje':    
+    koor= null;
+    break;  
+  case 'vejstykker':     
+    koor= null;
+    break;   
+  case 'vejnavne':    
+    koor= null;
+    break;
+  case 'supplerendebynavne2':    
+    koor= null;
+    break;  
+  case 'ejerlav':    
+    koor= null;
+    break;
+  case 'jordstykker':   
+    koor= data.properties.visueltcenter;
+    break;  
+  case 'postnumre':    
+    koor= null;
+    break;
+  case 'bygninger':   
+    koor=  data.properties.visueltcenter;
+    break;
+  case 'sogne':   
+    koor= null;
+    break;
+  case 'politikredse':   
+    koor= null;
+    break;
+  case 'retskredse':   
+    koor= null;
+    break;
+  case 'regioner':   
+    koor= null;
+    break;
+  case 'landsdele':   
+    koor= null;
+    break;
+  case 'kommuner':   
+    koor= null;
+    break;
+  case 'afstemningsomraader':    
+    koor= null;
+    break;
+  case 'menighedsraadsafstemningsomraader':   
+    koor= null;
+    break;
+  case 'opstillingskredse':   
+    koor= null;
+    break;
+  case 'storkredse':   
+    koor= null;
+    break; 
+  case 'valglandsdele':   
+    koor= null;
+    break;
+  case 'bebyggelser':   
+    koor= null;
+    break;    
+  case 'stednavne':
+    koor=  data.properties.visueltcenter;
+   break;    
+  case 'stednavne2': 
+    koor=  data.properties.sted.visueltcenter;
+    break;      
+  case 'steder': 
+    koor=  data.properties.visueltcenter;
+    break;      
+  case 'stednavntyper':   
+    koor= null;
+    break; 
+  default:       
+    koor= null;
+  }
+  return koor;
+}
+
 
 // PWA stuff
 if ('serviceWorker' in navigator) {

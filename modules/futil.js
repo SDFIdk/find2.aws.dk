@@ -9,6 +9,15 @@ export function getDawaUrl() {
 	return dawa;
 }
 
+export function getDawaRessource(url) {
+	let arr= url.split('/');
+  let ressource= arr[3].toLowerCase();
+  if (ressource === 'bbr') {
+    ressource= ressource + '/' + arr[4].toLowerCase();
+  }
+  return ressource;
+}
+
 export function setSubdomain(url, subdomain) {
 	return url.replace(/\/[A-Za-z0-9_\-]*\./,'\/'+subdomain+'.');
 }

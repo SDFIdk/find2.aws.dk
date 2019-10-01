@@ -181,7 +181,7 @@ export function vis(source, data, titel) {
 }
 
 function popupTekst(data, titel) {
-  return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + getBetegnelse(data) + '</a></p><button id="kortlink">Link til kort</button><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>' + titel + '</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + getBetegnelse(data) + '</a></p><button id="kortlink">Kort</button><button id="skråfotolink" hidden>Skråfoto</button><button id="fjern">Fjern</button>';
 }
 
 let markerradius= 4;
@@ -201,7 +201,7 @@ export function visAdresse(source, adresse) {
 }
 
 function adressePopupTekst(data) {
-  return '<h4 class=popupoverskrift>Adresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p><button id="kortlink">Kortlink</button><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>Adresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + formatAdresse(data, false) + '</a></p><button id="kortlink">Kort</button><button id="skråfotolink">Skråfoto</button><button id="fjern">Fjern</button>';
 }
 
 function formatAdresse (data, enlinje= true) {
@@ -229,7 +229,7 @@ export function visAdgangsadresse(source, adgangsadresse) {
 }
 
 function adgangsadressePopupTekst(data) {
-  return '<h4 class=popupoverskrift>Adgangsadresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p><button id="kortlink">Kortlink</button><button id="fjern">Fjern</button>';
+  return '<h4 class=popupoverskrift>Adgangsadresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p><button id="kortlink">Kort</button><button id="skråfotolink">Skråfoto</button><button id="fjern">Fjern</button>';
 }
 
 function markerstyle(color) {

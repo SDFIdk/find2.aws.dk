@@ -57,10 +57,14 @@ html, body, #map {
   margin-top: 9px;
 }
 
+.ol-popup-content {
+    width: 200px;
+}
+
 .popupoverskrift {
   margin: 0;
 }
 
-#kortlink, #fjern {
+#kortlink, #skråfotolink, #fjern {
   margin-right: 10px;
 }
