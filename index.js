@@ -207,7 +207,7 @@ async function supplerendeBynavnSelected(valgt) {
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
   kort.flyToGeometry(data.properties.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
-  vis.vis(addressSource, data, 'Supplerende vejnavn');
+  vis.vis(addressSource, data, 'Supplerende bynavn');
 }
 
 async function stednavnSelected(valgt) {
