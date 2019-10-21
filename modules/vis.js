@@ -11,6 +11,7 @@ import MultiPoint from 'ol/geom/MultiPoint';
 import * as util from 'dawa-util';
 import * as futil from '/modules/futil';
 import * as kortlink from '/modules/kortlink';
+import * as bbr from '/modules/bbrkodelister';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
@@ -39,10 +40,21 @@ export function geometriklasse(data) {
   return klasse;
 }
 
-function getStyle(href, klasse) {
-  let url= new URL(href);
+function getRessource(url) {
+  url= new URL(url);
   let arr= url.pathname.split('/');
-  let ressource= arr[1];
+  let ressource= arr[1].toLowerCase();
+  console.log(arr);
+  console.log(ressource);
+  if (ressource === 'bbr') {
+    ressource= ressource + '/' + arr[2].toLowerCase();
+  }
+  console.log(ressource);
+  return ressource;
+}
+
+function getStyle(href, klasse) {
+  let ressource= getRessource(href);
   let strokeColor= 'rgba(255, 0, 0, 0.85)';
   let fillColor= 'rgba(255, 0, 0, 0.2)';
   let zindex= 100;
@@ -81,6 +93,8 @@ function getStyle(href, klasse) {
     fillColor= 'rgba(255, 0, 0, 0.2)';
     zindex= 400;
     break;
+  case 'bbr/bygninger':
+  case 'bbr/tekniskeanlaeg':
   case 'bebyggelser':
   case 'stednavne':
   case 'stednavne2':
@@ -113,11 +127,15 @@ function getStyle(href, klasse) {
 
 
 function getBetegnelse(data) {
-  let url= new URL(data.href);
-  let arr= url.pathname.split('/');
-  let ressource= arr[1];
+  let ressource= getRessource(data.href);
   let betegnelse= 'betegnelse ikke implementeret';
-  switch (ressource) {
+  switch (ressource) {    
+  case 'bbr/bygninger':
+    betegnelse= bbr.getBygAnvendelse(data.byg021BygningensAnvendelse) + ' fra ' + data.byg026Opførelsesår;
+    break;
+  case 'bbr/tekniskeanlaeg':
+    betegnelse= bbr.getKlassifikation(data.tek020Klassifikation) + ' fra ' + data.tek024Etableringsår;
+    break;
   case 'navngivneveje':
     betegnelse= data.navn + ', ' + data.administrerendekommune.navn + ' Kommune';
     break;

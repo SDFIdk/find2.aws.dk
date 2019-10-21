@@ -222,7 +222,13 @@ map.addControl(menu.getContextMenu(map, popup, addressSource));
 
 function visueltcenter(ressource,data) {
   let koor= null;
-  switch (ressource) {
+  switch (ressource) {   
+  case 'bbr/bygninger':
+    koor= data.geometry.coordinates;
+    break;
+  case 'bbr/tekniskeanlaeg':
+    koor= data.geometry.coordinates;
+    break;
   case 'adresser':
     koor= data.adgangsadresse.adgangspunkt.koordinater;
     break;

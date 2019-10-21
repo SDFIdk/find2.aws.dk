@@ -4,6 +4,7 @@ import * as util from 'dawa-util';
 import * as futil from '/modules/futil';
 import * as vis from '/modules/vis';
 import * as kort from '/modules/kort';
+import * as bbr from '/modules/bbrkodelister';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
@@ -107,6 +108,14 @@ async function hvor(coordinate, pixel) {
   // bygning
   promises.push(() => {return fetch(util.danUrl(dawa + "/bygninger",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemBygning);
+
+  // BBR bygning
+  promises.push(() => {return fetch(util.danUrl(dawa + "/bbr/bygninger",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemBBRBygning);
+
+  // BBR teknisk anlæg
+  promises.push(() => {return fetch(util.danUrl(dawa + "/bbr/tekniskeanlaeg",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemBBRTekniskAnlæg);
 
   // jordstykke
   promises.push(() => {return fetch(util.danUrl(dawa + "/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
@@ -262,9 +271,29 @@ function danMenuItemSupplerendeBynavn(data) {
 function danMenuItemBygning(data) {
   for (var i= 0; i < data.length; i++) {
     let menuItem= {};
-    menuItem.text= data[i].bygningstype;
+    menuItem.text= "Geodanmark bygningstype: <strong>" +  data[i].bygningstype + '</strong>';
     menuItem.data= data[i];
     menuItem.callback=  danVis(sourcecm, 'Bygning');
+    contextmenu.push(menuItem);
+  }
+}
+
+function danMenuItemBBRBygning(data) {
+  for (var i= 0; i < data.length; i++) {
+    let menuItem= {};
+    menuItem.text= "BBR bygning: <strong>" +   bbr.getBygAnvendelse(data[i].byg021BygningensAnvendelse) + ' fra ' + data[i].byg026Opførelsesår + '</strong>';
+    menuItem.data= data[i];
+    menuItem.callback=  danVis(sourcecm, 'BBR Bygning');
+    contextmenu.push(menuItem);
+  }
+}
+
+function danMenuItemBBRTekniskAnlæg(data) {
+  for (var i= 0; i < data.length; i++) {
+    let menuItem= {};
+    menuItem.text= "BBR teknisk anlæg: <strong>" +   bbr.getKlassifikation(data[i].tek020Klassifikation) + ' fra ' + data[i].tek024Etableringsår + '</strong>';
+    menuItem.data= data[i];
+    menuItem.callback=  danVis(sourcecm, 'BBR Teknisk Anlæg');
     contextmenu.push(menuItem);
   }
 }
