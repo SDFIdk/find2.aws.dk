@@ -246,6 +246,16 @@ export function visAdgangsadresse(source, adgangsadresse) {
   source.addFeature(vejpunkt);
 }
 
+export function visVejtilslutningspunkt(source, koordinater, data) {  
+  var vejtilslutningspunkt = new Feature();             
+  vejtilslutningspunkt.setStyle(markerstyle('blue'));
+  vejtilslutningspunkt.setGeometry(new Point(koordinater));
+  //vejtilslutningspunkt.setGeometry(new Circle(adgangsadresse.vejtilslutningspunkt.koordinater));
+  let popuptekst= popupTekst(data, 'Vejtilslutningspunkt');
+  vejtilslutningspunkt.setProperties({data: data, popupTekst: popuptekst});
+  source.addFeature(vejtilslutningspunkt);
+}
+
 function adgangsadressePopupTekst(data) {
   return '<h4 class=popupoverskrift>Adgangsadresse</h4><p><a href="' + futil.setSubdomain(data.href, 'info') + '"  target="_blank">' + util.formatAdgangsadresse(data,false) + '</a></p><button id="kortlink">Kort</button><button id="skråfotolink">Skråfoto</button><button id="fjern">Fjern</button>';
 }

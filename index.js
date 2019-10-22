@@ -29,7 +29,7 @@ const ressourcer= [
   {navn: 'Adresser', selected: adresseSelected, init: false},
   {navn: 'Adgangsadresser', selected: adgangsadresseSelected, init: true},
   {navn: 'Vejstykker', selected: vejstykkeSelected, init: false},
-  {navn: 'Navngivne veje', selected: showSelected('Navngivne veje'), init: false},
+  {navn: 'Navngivne veje', selected: navngivenvejSelected, init: false},
   {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected, init: false},
   {navn: 'Postnumre', selected: showSelected('Postnummer'), init: false}, 
   {navn: 'Byer', selected: stednavnSelected, init: false},  
@@ -183,9 +183,24 @@ async function adgangsadresseSelected(event) {
   vis.visAdgangsadresse(addressSource, adgangsadresse);
 }
 
+async function navngivenvejSelected(data) {
+  let response= await fetch(data.href+'?format=geojson&struktur=nestet&srid=25832&geometri=begge');
+  let navngivenvej= await response.json();
+  let klasse= vis.geometriklasse(navngivenvej);
+  kort.flyToGeometry(navngivenvej.properties.visueltcenter, new klasse(navngivenvej.geometry.coordinates), map.getView(), function() {});
+  vis.vis(addressSource, navngivenvej, 'Navngiven vej');
+
+  if (navngivenvej.properties.beliggenhed.vejtilslutningspunkter) {
+    let punkter= navngivenvej.properties.beliggenhed.vejtilslutningspunkter.coordinates;
+    for (var i= 0; i<punkter.length;i++) {
+      vis.visVejtilslutningspunkt(addressSource, punkter[i], navngivenvej.properties);
+    }
+  } 
+}
+
 function showSelected(titel) {
   return async function (valgt) {
-    let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832');
+    let response= await fetch(valgt.href+'?format=geojson&struktur=nestet&srid=25832&geometri=begge');
     let data= await response.json();
     let klasse= vis.geometriklasse(data);
     kort.flyToGeometry(data.properties.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
