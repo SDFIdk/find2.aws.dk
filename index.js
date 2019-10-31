@@ -77,7 +77,7 @@ select.on('select', function(e) {
   let features= e.target.getFeatures();
   if (features.getLength() > 0) {
     let feature= features.getArray()[0];
-    vis.visPopup(popup, feature, e.mapBrowserEvent.coordinate);
+    vis.visPopup(popup, feature, e.mapBrowserEvent.coordinate, addressSource);
   }
   features.clear(); // deselect feature
 });
@@ -174,7 +174,7 @@ async function stednavnSelected(valgt) {
   let data= await response.json();
   let klasse= vis.geometriklasse(data);
   kort.flyToGeometry(data.properties.sted.visueltcenter, new klasse(data.geometry.coordinates), map.getView(), function() {});
-  vis.vis(addressSource, data, futil.capitalizeFirstLetter(data.properties.sted.undertype), popup);
+  vis.visStednavn(addressSource, data, futil.capitalizeFirstLetter(data.properties.sted.undertype), popup);
 }
 
 map.addControl(menu.getContextMenu(map, popup, addressSource));

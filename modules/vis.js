@@ -8,10 +8,12 @@ import {Circle as CircleStyle, Fill, Stroke, Style, RegularShape} from 'ol/style
 //import CircleStyle from 'ol/style/Circle';
 import Point from 'ol/geom/Point';
 import MultiPoint from 'ol/geom/MultiPoint';
+import LayerGroup from 'ol/layer/Group';
 import * as util from 'dawa-util';
 import * as futil from '/modules/futil';
 import * as kortlink from '/modules/kortlink';
 import * as bbr from '/modules/bbrkodelister';
+import * as kort from '/modules/kort';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
@@ -283,7 +285,7 @@ function visueltcenter(ressource,data) {
   return koor;
 }
 
-export function visPopup(popup, feature, coordinate) {
+export function visPopup(popup, feature, coordinate, source) {
   let data= feature.getProperties()['data'];
   let popupTekst= feature.getProperties()['popupTekst'];
   //alert('href: ' + features.getArray()[0].getProperties()['href'] );
@@ -291,7 +293,7 @@ export function visPopup(popup, feature, coordinate) {
   let fbtn= document.getElementById('fjern');
   if (fbtn) {
     fbtn.onclick=  function(e) { e;
-      addressSource.removeFeature(feature);
+      source.removeFeature(feature);
       popup.hide();
       // if (addressSource.getFeatures().length === 0) {
       //   kortlink.fjernKortlinkControl(map);
@@ -302,7 +304,7 @@ export function visPopup(popup, feature, coordinate) {
   if (kbtn) {
     kbtn.onclick=  function(e) { e;
       let findkort= 'Skærmkort';
-      let baselayers= map.getLayers();
+      let baselayers= popup.getMap().getLayers();
       baselayers.forEach( (element) => {
         if (element instanceof LayerGroup) {
           let layers= element.getLayers();
@@ -350,7 +352,17 @@ export function vis(source, data, titel, popup) {
   område.setStyle(getStyle(data.properties.href, klasse));
   område.setProperties({data: data, popupTekst: popupTekst(data.properties, titel)});
   source.addFeature(område);
-  visPopup(popup, område, data.properties.visueltcenter);
+  visPopup(popup, område, data.properties.visueltcenter, source);
+}
+
+export function visStednavn(source, data, titel, popup) {
+  let klasse= geometriklasse(data);  
+  var område = new Feature(new klasse(data.geometry.coordinates)); 
+  //område.setGeometry();      
+  område.setStyle(getStyle(data.properties.href, klasse));
+  område.setProperties({data: data, popupTekst: popupTekst(data.properties, titel)});
+  source.addFeature(område);
+  visPopup(popup, område, data.properties.sted.visueltcenter, source);
 }
 
 function popupTekst(data, titel) {
@@ -365,7 +377,7 @@ export function visAdresse(source, adresse, popup) {
   adgangspunkt.setGeometry(new Point(adresse.adgangsadresse.adgangspunkt.koordinater));
   adgangspunkt.setProperties({data: adresse, popupTekst: adressePopupTekst(adresse)});
   source.addFeature(adgangspunkt);
-  visPopup(popup, adgangspunkt, adresse.adgangsadresse.adgangspunkt.koordinater)
+  visPopup(popup, adgangspunkt, adresse.adgangsadresse.adgangspunkt.koordinater, source)
 
   var vejpunkt = new Feature();     
   vejpunkt.setStyle(markerstyle('blue'));
@@ -394,7 +406,7 @@ export function visAdgangsadresse(source, adgangsadresse, popup) {
   let popuptekst= adgangsadressePopupTekst(adgangsadresse);
   adgangspunkt.setProperties({data: adgangsadresse, popupTekst: popuptekst});
   source.addFeature(adgangspunkt);
-  visPopup(popup, adgangspunkt, adgangsadresse.adgangspunkt.koordinater)
+  visPopup(popup, adgangspunkt, adgangsadresse.adgangspunkt.koordinater, source)
 
   var vejpunkt = new Feature();     
   vejpunkt.setStyle(markerstyle('blue'));
