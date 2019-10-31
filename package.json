@@ -26,6 +26,7 @@
     "dawa-autocomplete2": "^1.0.0",
     "dawa-util": "^0.1.13",
     "futil": "^1.61.0",
+    "mdn-polyfills": "^5.19.0",
     "modules": "^0.4.0",
     "ol": "^5.3.3",
     "ol-contextmenu": "^3.3.1",
