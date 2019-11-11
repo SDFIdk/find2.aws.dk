@@ -97,6 +97,10 @@ async function hvor(coordinate, pixel) {
   promises.push(() => {return fetch(util.danUrl(dawa + "/vejstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemVejstykke);
 
+  // vejnavnpostnummerrelationer
+  promises.push(() => {return fetch(util.danUrl(dawa + "/vejnavnpostnummerrelationer",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  danMenuItems.push(danMenuItemVejnavnpostnummerrelationer);
+
   // supplerende bunavn
   promises.push(() => {return fetch(util.danUrl(dawa + "/supplerendebynavne2",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemSupplerendeBynavn);
@@ -247,6 +251,14 @@ function danMenuItemVejstykke(data) {
   menuItem.text= "Vejstykke: <strong>" + data.navn + ' (' + data.kode + ')' + '</strong>';
   menuItem.callback= danVis(sourcecm, 'Vejstykke');
   menuItem.data= data;
+  contextmenu.push(menuItem);
+}
+
+function danMenuItemVejnavnpostnummerrelationer(data) {
+  let menuItem= {};
+  menuItem.text= "Vej i postnummer: <strong>" + data[0].betegnelse + '</strong>';
+  menuItem.callback= danVis(sourcecm, 'Vej i postnummer');
+  menuItem.data= data[0];
   contextmenu.push(menuItem);
 }
 

@@ -151,61 +151,64 @@ export var MultiSearchControl = (function (Control) {
         ressource.element= initAdgangsadresse(ressource.selected);
         break;
       case 'Vejstykker':
-        ressource.element= initInput('vejnavn, kommunenavn', dawa + "/vejstykker?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('vejnavn, kommunenavn', dawa + "/vejstykker?autocomplete&fuzzy&q=", ressource.selected);
+        break;
+      case 'Vej i postnummer':
+        ressource.element= initInput('vejnavn, postnummer', dawa + "/vejnavnpostnummerrelationer?autocomplete&fuzzy&q=", ressource.selected);
         break;
       case 'Navngivne veje':
-        ressource.element= initInput('vejnavn, kommunenavn', dawa + "/navngivneveje?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('vejnavn, kommunenavn', dawa + "/navngivneveje?autocomplete&fuzzy&q=", ressource.selected);
         break;
       case 'Supplerende bynavne':
-        ressource.element= initInput('supplerende bynavn, kommune', dawa + "/supplerendebynavne2?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('supplerende bynavn, kommune', dawa + "/supplerendebynavne2?autocomplete&fuzzy&q=", ressource.selected);
         break;
       case 'Postnumre':
-        ressource.element= initInput('postnr postnummernavn', dawa + "/postnumre?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('postnr postnummernavn', dawa + "/postnumre?autocomplete&fuzzy&q=", ressource.selected);
         break;
       case 'Byer':
-        ressource.element= initInput('by', dawa + "/stednavne2?autocomplete&undertype=by&q=", ressource.selected);
+        ressource.element= initInput('by', dawa + "/stednavne2?autocomplete&fuzzy&undertype=by&q=", ressource.selected);
         break; 
       case 'Stednavne':
-        ressource.element= initInput('Stednavne', dawa + "/stednavne2?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('Stednavne', dawa + "/stednavne2?autocomplete&fuzzy&q=", ressource.selected);
         break;   
       case 'Jordstykker':
-        ressource.element= initInput('matrikelnr ejerlavsnavn', dawa + "/jordstykker?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('matrikelnr ejerlavsnavn', dawa + "/jordstykker?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Ejerlav':
-        ressource.element= initInput('ejerlavsnavn', dawa + "/ejerlav?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('ejerlavsnavn', dawa + "/ejerlav?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Sogne':
-        ressource.element= initInput('sognenavn', dawa + "/sogne?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('sognenavn', dawa + "/sogne?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Kommuner':
-        ressource.element= initInput('kommunenavn', dawa + "/kommuner?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('kommunenavn', dawa + "/kommuner?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Regioner':
-        ressource.element= initInput('regionsnavn', dawa + "/regioner?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('regionsnavn', dawa + "/regioner?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Landsdele':
-        ressource.element= initInput('landsdel', dawa + "/landsdele?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('landsdel', dawa + "/landsdele?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Politikredse':
-        ressource.element= initInput('politikredsnavn', dawa + "/politikredse?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('politikredsnavn', dawa + "/politikredse?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Retskredse':
-        ressource.element= initInput('retskredsnavn', dawa + "/retskredse?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('retskredsnavn', dawa + "/retskredse?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Afstemningsområder':
-        ressource.element= initInput('afstemningsområdenavn, kommune', dawa + "/afstemningsomraader?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('afstemningsområdenavn, kommune', dawa + "/afstemningsomraader?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Opstillingskredse':
-        ressource.element= initInput('opstillingskredsnavn', dawa + "/opstillingskredse?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('opstillingskredsnavn', dawa + "/opstillingskredse?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Storkredse':
-        ressource.element= initInput('storkredsnavn', dawa + "/storkredse?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('storkredsnavn', dawa + "/storkredse?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Valglandsdele':
-        ressource.element= initInput('valglandsdelsnavn', dawa + "/valglandsdele?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('valglandsdelsnavn', dawa + "/valglandsdele?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       case 'Menighedsrådsafstemningsområder':
-        ressource.element= initInput('menighedsrådsafstemningsområdenavn', dawa + "/menighedsraadsafstemningsomraader?autocomplete&q=", ressource.selected);
+        ressource.element= initInput('menighedsrådsafstemningsområdenavn', dawa + "/menighedsraadsafstemningsomraader?autocomplete&fuzzy&q=", ressource.selected);
         break; 
       }
     });

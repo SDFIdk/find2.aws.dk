@@ -29,6 +29,7 @@ const ressourcer= [
   {navn: 'Adresser', selected: adresseSelected, init: false},
   {navn: 'Adgangsadresser', selected: adgangsadresseSelected, init: true},
   {navn: 'Vejstykker', selected: vejstykkeSelected, init: false},
+  {navn: 'Vej i postnummer', selected: showSelected('Vej i postnummer'), init: false},
   {navn: 'Navngivne veje', selected: navngivenvejSelected, init: false},
   {navn: 'Supplerende bynavne', selected: supplerendeBynavnSelected, init: false},
   {navn: 'Postnumre', selected: showSelected('Postnummer'), init: false}, 

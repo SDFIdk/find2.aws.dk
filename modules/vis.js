@@ -62,6 +62,7 @@ function getStyle(href, klasse) {
   let zindex= 100;
   switch (ressource) {
   case 'navngivneveje':
+  case 'vejnavnpostnummerrelationer':
   case 'vejstykker':
     strokeColor= 'rgba(0, 0, 255, 0.85)';
     fillColor= 'rgba(0, 0, 255, 0.2)';
@@ -140,6 +141,9 @@ function getBetegnelse(data) {
     break;
   case 'navngivneveje':
     betegnelse= data.navn + ', ' + data.administrerendekommune.navn + ' Kommune';
+    break;
+  case 'vejnavnpostnummerrelationer':
+    betegnelse= data.betegnelse;
     break;
   case 'supplerendebynavne2':
     betegnelse= data.navn + ', ' + data.kommune.navn + ' Kommune';
