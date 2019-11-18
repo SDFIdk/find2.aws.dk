@@ -539,6 +539,24 @@ export var lag= new LayerGroup({
       })
     }),
     new ImageLayer({
+      title:'Højdekurver',
+      type:'overlay',
+      visible: false,
+      opacity: 1.0,
+      zIndex:1000,
+      source: new ImageWMS({
+        url: "https://services.kortforsyningen.dk/dhm?token="+kftoken,
+        params:{
+          'LAYERS':'dhm_kurver_2_5_m',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'' 
+        },          
+        attributions: getAttributions()
+      })
+    }),
+    new ImageLayer({
       title:'Retskreds',
       type:'overlay',
       visible: false,
