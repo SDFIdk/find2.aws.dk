@@ -213,7 +213,7 @@ async function hvor(coordinate, pixel) {
 
 function danVis(source, titel) {
   return function (data) {
-    fetch(data.data.href+'?srid=25832&format=geojson&struktur=nestet').then( function(response) {
+    fetch(data.data.href+'?srid=25832&format=geojson&struktur=nestet&geometri=begge').then( function(response) {
       response.json().then( function ( objekt ) {
         let klasse= vis.geometriklasse(objekt); 
         kort.flyToGeometry(objekt.properties.visueltcenter, new klasse(objekt.geometry.coordinates), mapcm.getView(), function() {}); 
