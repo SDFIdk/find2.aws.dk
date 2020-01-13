@@ -17,7 +17,7 @@ import {MultiSearchControl} from '/modules/multisearchcontrol';
 import * as kort from '/modules/kort';
 import * as menu from '/modules/contextmenu';
 import * as geolocation from '/modules/geolocation';
-import {GeolocationControl} from '/modules/geolocationcontrol';
+import {PolygonControl} from '/modules/polygoncontrol';
 //import * as kortlink from '/modules/kortlink';
 import Popup from 'ol-popup';
 import * as vis from '/modules/vis';
@@ -50,6 +50,9 @@ const ressourcer= [
   {navn: 'Menighedsrådsafstemningsområder', selected: showSelected('Menighedsafstemningsområde'), init: false}
 ]
 
+
+var popup= new Popup();
+
 const map = new Map({
   target: 'map',
   layers: [kort.historiskeOrtofoto, kort.historiskeKort, kort.lag, kort.adresselag, kort.baggrundskort],
@@ -57,6 +60,7 @@ const map = new Map({
   view: kort.view, 
   controls: defaultControls().extend([
     new MultiSearchControl(ressourcer),
+    new PolygonControl({popup: popup}),
     new LayerSwitcher()
   ]),
 });
@@ -69,7 +73,6 @@ const addressSource= new VectorSource();
 const addressLayer= new VectorLayer({source: addressSource});
 map.addLayer(addressLayer);
 
-var popup= new Popup();
 map.addOverlay(popup);
 
 const select= new Select();

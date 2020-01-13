@@ -33,6 +33,7 @@
     "ol-layerswitcher": "^3.4.0",
     "ol-popup": "^4.0.0",
     "proj4": "^2.5.0",
+    "request-promise": "^4.2.5",
     "styles": "^0.2.1",
     "vis": "^4.21.0",
     "whatwg-fetch": "^3.0.0"

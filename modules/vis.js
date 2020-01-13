@@ -291,6 +291,7 @@ function visueltcenter(ressource,data) {
 
 export function visPopup(popup, feature, coordinate, source) {
   let data= feature.getProperties()['data'];
+  if (!data) return;
   let popupTekst= feature.getProperties()['popupTekst'];
   //alert('href: ' + features.getArray()[0].getProperties()['href'] );
   popup.show(coordinate, popupTekst);
