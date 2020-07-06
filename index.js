@@ -60,7 +60,7 @@ const map = new Map({
   view: kort.view, 
   controls: defaultControls().extend([
     new MultiSearchControl(ressourcer),
-    new PolygonControl({popup: popup}),
+//    new PolygonControl({popup: popup}),
     new LayerSwitcher()
   ]),
 });

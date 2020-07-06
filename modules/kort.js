@@ -79,16 +79,33 @@ export var baggrundskort= new LayerGroup({
       //       'STYLES':'' 
       //     }
       //   })
-      // }),  
+      // }), 
       new LayerTile({
         //opacity: 1.0,
-        title:'Forvaltningskort',
+        title:'Forvaltningskort: Adresse-byggesag',
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/forvaltning?token="+kftoken,
+          url: "https://services.kortforsyningen.dk/forvaltning2?token="+kftoken,
           params: {
-            'LAYERS':'basis_kort',
+            'LAYERS':'Adresse-byggesag',
+            'VERSION':'1.1.1',
+            'TRANSPARENT':'false',
+            'FORMAT': "image/png",
+            'STYLES':'default', 
+          },          
+          attributions: getAttributions()
+        })
+      }),    
+      new LayerTile({
+        //opacity: 1.0,
+        title:'Forvaltningskort: Basis',
+        type:'base',
+        visible: true, // by default this layer is visible
+        source: new TileWMS({ 
+          url: "https://services.kortforsyningen.dk/forvaltning2?token="+kftoken,
+          params: {
+            'LAYERS':'Basis_kort',
             'VERSION':'1.1.1',
             'TRANSPARENT':'false',
             'FORMAT': "image/png",
@@ -386,7 +403,26 @@ export var historiskeKort= new LayerGroup({
 export var adresselag= new LayerGroup({
   title: 'Adresselag',
   fold: 'open',
-  layers: [
+  layers: [  
+    new LayerTile({
+      //opacity: 1.0,
+      title:'Vejnavne',
+      type:'overlay',
+      visible: false, 
+      opacity: 1.0,
+      zIndex:1000,
+      source: new TileWMS({ 
+        url: "https://services.kortforsyningen.dk/forvaltning2?token="+kftoken,
+        params: {
+          'LAYERS':'Navne_basis_kort',
+          'VERSION':'1.1.1',
+          'TRANSPARENT':'true',
+          'FORMAT': "image/png",
+          'STYLES':'', 
+        },          
+        attributions: getAttributions()
+      })
+    }),  
     new ImageLayer({
       title:'Vejtilslutningspunkter',
       type:'overlay',
@@ -494,7 +530,7 @@ export var adresselag= new LayerGroup({
         },          
         attributions: getAttributions()
       })
-    })
+    })    
   ]
 });
 
