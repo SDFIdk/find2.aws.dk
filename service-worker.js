@@ -1,6 +1,6 @@
 
 // CODELAB: Update cache names any time any of the cached files change.
-const CACHE_NAME = 'find2awsdk3';
+const CACHE_NAME = 'find2awsdk4';
 
 // CODELAB: Add list of files to cache here.
 const FILES_TO_CACHE = [
