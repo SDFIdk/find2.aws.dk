@@ -2,9 +2,9 @@ import * as util from 'dawa-util';
 
 
 export function getDawaUrl() {
-	let dawa= util.getQueryVariable('dawa');
+	let dawa= util.getQueryVariable('api');
 	if (!dawa) {
-	  dawa= 'https://dawa.aws.dk';
+	  dawa= 'https://api.dataforsyningen.dk';
 	}
 	return dawa;
 }
