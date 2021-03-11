@@ -69,7 +69,7 @@ async function hvor(coordinate, pixel) {
   menuItem.classname= 'bold';
   contextmenu.push(menuItem);
 
-  fetch(util.danUrl('https://services.kortforsyningen.dk',{servicename: 'RestGeokeys_v2', method: 'hoejde', elevationmodel:'dtm', geop:coordinate[0] + ',' + coordinate[1], token: futil.getKortforsyningstoken()}))
+  fetch(util.danUrl('https://api.dataforsyningen.dk',{servicename: 'RestGeokeys_v2', method: 'hoejde', elevationmodel:'dtm', geop:coordinate[0] + ',' + coordinate[1], token: futil.getKortforsyningstoken()}))
   .then((response) => {
     if (response.status >= 200 && response.status <=299 ){
       response.json().then((svar) => {        
