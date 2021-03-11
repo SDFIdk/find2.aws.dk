@@ -1,7 +1,7 @@
 import {Control} from 'ol/control';
 import autocomplete from 'autocomplete.js';
 
-const host= 'https://dawa.aws.dk/'
+const host= 'https://api.dataforsyningen.dk/'
 
 function search(query, callback) {
   fetch(host + "jordstykker/autocomplete?fuzzy&q="+query+"*")
