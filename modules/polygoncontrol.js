@@ -21,7 +21,7 @@ async function transformer(koordinaterfrom, to, niveau, koordinaterto) {
     }
     else {
       if (to === 'wgs84') {
-        let wgs84= await rp('https://services.kortforsyningen.dk/rest/webproj/v1.0/trans/EPSG:25832/EPSG:4258/'+koordinaterfrom[0].toFixed(3)+','+koordinaterfrom[1].toFixed(3)+'?token=d23aed4ea6f89420aae2fcf89b47e95b');
+        let wgs84= await rp('https://api.dataforsyningen.dk/rest/webproj/v1.0/trans/EPSG:25832/EPSG:4258/'+koordinaterfrom[0].toFixed(3)+','+koordinaterfrom[1].toFixed(3)+'?token=d23aed4ea6f89420aae2fcf89b47e95b');
         //console.log(wgs84);
         wgs84= JSON.parse(wgs84);
         koordinaterto.push(wgs84.v2);
@@ -30,7 +30,7 @@ async function transformer(koordinaterfrom, to, niveau, koordinaterto) {
         console.log(koordinaterto);
       }
       else if (to === 'etrs89') {
-        let etrs89= await rp('https://services.kortforsyningen.dk/rest/webproj/v1.0/trans/EPSG:4258/EPSG:25832/'+koordinaterfrom[1].toFixed(10)+','+koordinaterfrom[0].toFixed(10)+'?token=d23aed4ea6f89420aae2fcf89b47e95b');
+        let etrs89= await rp('https://api.dataforsyningen.dk/rest/webproj/v1.0/trans/EPSG:4258/EPSG:25832/'+koordinaterfrom[1].toFixed(10)+','+koordinaterfrom[0].toFixed(10)+'?token=d23aed4ea6f89420aae2fcf89b47e95b');
         //console.log(etrs89)
         etrs89= JSON.parse(etrs89);
         koordinaterto.push(etrs89.v1.toFixed(3));
