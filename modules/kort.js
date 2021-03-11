@@ -34,7 +34,7 @@ export const view= new View({
   })
 
 function getAttributions() {
-  return '<p>Kort fra <a href="https://kortforsyningen.dk" target="_blank">Kortforsyningen</a>. Data fra <a href="https://dawa.aws.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfe.dk" target="_blank">SDFE</a>.</p>';
+  return '<p>Kort fra <a href="https://kortforsyningen.dk" target="_blank">Kortforsyningen</a>. Data fra <a href="https://dawadocs.dataforsyningen.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfe.dk" target="_blank">SDFE</a>.</p>';
 }
 
 let kftoken= futil.getKortforsyningstoken(); 'd23aed4ea6f89420aae2fcf89b47e95b';
@@ -55,7 +55,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_foraar?token="+kftoken,
           layer: "orto_foraar",
           matrixSet: "View1",
           format: "image/jpeg",
@@ -70,7 +70,7 @@ export var baggrundskort= new LayerGroup({
       //   type:'base',
       //   visible: false, // by default this layer is visible
       //   source: new TileWMS({       
-      //     url: 'https://services.kortforsyningen.dk/topo_skaermkort?token='+kftoken,
+      //     url: 'https://api.dataforsyningen.dk/topo_skaermkort?token='+kftoken,
       //     params: {
       //       'LAYERS':'dtk_skaermkort',
       //       'VERSION':'1.1.1',
@@ -86,7 +86,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/forvaltning2?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
           params: {
             'LAYERS':'Adresse-byggesag',
             'VERSION':'1.1.1',
@@ -103,7 +103,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/forvaltning2?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
           params: {
             'LAYERS':'Basis_kort',
             'VERSION':'1.1.1',
@@ -120,7 +120,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://services.kortforsyningen.dk/topo_skaermkort_graa?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo_skaermkort_graa?token="+kftoken,
           layer: "dtk_skaermkort_graa",
           matrixSet: "View1",
           format: "image/jpeg",
@@ -136,7 +136,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://services.kortforsyningen.dk/topo_skaermkort_daempet?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo_skaermkort_daempet?token="+kftoken,
           layer: "dtk_skaermkort_daempet",
           matrixSet: "View1",
           format: "image/jpeg",
@@ -152,7 +152,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://services.kortforsyningen.dk/topo_skaermkort?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo_skaermkort?token="+kftoken,
           layer: "dtk_skaermkort",
           matrixSet: "View1",
           format: "image/jpeg",
@@ -175,7 +175,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar_temp?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_foraar_temp?token="+kftoken,
           params: {
             'LAYERS':'quickorto,quickorto_10cm',
             'VERSION':'1.1.1',
@@ -192,7 +192,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_foraar?token="+kftoken,
           params: {
             'LAYERS':'geodanmark_2018_10cm,geodanmark_2018_12_5cm',
             'VERSION':'1.1.1',
@@ -209,7 +209,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_foraar?token="+kftoken,
           params: {
             'LAYERS':'geodanmark_2017_10cm,geodanmark_2017_12_5cm',
             'VERSION':'1.1.1',
@@ -226,7 +226,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_foraar?token="+kftoken,
           params: {
             'LAYERS':'geodanmark_2016_12_5cm',
             'VERSION':'1.1.1',
@@ -243,7 +243,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_foraar?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_foraar?token="+kftoken,
           params: {
             'LAYERS':'geodanmark_2015_12_5cm,hrks_2015_10cm',
             'VERSION':'1.1.1',
@@ -260,7 +260,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_2008?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_sommer_2008?token="+kftoken,
           params: {
             'LAYERS':'orto_sommer_2008',
             'VERSION':'1.1.1',
@@ -277,7 +277,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_2005?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_sommer_2005?token="+kftoken,
           params: {
             'LAYERS':'orto_sommer_2005',
             'VERSION':'1.1.1',
@@ -294,7 +294,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_2002?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_sommer_2002?token="+kftoken,
           params: {
             'LAYERS':'orto_sommer_2002',
             'VERSION':'1.1.1',
@@ -311,7 +311,7 @@ export var historiskeOrtofoto= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/orto_sommer_1999?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/orto_sommer_1999?token="+kftoken,
           params: {
             'LAYERS':'orto_sommer_1999',
             'VERSION':'1.1.1',
@@ -335,7 +335,7 @@ export var historiskeKort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/topo4cm_1980_2001?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo4cm_1980_2001?token="+kftoken,
           params: {
             'LAYERS':'dtk_4cm_1980_2001',
             'VERSION':'1.1.1',
@@ -352,7 +352,7 @@ export var historiskeKort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/topo4cm_1953_1976?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo4cm_1953_1976?token="+kftoken,
           params: {
             'LAYERS':'dtk_4cm_1953_1976',
             'VERSION':'1.1.1',
@@ -369,7 +369,7 @@ export var historiskeKort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/topo20_lave_maalebordsblade?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo20_lave_maalebordsblade?token="+kftoken,
           params: {
             'LAYERS':'dtk_lave_maalebordsblade',
             'VERSION':'1.1.1',
@@ -386,7 +386,7 @@ export var historiskeKort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://services.kortforsyningen.dk/topo20_hoeje_maalebordsblade?token="+kftoken,
+          url: "https://api.dataforsyningen.dk/topo20_hoeje_maalebordsblade?token="+kftoken,
           params: {
             'LAYERS':'dtk_hoeje_maalebordsblade',
             'VERSION':'1.1.1',
@@ -412,7 +412,7 @@ export var adresselag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new TileWMS({ 
-        url: "https://services.kortforsyningen.dk/forvaltning2?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
         params: {
           'LAYERS':'Navne_basis_kort',
           'VERSION':'1.1.1',
@@ -545,7 +545,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dhm?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dhm?token="+kftoken,
         params:{
           'LAYERS':'dhm_terraen_skyggekort_transparent_overdrevet',
           'VERSION':'1.1.1',
@@ -563,7 +563,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dhm?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dhm?token="+kftoken,
         params:{
           'LAYERS':'dhm_overflade_skyggekort_transparent',
           'VERSION':'1.1.1',
@@ -581,7 +581,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dhm?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dhm?token="+kftoken,
         params:{
           'LAYERS':'dhm_kurver_2_5_m',
           'VERSION':'1.1.1',
@@ -599,7 +599,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
         params:{
           'LAYERS':'retskreds',
           'VERSION':'1.1.1',
@@ -617,7 +617,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
         params:{
           'LAYERS':'politikreds',
           'VERSION':'1.1.1',
@@ -635,7 +635,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
         params:{
           'LAYERS':'sogn',
           'VERSION':'1.1.1',
@@ -653,7 +653,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
         params:{
           'LAYERS':'postdistrikt',
           'VERSION':'1.1.1',
@@ -671,7 +671,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/dagi?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
         params:{
           'LAYERS':'kommune',
           'VERSION':'1.1.1',
@@ -689,7 +689,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.kortforsyningen.dk/mat?token="+kftoken,
+        url: "https://api.dataforsyningen.dk/mat?token="+kftoken,
         params:{
           'LAYERS':'MatrikelSkel,Centroide',
           'VERSION':'1.1.1',
