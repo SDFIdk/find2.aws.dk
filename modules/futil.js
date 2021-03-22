@@ -28,5 +28,5 @@ export function capitalizeFirstLetter(string) {
 }
 
 export function getKortforsyningstoken() {
-	return '3d05977c6da79f326cc970b58ea6e9da';
+	return 'd902ac31b1c3ff2d3e7f6aa7073c6c67';
 }

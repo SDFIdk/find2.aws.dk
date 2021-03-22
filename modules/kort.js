@@ -37,7 +37,7 @@ function getAttributions() {
   return '<p>Kort fra <a href="https://kortforsyningen.dk" target="_blank">Kortforsyningen</a>. Data fra <a href="https://dawadocs.dataforsyningen.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfe.dk" target="_blank">SDFE</a>.</p>';
 }
 
-let kftoken= futil.getKortforsyningstoken(); 'd23aed4ea6f89420aae2fcf89b47e95b';
+let kftoken= futil.getKortforsyningstoken(); 'd902ac31b1c3ff2d3e7f6aa7073c6c67';
 
 export var baggrundskort= new LayerGroup({
     'title': 'Basiskort',
