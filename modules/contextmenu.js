@@ -114,11 +114,11 @@ async function hvor(coordinate, pixel) {
   danMenuItems.push(danMenuItemBygning);
 
   // BBR bygning
-  promises.push(() => {return fetch(util.danUrl(dawa + "/bbr/bygninger",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/bbrlight/bygninger",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemBBRBygning);
 
   // BBR teknisk anlæg
-  promises.push(() => {return fetch(util.danUrl(dawa + "/bbr/tekniskeanlaeg",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
+  promises.push(() => {return fetch(util.danUrl(dawa + "/bbrlight/tekniskeanlaeg",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemBBRTekniskAnlæg);
 
   // jordstykke
