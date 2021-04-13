@@ -293,7 +293,7 @@ function danMenuItemBygning(data) {
 function danMenuItemBBRBygning(data) {
   for (var i= 0; i < data.length; i++) {
     let menuItem= {};
-    menuItem.text= "BBR bygning: <strong>" +   bbr.getBygAnvendelse(data[i].byg021BygningensAnvendelse) + ' fra ' + data[i].byg026Opførelsesår + '</strong>';
+    menuItem.text= "BBR bygning: <strong>" +   bbr.getBygAnvendelse(data[i].BYG_ANVEND_KODE) + ' fra ' + data[i].OPFOERELSE_AAR + '</strong>';
     menuItem.data= data[i];
     menuItem.callback=  danVis(sourcecm, 'BBR Bygning');
     contextmenu.push(menuItem);

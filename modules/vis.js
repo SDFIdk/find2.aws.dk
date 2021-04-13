@@ -134,7 +134,7 @@ function getBetegnelse(data) {
   let betegnelse= 'betegnelse ikke implementeret';
   switch (ressource) {    
   case 'bbr/bygninger':
-    betegnelse= bbr.getBygAnvendelse(data.byg021BygningensAnvendelse) + ' fra ' + data.byg026Opførelsesår;
+    betegnelse= bbr.getBygAnvendelse(data.BYG_ANVEND_KODE) + ' fra ' + data.OPFOERELSE_AAR;
     break;
   case 'bbr/tekniskeanlaeg':
     betegnelse= bbr.getKlassifikation(data.tek020Klassifikation) + ' fra ' + data.tek024Etableringsår;
