@@ -355,7 +355,6 @@ function danMenuItemStorkreds(data) {
 }
 
 function danMenuItemValglandsdel(data) {
-  console.log(data);
   let menuItem= {};
   menuItem.text= "Valglandsdel: <strong>" + data.navn + " (" + data.bogstav + ")" + '</strong>';
   menuItem.callback= danVis(sourcecm, 'Valglandsdel');
