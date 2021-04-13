@@ -303,7 +303,7 @@ function danMenuItemBBRBygning(data) {
 function danMenuItemBBRTekniskAnlæg(data) {
   for (var i= 0; i < data.length; i++) {
     let menuItem= {};
-    menuItem.text= "BBR teknisk anlæg: <strong>" +   bbr.getKlassifikation(data[i].tek020Klassifikation) + ' fra ' + data[i].tek024Etableringsår + '</strong>';
+    menuItem.text= "BBR teknisk anlæg: <strong>" +   bbr.getKlassifikation(data[i].Klassifikation) + ' fra ' + data[i].Etableringsaar + '</strong>';
     menuItem.data= data[i];
     menuItem.callback=  danVis(sourcecm, 'BBR Teknisk Anlæg');
     contextmenu.push(menuItem);

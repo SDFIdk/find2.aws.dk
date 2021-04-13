@@ -137,7 +137,7 @@ function getBetegnelse(data) {
     betegnelse= bbr.getBygAnvendelse(data.BYG_ANVEND_KODE) + ' fra ' + data.OPFOERELSE_AAR;
     break;
   case 'bbr/tekniskeanlaeg':
-    betegnelse= bbr.getKlassifikation(data.tek020Klassifikation) + ' fra ' + data.tek024Etableringsår;
+    betegnelse= bbr.getKlassifikation(data.Klassifikation) + ' fra ' + data.Etableringsaar;
     break;
   case 'navngivneveje':
     betegnelse= data.navn + ', ' + data.administrerendekommune.navn + ' Kommune';
