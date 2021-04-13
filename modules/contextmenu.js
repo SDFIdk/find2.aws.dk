@@ -347,9 +347,6 @@ function danMenuItemAfstemningsområde(data) {
 }
 
 function danMenuItemStorkreds(data) {
-  console.log(data);
-  console.log(data.navn);
-  console.log(data.nummer);
   let menuItem= {};
   menuItem.text= "Storkreds: <strong>" + data.navn + " (" + data.nummer + ")" + '</strong>';
   menuItem.callback= danVis(sourcecm, 'Storkreds');
@@ -359,8 +356,6 @@ function danMenuItemStorkreds(data) {
 
 function danMenuItemValglandsdel(data) {
   console.log(data);
-  console.log(data.data);
-  console.log(data.body);
   let menuItem= {};
   menuItem.text= "Valglandsdel: <strong>" + data.navn + " (" + data.bogstav + ")" + '</strong>';
   menuItem.callback= danVis(sourcecm, 'Valglandsdel');
