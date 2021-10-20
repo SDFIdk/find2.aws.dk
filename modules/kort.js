@@ -671,10 +671,10 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
+          url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
         params:{
-          'LAYERS':'kommune',
-          'VERSION':'1.1.1',
+          'LAYERS':'Kommuneinddeling',
+          'VERSION':'1.3.0',
           'TRANSPARENT':'true',
           'FORMAT': "image/png",
           'STYLES':'' 
