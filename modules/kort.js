@@ -675,7 +675,7 @@ export var lag= new LayerGroup({
         params:{
           'LAYERS':'Kommuneinddeling',
           'VERSION':'1.3.0',
-          'TRANSPARENT':'true',
+          'TRANSPARENT':'TRUE',
           'FORMAT': "image/png",
           'STYLES':'' 
         },          
