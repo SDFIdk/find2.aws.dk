@@ -599,11 +599,11 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
         params:{
-          'LAYERS':'retskreds',
+          'LAYERS':'Retskreds',
           'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
+          'TRANSPARENT':'TRUE',
           'FORMAT': "image/png",
           'STYLES':'' 
         },          
@@ -617,11 +617,11 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
         params:{
-          'LAYERS':'politikreds',
+          'LAYERS':'Politikreds',
           'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
+          'TRANSPARENT':'TRUE',
           'FORMAT': "image/png",
           'STYLES':'' 
         },          
@@ -635,11 +635,11 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
         params:{
-          'LAYERS':'sogn',
+          'LAYERS':'Sogneinddeling',
           'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
+          'TRANSPARENT':'TRUE',
           'FORMAT': "image/png",
           'STYLES':'' 
         },          
@@ -653,11 +653,11 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dagi?token="+kftoken,
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
         params:{
-          'LAYERS':'postdistrikt',
+          'LAYERS':'Postnummerinddeling',
           'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
+          'TRANSPARENT':'TRUE',
           'FORMAT': "image/png",
           'STYLES':'' 
         },          
@@ -671,7 +671,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-          url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
         params:{
           'LAYERS':'Kommuneinddeling',
           'VERSION':'1.3.0',
