@@ -154,7 +154,7 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_wmts/1.0.0/wmts?username="+daf_user+"&password="+daf_pass.
+          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_wmts/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
           layer: "topo_skaermkort",
           matrixSet: "View1",
           format: "image/jpeg",
