@@ -38,6 +38,8 @@ function getAttributions() {
 }
 
 let kftoken= futil.getKortforsyningstoken(); 'd902ac31b1c3ff2d3e7f6aa7073c6c67';
+let daf_user = 'BPBSMUJAQZ';
+let daf_pass = 'promptly75.Approach';
 
 export var baggrundskort= new LayerGroup({
     'title': 'Basiskort',
@@ -152,8 +154,8 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://api.dataforsyningen.dk/topo_skaermkort?token="+kftoken,
-          layer: "dtk_skaermkort",
+          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_wmts/1.0.0/wmts?username="+daf_user+"&password="+daf_pass.
+          layer: "topo_skaermkort",
           matrixSet: "View1",
           format: "image/jpeg",
           tileGrid: kfTileGrid,
@@ -599,7 +601,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
         params:{
           'LAYERS':'Retskreds',
           'VERSION':'1.1.1',
@@ -617,7 +619,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
         params:{
           'LAYERS':'Politikreds',
           'VERSION':'1.1.1',
@@ -635,7 +637,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
         params:{
           'LAYERS':'Sogneinddeling',
           'VERSION':'1.1.1',
@@ -653,7 +655,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
         params:{
           'LAYERS':'Postnummerinddeling',
           'VERSION':'1.1.1',
@@ -671,7 +673,7 @@ export var lag= new LayerGroup({
       opacity: 1.0,
       zIndex:1000,
       source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username=BPBSMUJAQZ&password=promptly75.Approach",
+        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
         params:{
           'LAYERS':'Kommuneinddeling',
           'VERSION':'1.3.0',
