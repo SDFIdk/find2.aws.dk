@@ -122,8 +122,8 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://api.dataforsyningen.dk/topo_skaermkort_graa?token="+kftoken,
-          layer: "dtk_skaermkort_graa",
+          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_graa/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
+          layer: "topo_skaermkort_graa",
           matrixSet: "View1",
           format: "image/jpeg",
           tileGrid: kfTileGrid,
@@ -138,8 +138,8 @@ export var baggrundskort= new LayerGroup({
         type:'base',
         visible: true, // by default this layer is visible
         source: new WMTS({ 
-          url: "https://api.dataforsyningen.dk/topo_skaermkort_daempet?token="+kftoken,
-          layer: "dtk_skaermkort_daempet",
+          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_daempet/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
+          layer: "topo_skaermkort_daempet",
           matrixSet: "View1",
           format: "image/jpeg",
           tileGrid: kfTileGrid,
