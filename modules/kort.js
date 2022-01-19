@@ -56,15 +56,15 @@ export var baggrundskort= new LayerGroup({
                 title:'Ortofoto',
                 type:'base',
                 visible: true, // by default this layer is visible
-                source: new WMTS({ 
+                source: new WMS({ 
                     url: "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar/1.0.0/wms?username="+daf_user+"&password="+daf_pass,
-                    layer: "orto_foraar",
-                    matrixSet: "View1",
-                    format: "image/jpeg",
-                    tileGrid: kfTileGrid,
-                    style: 'default',
-                    size: [256, 256],                 
-                    attributions: getAttributions()
+                    params: {
+                        'LAYERS':'orto_foraar',
+                        'VERSION':'1.3.0',
+                        'TRANSPARENT':'FALSE',
+                        'FORMAT': "image/png",
+                        'STYLES':'default', 
+                    }
                 })
             }),    
 
