@@ -44,127 +44,112 @@ let daf_pass = 'promptly75.Approach';
 export var baggrundskort= new LayerGroup({
     'title': 'Basiskort',
     'fold': 'open',
-    layers: [             
-      new LayerTile({
-        title:'Open Street Map',
-        type:'base',
-        source: new OSM(),
-        visible: false
-      }),
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Ortofoto',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new WMTS({ 
-          url: "https://api.dataforsyningen.dk/orto_foraar?token="+kftoken,
-          layer: "orto_foraar",
-          matrixSet: "View1",
-          format: "image/jpeg",
-          tileGrid: kfTileGrid,
-          style: 'default',
-          size: [256, 256],         
-          attributions: getAttributions()
-        })
-      }),  
-      // new LayerTile({  
-      //   title:'Skærmkort (WMS)',    
-      //   type:'base',
-      //   visible: false, // by default this layer is visible
-      //   source: new TileWMS({       
-      //     url: 'https://api.dataforsyningen.dk/topo_skaermkort?token='+kftoken,
-      //     params: {
-      //       'LAYERS':'dtk_skaermkort',
-      //       'VERSION':'1.1.1',
-      //       'TRANSPARENT':'false',
-      //       'FORMAT': "image/png",
-      //       'STYLES':'' 
-      //     }
-      //   })
-      // }), 
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Forvaltningskort: Adresse-byggesag',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
-          params: {
-            'LAYERS':'Adresse-byggesag',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'default', 
-          },          
-          attributions: getAttributions()
-        })
-      }),    
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Forvaltningskort: Basis',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new TileWMS({ 
-          url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
-          params: {
-            'LAYERS':'Basis_kort',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
-            'FORMAT': "image/png",
-            'STYLES':'default', 
-          },          
-          attributions: getAttributions()
-        })
-      }),   
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Skærmkort - grå',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new WMTS({ 
-          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_graa/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
-          layer: "topo_skaermkort_graa",
-          matrixSet: "View1",
-          format: "image/jpeg",
-          tileGrid: kfTileGrid,
-          style: 'default',
-          size: [256, 256],          
-          attributions: getAttributions()
-        })
-      }),
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Skærmkort - dæmpet',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new WMTS({ 
-          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_daempet/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
-          layer: "topo_skaermkort_daempet",
-          matrixSet: "View1",
-          format: "image/jpeg",
-          tileGrid: kfTileGrid,
-          style: 'default',
-          size: [256, 256],          
-          attributions: getAttributions()
-        })
-      }),
-      new LayerTile({
-        //opacity: 1.0,
-        title:'Skærmkort',
-        type:'base',
-        visible: true, // by default this layer is visible
-        source: new WMTS({ 
-          url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_wmts/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
-          layer: "topo_skaermkort",
-          matrixSet: "View1",
-          format: "image/jpeg",
-          tileGrid: kfTileGrid,
-          style: 'default',
-          size: [256, 256],          
-          attributions: getAttributions()
-        })
-      })
-    ]
+        layers: [
+
+            new LayerTile({
+                title:'Open Street Map',
+                type:'base',
+                source: new OSM(),
+                visible: false
+            }),
+            new LayerTile({
+                title:'Ortofoto',
+                type:'base',
+                visible: true, // by default this layer is visible
+                source: new WMTS({ 
+                    url: "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar/1.0.0/wms?username="+daf_user+"&password="+daf_pass,
+                    layer: "orto_foraar",
+                    matrixSet: "View1",
+                    format: "image/jpeg",
+                    tileGrid: kfTileGrid,
+                    style: 'default',
+                    size: [256, 256],                 
+                    attributions: getAttributions()
+                })
+            }),    
+
+            new LayerTile({
+                title:'Forvaltningskort: Adresse-byggesag',
+                type:'base',
+                visible: true, // by default this layer is visible
+                source: new TileWMS({ 
+                    url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
+                    params: {
+                        'LAYERS':'Adresse-byggesag',
+                        'VERSION':'1.1.1',
+                        'TRANSPARENT':'false',
+                        'FORMAT': "image/png",
+                        'STYLES':'default', 
+                    },                    
+                    attributions: getAttributions()
+                })
+            }),        
+
+            new LayerTile({
+                title:'Forvaltningskort: Basis',
+                type:'base',
+                visible: true, // by default this layer is visible
+                source: new TileWMS({ 
+                    url: "https://api.dataforsyningen.dk/forvaltning2?token="+kftoken,
+                    params: {
+                        'LAYERS':'Basis_kort',
+                        'VERSION':'1.1.1',
+                        'TRANSPARENT':'false',
+                        'FORMAT': "image/png",
+                        'STYLES':'default', 
+                    },                    
+                    attributions: getAttributions()
+                })
+            }),     
+
+            new LayerTile({
+                title:'Skærmkort - grå',
+                type:'base',
+                visible: true, // by default this layer is visible
+                source: new WMTS({ 
+                    url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_graa/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
+                    layer: "topo_skaermkort_graa",
+                    matrixSet: "View1",
+                    format: "image/jpeg",
+                    tileGrid: kfTileGrid,
+                    style: 'default',
+                    size: [256, 256],                    
+                    attributions: getAttributions()
+                })
+            }),
+
+            new LayerTile({
+                title:'Skærmkort - dæmpet',
+                type:'base',
+                visible: true, // by default this layer is visible
+                source: new WMTS({ 
+                    url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_daempet/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
+                    layer: "topo_skaermkort_daempet",
+                    matrixSet: "View1",
+                    format: "image/jpeg",
+                    tileGrid: kfTileGrid,
+                    style: 'default',
+                    size: [256, 256],                    
+                    attributions: getAttributions()
+                })
+            }),
+
+            new LayerTile({
+                title:'Skærmkort',
+                type:'base',
+                visible: true, // by default this layer is visible
+                source: new WMTS({ 
+                    url: "https://services.datafordeler.dk/Dkskaermkort/topo_skaermkort_wmts/1.0.0/wmts?username="+daf_user+"&password="+daf_pass,
+                    layer: "topo_skaermkort",
+                    matrixSet: "View1",
+                    format: "image/jpeg",
+                    tileGrid: kfTileGrid,
+                    style: 'default',
+                    size: [256, 256],                    
+                    attributions: getAttributions()
+                })
+            })
+        ]
   });
 
 export var historiskeOrtofoto= new LayerGroup({
@@ -172,7 +157,6 @@ export var historiskeOrtofoto= new LayerGroup({
     'fold': 'close',
     layers: [  
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto Temp 10',
         type:'base',
         visible: true, // by default this layer is visible
@@ -189,7 +173,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }),
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2018',
         type:'base',
         visible: true, // by default this layer is visible
@@ -206,7 +189,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }),  
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2017',
         type:'base',
         visible: true, // by default this layer is visible
@@ -223,7 +205,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }),  
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2016',
         type:'base',
         visible: true, // by default this layer is visible
@@ -240,7 +221,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }),  
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2015',
         type:'base',
         visible: true, // by default this layer is visible
@@ -257,7 +237,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }), 
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2008',
         type:'base',
         visible: true, // by default this layer is visible
@@ -274,7 +253,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }), 
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2005',
         type:'base',
         visible: true, // by default this layer is visible
@@ -291,7 +269,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }),  
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 2002',
         type:'base',
         visible: true, // by default this layer is visible
@@ -308,7 +285,6 @@ export var historiskeOrtofoto= new LayerGroup({
         })
       }),  
       new LayerTile({
-        //opacity: 1.0,
         title:'Ortofoto 1999',
         type:'base',
         visible: true, // by default this layer is visible
@@ -332,7 +308,6 @@ export var historiskeKort= new LayerGroup({
     'fold': 'close',
     layers: [  
       new LayerTile({
-        //opacity: 1.0,
         title:'1980 - 2001',
         type:'base',
         visible: true, // by default this layer is visible
@@ -349,7 +324,6 @@ export var historiskeKort= new LayerGroup({
         })
       }),   
       new LayerTile({
-        //opacity: 1.0,
         title:'1953 - 1976',
         type:'base',
         visible: true, // by default this layer is visible
@@ -366,16 +340,15 @@ export var historiskeKort= new LayerGroup({
         })
       }),  
       new LayerTile({
-        //opacity: 1.0,
         title:'1928 - 1940',
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://api.dataforsyningen.dk/topo20_lave_maalebordsblade?token="+kftoken,
+	  url: "https://services.datafordeler.dk/LaveMaalebordsblade/topo20_lavemalebordsblade/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
           params: {
             'LAYERS':'dtk_lave_maalebordsblade',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
+            'VERSION':'1.3.0',
+            'TRANSPARENT':'FALSE',
             'FORMAT': "image/png",
             'STYLES':'default' 
           },          
@@ -383,16 +356,15 @@ export var historiskeKort= new LayerGroup({
         })
       }), 
       new LayerTile({
-        //opacity: 1.0,
         title:'1842 - 1899',
         type:'base',
         visible: true, // by default this layer is visible
         source: new TileWMS({ 
-          url: "https://api.dataforsyningen.dk/topo20_hoeje_maalebordsblade?token="+kftoken,
+	  url: "https://services.datafordeler.dk/HoejeMaalebordsblade/topo20_hoejemalebordsblade/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
           params: {
             'LAYERS':'dtk_hoeje_maalebordsblade',
-            'VERSION':'1.1.1',
-            'TRANSPARENT':'false',
+            'VERSION':'1.3.0',
+            'TRANSPARENT':'FALSE',
             'FORMAT': "image/png",
             'STYLES':'default' 
           },          
@@ -407,7 +379,6 @@ export var adresselag= new LayerGroup({
   fold: 'open',
   layers: [  
     new LayerTile({
-      //opacity: 1.0,
       title:'Vejnavne',
       type:'overlay',
       visible: false, 
@@ -537,172 +508,175 @@ export var adresselag= new LayerGroup({
 });
 
 export var lag= new LayerGroup({
-  title: 'Andre lag',
-  fold: 'close',
-  layers: [
-    new ImageLayer({
-      title:'Terræn',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dhm?token="+kftoken,
-        params:{
-          'LAYERS':'dhm_terraen_skyggekort_transparent_overdrevet',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Overflade',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dhm?token="+kftoken,
-        params:{
-          'LAYERS':'dhm_overflade_skyggekort_transparent',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Højdekurver',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/dhm?token="+kftoken,
-        params:{
-          'LAYERS':'dhm_kurver_2_5_m',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Retskreds',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
-        params:{
-          'LAYERS':'Retskreds',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'TRUE',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Politikreds',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
-        params:{
-          'LAYERS':'Politikreds',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'TRUE',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Sogn',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
-        params:{
-          'LAYERS':'Sogneinddeling',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'TRUE',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Postnummer',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
-        params:{
-          'LAYERS':'Postnummerinddeling',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'TRUE',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Kommune',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
-        params:{
-          'LAYERS':'Kommuneinddeling',
-          'VERSION':'1.3.0',
-          'TRANSPARENT':'TRUE',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    }),
-    new ImageLayer({
-      title:'Matrikel',
-      type:'overlay',
-      visible: false,
-      opacity: 1.0,
-      zIndex:1000,
-      source: new ImageWMS({
-        url: "https://api.dataforsyningen.dk/mat?token="+kftoken,
-        params:{
-          'LAYERS':'MatrikelSkel,Centroide',
-          'VERSION':'1.1.1',
-          'TRANSPARENT':'true',
-          'FORMAT': "image/png",
-          'STYLES':'' 
-        },          
-        attributions: getAttributions()
-      })
-    })
-  ]
+    title: 'Andre lag',
+    fold: 'close',
+    layers: [
+
+        new ImageLayer({
+            title:'Terræn',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DHMNedboer/dhm/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'dhm_terraen_skyggekort',
+                    'VERSION':'1.3.0',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+
+        new ImageLayer({
+            title:'Overflade',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DHMNedboer/dhm/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'dhm_overflade_skyggekort',
+                    'VERSION':'1.3.0',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+
+        new ImageLayer({
+            title:'Højdekurver',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DHMNedboer/dhm/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'dhm_kurve_traditionel',
+                    'VERSION':'1.3.0',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'roed' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+        new ImageLayer({
+            title:'Retskreds',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'Retskreds',
+                    'VERSION':'1.1.1',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+        new ImageLayer({
+            title:'Politikreds',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'Politikreds',
+                    'VERSION':'1.1.1',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+        new ImageLayer({
+            title:'Sogn',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'Sogneinddeling',
+                    'VERSION':'1.1.1',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+        new ImageLayer({
+            title:'Postnummer',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'Postnummerinddeling',
+                    'VERSION':'1.1.1',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+        new ImageLayer({
+            title:'Kommune',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/DAGIM/dagi/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'Kommuneinddeling',
+                    'VERSION':'1.3.0',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        }),
+        new ImageLayer({
+            title:'Matrikel',
+            type:'overlay',
+            visible: false,
+            opacity: 1.0,
+            zIndex:1000,
+            source: new ImageWMS({
+                url: "https://services.datafordeler.dk/Matrikel/MatrikelGaeldendeogForeloebigWMS/1.0.0/WMS?username="+daf_user+"&password="+daf_pass,
+                params:{
+                    'LAYERS':'MatrikelSkel_Gaeldende,Centroide_Gaeldende',
+                    'VERSION':'1.3.0',
+                    'TRANSPARENT':'TRUE',
+                    'FORMAT': "image/png",
+                    'STYLES':'' 
+                },                    
+                attributions: getAttributions()
+            })
+        })
+    ]
 });
 
 function beregnAfstand(location1, location2) {

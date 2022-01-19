@@ -1,6 +1,6 @@
 {
   "name": "find2.aws.dk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DanmarksAdresser/find2.aws.dk.git"
+    "url": "git+https://github.com/Dataforsyningen/find2.aws.dk.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/DanmarksAdresser/find2.aws.dk/issues"
+    "url": "https://github.com/Dataforsyningen/find2.aws.dk/issues"
   },
-  "homepage": "https://github.com/DanmarksAdresser/find2.aws.dk#readme",
+  "homepage": "https://github.com/Dataforsyningen/find2.aws.dk#readme",
   "dependencies": {
     "autocomplete.js": "^0.36.0",
     "babel-polyfill": "^6.26.0",
@@ -39,7 +39,7 @@
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^5.16.0",
+    "eslint": "^8.7.0",
     "parcel-bundler": "^1.12.4"
   }
 }
