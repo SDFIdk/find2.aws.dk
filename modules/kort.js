@@ -56,7 +56,7 @@ export var baggrundskort= new LayerGroup({
                 title:'Ortofoto',
                 type:'base',
                 visible: true, // by default this layer is visible
-                source: new WMS({ 
+                source: new TileWMS({ 
                     url: "https://services.datafordeler.dk/GeoDanmarkOrto/orto_foraar/1.0.0/wms?username="+daf_user+"&password="+daf_pass,
                     params: {
                         'LAYERS':'orto_foraar',
