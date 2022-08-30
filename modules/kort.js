@@ -34,7 +34,7 @@ export const view= new View({
   })
 
 function getAttributions() {
-  return '<p>Kort fra <a href="https://kortforsyningen.dk" target="_blank">Kortforsyningen</a>. Data fra <a href="https://dawadocs.dataforsyningen.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfe.dk" target="_blank">SDFE</a>.</p>';
+  return '<p>Kort fra <a href="https://dataforsyningen.dk" target="_blank">Dataforsyningen</a>. Data fra <a href="https://dawadocs.dataforsyningen.dk" target="_blank">DAWA</a>. Det hele fra <a href="https://sdfi.dk" target="_blank">SDFI</a>.</p>';
 }
 
 let kftoken= futil.getKortforsyningstoken(); 'd902ac31b1c3ff2d3e7f6aa7073c6c67';
