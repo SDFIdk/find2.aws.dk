@@ -1,10 +1,10 @@
 import 'ol-contextmenu/dist/ol-contextmenu.css';
 import ContextMenu from 'ol-contextmenu';
 import * as util from 'dawa-util';
-import * as futil from '/modules/futil';
-import * as vis from '/modules/vis';
-import * as kort from '/modules/kort';
-import * as bbr from '/modules/bbrkodelister';
+import * as futil from './futil';
+import * as vis from './vis';
+import * as kort from './kort';
+import * as bbr from './bbrkodelister';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 

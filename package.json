@@ -3,11 +3,12 @@
   "version": "1.0.2",
   "description": "",
   "main": "index.js",
+  "source": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.js --ignore-pattern node_modules/ --ignore-pattern dist/",
-    "start": "copyfiles service-worker.js dist/ && parcel index.html",
-    "build": "copyfiles service-worker.js dist/ && parcel build --public-url . index.html"
+    "start": "npm run build && cd public && python3 -m http.server 1234",
+    "build": "./node_modules/.bin/esbuild ./index.js --bundle --outfile=public/dist/scripts.js"
   },
   "repository": {
     "type": "git",
@@ -34,12 +35,12 @@
     "ol-popup": "^4.0.0",
     "proj4": "^2.5.0",
     "request-promise": "^4.2.5",
-    "styles": "^0.2.1",
     "vis": "^4.21.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.7.0",
-    "parcel-bundler": "^1.12.4"
+    "@parcel/transformer-webmanifest": "^2.8.2",
+    "esbuild": "^0.16.16",
+    "eslint": "^8.7.0"
   }
 }
