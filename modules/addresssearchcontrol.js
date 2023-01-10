@@ -1,4 +1,4 @@
-import {Control} from 'ol/control';
+import {defaults as defaultControls, Control} from 'ol/control';
 import * as dawaAutocomplete2 from 'dawa-autocomplete2';
 
  

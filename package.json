@@ -3,12 +3,11 @@
   "version": "1.0.3",
   "description": "",
   "main": "index.js",
-  "source": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.js --ignore-pattern node_modules/ --ignore-pattern dist/",
-    "start": "npm run build && cd public && python3 -m http.server 1234",
-    "build": "./node_modules/.bin/esbuild ./index.js --bundle --outfile=public/dist/scripts.js"
+    "start": "copyfiles service-worker.js dist/ && parcel index.html",
+    "build": "copyfiles service-worker.js dist/ && parcel build --public-url . index.html"
   },
   "repository": {
     "type": "git",
@@ -23,6 +22,7 @@
   "dependencies": {
     "autocomplete.js": "^0.36.0",
     "babel-polyfill": "^6.26.0",
+    "copyfiles": "^2.1.1",
     "dawa-autocomplete2": "^1.0.2",
     "dawa-util": "^0.1.13",
     "futil": "^1.64.0",
@@ -34,12 +34,12 @@
     "ol-popup": "^4.0.0",
     "proj4": "^2.5.0",
     "request-promise": "^4.2.5",
+    "styles": "^0.2.1",
     "vis": "^4.21.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "@parcel/transformer-webmanifest": "^2.8.2",
-    "esbuild": "^0.16.16",
-    "eslint": "^8.7.0"
+    "eslint": "^8.7.0",
+    "parcel-bundler": "^1.12.4"
   }
 }

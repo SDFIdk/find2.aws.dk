@@ -1,9 +1,14 @@
 
 import {Control} from 'ol/control';
+import * as geolocation from '/modules/geolocation';
+import * as kort from '/modules/kort';
+import Map from 'ol/Map';
+import View from 'ol/View';
 import {Draw, Modify, Snap} from 'ol/interaction';
-import {Vector as VectorLayer} from 'ol/layer';
-import {Vector as VectorSource} from 'ol/source';
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import {OSM, Vector as VectorSource} from 'ol/source';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import GeoJSON from 'ol/format/GeoJSON';
 import rp from 'request-promise';
 
 async function transformer(koordinaterfrom, to, niveau, koordinaterto) {

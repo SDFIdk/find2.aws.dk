@@ -1,6 +1,6 @@
 import {Control} from 'ol/control';
-import * as geolocation from './geolocation';
-import * as kort from './kort';
+import * as geolocation from '/modules/geolocation';
+import * as kort from '/modules/kort';
 
 export var KortlinkControl = (function (Control) {
   function KortlinkControl(opt_options) {

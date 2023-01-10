@@ -1,9 +1,9 @@
 
 import {Control} from 'ol/control';
-import * as geolocation from './geolocation';
-import * as kort from './kort';
+import * as geolocation from '/modules/geolocation';
+import * as kort from '/modules/kort';
 
-var GeolocationControl = (function (Control) {
+export var GeolocationControl = (function (Control) {
   function GeolocationControl(opt_options) {
     var options = opt_options || {};
 
@@ -34,7 +34,3 @@ var GeolocationControl = (function (Control) {
 
   return GeolocationControl;
 }(Control));
-
-export {
-  GeolocationControl
-}
