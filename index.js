@@ -9,19 +9,16 @@ import 'whatwg-fetch';
 import {Map} from 'ol';
 import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
-import LayerGroup from 'ol/layer/Group';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
-import {MultiSearchControl} from '/modules/multisearchcontrol';
-import * as kort from '/modules/kort';
-import * as menu from '/modules/contextmenu';
-import * as geolocation from '/modules/geolocation';
-import {PolygonControl} from '/modules/polygoncontrol';
-//import * as kortlink from '/modules/kortlink';
+import {MultiSearchControl} from './modules/multisearchcontrol';
+import * as kort from './modules/kort';
+import * as menu from './modules/contextmenu';
+import * as geolocation from './modules/geolocation';
 import Popup from 'ol-popup';
-import * as vis from '/modules/vis';
-import * as futil from '/modules/futil';
+import * as vis from './modules/vis';
+import * as futil from './modules/futil';
 import * as util from 'dawa-util';
 
 

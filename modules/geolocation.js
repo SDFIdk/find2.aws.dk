@@ -4,7 +4,7 @@ import {Vector as VectorSource} from 'ol/source';
 import {Vector as VectorLayer} from 'ol/layer';
 import Point from 'ol/geom/Point';
 import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
-import {GeolocationControl} from '/modules/geolocationcontrol';
+import {GeolocationControl} from './geolocationcontrol';
 
 var geolocation= null;
 

@@ -1,5 +1,5 @@
 
-import {KortlinkControl} from '/modules/kortlinkcontrol';
+import {KortlinkControl} from './kortlinkcontrol';
 
 let kortlinkControl= null;
 function visKortlinkControl(map) {

@@ -1,19 +1,16 @@
 import Feature from 'ol/Feature';
 import Polygon from 'ol/geom/Polygon';
 import MultiPolygon from 'ol/geom/MultiPolygon';
-import Circle from 'ol/geom/Circle';
 import LineString from 'ol/geom/LineString';
 import MultiLineString from 'ol/geom/MultiLineString';
-import {Circle as CircleStyle, Fill, Stroke, Style, RegularShape} from 'ol/style';
-//import CircleStyle from 'ol/style/Circle';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
 import Point from 'ol/geom/Point';
 import MultiPoint from 'ol/geom/MultiPoint';
 import LayerGroup from 'ol/layer/Group';
 import * as util from 'dawa-util';
-import * as futil from '/modules/futil';
-import * as kortlink from '/modules/kortlink';
-import * as bbr from '/modules/bbrkodelister';
-import * as kort from '/modules/kort';
+import * as futil from './futil';
+import * as bbr from './bbrkodelister';
+import * as kort from './kort';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 

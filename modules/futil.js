@@ -1,7 +1,7 @@
 import * as util from 'dawa-util';
 
 
-export function getDawaUrl() {
+function getDawaUrl() {
 	let dawa= util.getQueryVariable('api');
 	if (!dawa) {
 	  dawa= 'https://api.dataforsyningen.dk';
@@ -9,7 +9,7 @@ export function getDawaUrl() {
 	return dawa;
 }
 
-export function getDawaRessource(url) {
+function getDawaRessource(url) {
 	let arr= url.split('/');
   let ressource= arr[3].toLowerCase();
   if (ressource === 'bbr') {
@@ -18,15 +18,23 @@ export function getDawaRessource(url) {
   return ressource;
 }
 
-export function setSubdomain(url, subdomain) {
+function setSubdomain(url, subdomain) {
 	return url.replace(/\/[A-Za-z0-9_\-]*\./,'\/'+subdomain+'.');
 }
 
 
-export function capitalizeFirstLetter(string) {
+function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export function getKortforsyningstoken() {
+function getKortforsyningstoken() {
 	return 'd902ac31b1c3ff2d3e7f6aa7073c6c67';
+}
+
+export {
+	getKortforsyningstoken,
+	capitalizeFirstLetter,
+	setSubdomain,
+	getDawaRessource,
+	getDawaUrl
 }
