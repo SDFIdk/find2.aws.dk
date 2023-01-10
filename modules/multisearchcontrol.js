@@ -1,7 +1,7 @@
 import {Control} from 'ol/control';
 import autocomplete from 'autocomplete.js';
 import * as dawaAutocomplete2 from 'dawa-autocomplete2';
-import * as futil from './futil.js';
+import * as futil from '/modules/futil';
 import 'mdn-polyfills/Node.prototype.remove';
 
 
