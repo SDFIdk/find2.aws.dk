@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.js --ignore-pattern node_modules/ --ignore-pattern dist/",
     "build": "./node_modules/.bin/esbuild ./index.js --bundle --outfile=dist/find.js",
-    "copy": "copyfiles service-worker.js index.html manifest.webmanifest favicon.ico images dist/",
-    "serve": "python3 -m http.server 1234 -d ./dist",
+    "copy": "copyfiles service-worker.js index.html manifest.webmanifest favicon.ico images/icons/*.png dist/",
+    "serve": "./node_modules/.bin/http-server dist -p 1234",
     "start": "npm run build && npm run copy && npm run serve"
   },
   "repository": {
@@ -27,6 +27,7 @@
     "copyfiles": "^2.1.1",
     "dawa-autocomplete2": "^1.0.2",
     "dawa-util": "^0.1.13",
+    "http-server": "^14.1.1",
     "mdn-polyfills": "^5.19.0",
     "ol": "^5.3.3",
     "ol-contextmenu": "^3.3.2",
