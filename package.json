@@ -6,8 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint **/*.js --ignore-pattern node_modules/ --ignore-pattern dist/",
-    "start": "copyfiles service-worker.js dist/ && parcel index.html",
-    "build": "copyfiles service-worker.js dist/ && parcel build --public-url . index.html"
+    "build": "./node_modules/.bin/esbuild ./index.js --bundle --outfile=dist/find.js",
+    "copy": "copyfiles service-worker.js index.html manifest.webmanifest favicon.ico images dist/",
+    "serve": "cd dist && python3 -m http.server 1234",
+    "start": "npm run build && npm run copy && npm run serve"
   },
   "repository": {
     "type": "git",
@@ -25,21 +27,17 @@
     "copyfiles": "^2.1.1",
     "dawa-autocomplete2": "^1.0.2",
     "dawa-util": "^0.1.13",
-    "futil": "^1.64.0",
     "mdn-polyfills": "^5.19.0",
-    "modules": "^0.4.0",
     "ol": "^5.3.3",
     "ol-contextmenu": "^3.3.2",
     "ol-layerswitcher": "^3.4.0",
     "ol-popup": "^4.0.0",
     "proj4": "^2.5.0",
     "request-promise": "^4.2.5",
-    "styles": "^0.2.1",
-    "vis": "^4.21.0",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
-    "eslint": "^8.7.0",
-    "parcel-bundler": "^1.12.4"
+    "esbuild": "^0.16.16",
+    "eslint": "^8.7.0"
   }
 }

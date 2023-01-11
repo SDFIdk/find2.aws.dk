@@ -10,10 +10,10 @@ import Point from 'ol/geom/Point';
 import MultiPoint from 'ol/geom/MultiPoint';
 import LayerGroup from 'ol/layer/Group';
 import * as util from 'dawa-util';
-import * as futil from '/modules/futil';
-import * as kortlink from '/modules/kortlink';
-import * as bbr from '/modules/bbrkodelister';
-import * as kort from '/modules/kort';
+import * as futil from './futil';
+import * as kortlink from './kortlink';
+import * as bbr from './bbrkodelister';
+import * as kort from './kort';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
@@ -46,12 +46,9 @@ function getRessource(url) {
   url= new URL(url);
   let arr= url.pathname.split('/');
   let ressource= arr[1].toLowerCase();
-  console.log(arr);
-  console.log(ressource);
   if (ressource === 'bbr') {
     ressource= ressource + '/' + arr[2].toLowerCase();
   }
-  console.log(ressource);
   return ressource;
 }
 

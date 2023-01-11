@@ -13,15 +13,15 @@ import LayerGroup from 'ol/layer/Group';
 import LayerSwitcher from 'ol-layerswitcher';
 import {defaults as defaultControls} from 'ol/control';
 import Select from 'ol/interaction/Select.js';
-import {MultiSearchControl} from '/modules/multisearchcontrol';
-import * as kort from '/modules/kort';
-import * as menu from '/modules/contextmenu';
-import * as geolocation from '/modules/geolocation';
-import {PolygonControl} from '/modules/polygoncontrol';
-//import * as kortlink from '/modules/kortlink';
+import {MultiSearchControl} from './modules/multisearchcontrol';
+import * as kort from './modules/kort';
+import * as menu from './modules/contextmenu';
+import * as geolocation from './modules/geolocation';
+import {PolygonControl} from './modules/polygoncontrol';
+//import * as kortlink from './modules/kortlink';
 import Popup from 'ol-popup';
-import * as vis from '/modules/vis';
-import * as futil from '/modules/futil';
+import * as vis from './modules/vis';
+import * as futil from './modules/futil';
 import * as util from 'dawa-util';
 
 
@@ -98,7 +98,6 @@ map.on('pointermove', function (e) {
 });
 
 map.on('dblclick', function (evt) {
-  console.log(evt.coordinate);
   if (!map.hasFeatureAtPixel(evt.pixel)) {
   //if (addressSource.getFeaturesAtCoordinate(evt.coordinate).length === 0) {
     visNærmesteAdgangsadresse(evt.coordinate);
