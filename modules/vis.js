@@ -335,7 +335,7 @@ export function visPopup(popup, feature, coordinate, source) {
     if (koor) {
       sfbtn.hidden= false;
       sfbtn.onclick=  function(e) { e;
-        let url= "https://skraafoto.kortforsyningen.dk/oblivisionjsoff/index.aspx?project=Denmark&x=" + koor[0] + "&y=" + koor[1];
+        let url= "https://skraafoto.dataforsyningen.dk/viewer.html?center=" + koor[0] + "%2C" + koor[1] + "&orientation=north;
         window.open(url, 'Link_til_kort');
         navigator.permissions.query({name: "clipboard-write"}).then(result => {
           if (result.state == "granted" || result.state == "prompt") {
