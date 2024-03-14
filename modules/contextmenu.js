@@ -4,7 +4,6 @@ import * as util from 'dawa-util';
 import * as futil from './futil';
 import * as vis from './vis';
 import * as kort from './kort';
-import * as bbr from './bbrkodelister';
 import 'babel-polyfill';
 import 'whatwg-fetch';
 
@@ -112,14 +111,6 @@ async function hvor(coordinate, pixel) {
   // bygning
   promises.push(() => {return fetch(util.danUrl(dawa + "/bygninger",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
   danMenuItems.push(danMenuItemBygning);
-
-  // BBR bygning
-  promises.push(() => {return fetch(util.danUrl(dawa + "/bbrlight/bygninger",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
-  danMenuItems.push(danMenuItemBBRBygning);
-
-  // BBR teknisk anlæg
-  promises.push(() => {return fetch(util.danUrl(dawa + "/bbrlight/tekniskeanlaeg",{status: 6, x:coordinate[0], y: coordinate[1], srid: 25832}))});
-  danMenuItems.push(danMenuItemBBRTekniskAnlæg);
 
   // jordstykke
   promises.push(() => {return fetch(util.danUrl(dawa + "/jordstykker/reverse",{x:coordinate[0], y: coordinate[1], srid: 25832}))});
@@ -286,26 +277,6 @@ function danMenuItemBygning(data) {
     menuItem.text= "Geodanmark bygningstype: <strong>" +  data[i].bygningstype + '</strong>';
     menuItem.data= data[i];
     menuItem.callback=  danVis(sourcecm, 'Bygning');
-    contextmenu.push(menuItem);
-  }
-}
-
-function danMenuItemBBRBygning(data) {
-  for (var i= 0; i < data.length; i++) {
-    let menuItem= {};
-    menuItem.text= "BBR bygning: <strong>" +   bbr.getBygAnvendelse(data[i].BYG_ANVEND_KODE) + ' fra ' + data[i].OPFOERELSE_AAR + '</strong>';
-    menuItem.data= data[i];
-    menuItem.callback=  danVis(sourcecm, 'BBR Bygning');
-    contextmenu.push(menuItem);
-  }
-}
-
-function danMenuItemBBRTekniskAnlæg(data) {
-  for (var i= 0; i < data.length; i++) {
-    let menuItem= {};
-    menuItem.text= "BBR teknisk anlæg: <strong>" +   bbr.getKlassifikation(data[i].Klassifikation) + ' fra ' + data[i].Etableringsaar + '</strong>';
-    menuItem.data= data[i];
-    menuItem.callback=  danVis(sourcecm, 'BBR Teknisk Anlæg');
     contextmenu.push(menuItem);
   }
 }

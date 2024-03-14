@@ -12,7 +12,6 @@ import LayerGroup from 'ol/layer/Group';
 import * as util from 'dawa-util';
 import * as futil from './futil';
 import * as kortlink from './kortlink';
-import * as bbr from './bbrkodelister';
 import * as kort from './kort';
 import 'babel-polyfill';
 import 'whatwg-fetch';
@@ -93,8 +92,6 @@ function getStyle(href, klasse) {
     fillColor= 'rgba(255, 0, 0, 0.2)';
     zindex= 400;
     break;
-  case 'bbr/bygninger':
-  case 'bbr/tekniskeanlaeg':
   case 'bebyggelser':
   case 'stednavne':
   case 'stednavne2':
@@ -130,12 +127,6 @@ function getBetegnelse(data) {
   let ressource= getRessource(data.href);
   let betegnelse= 'betegnelse ikke implementeret';
   switch (ressource) {    
-  case 'bbr/bygninger':
-    betegnelse= bbr.getBygAnvendelse(data.BYG_ANVEND_KODE) + ' fra ' + data.OPFOERELSE_AAR;
-    break;
-  case 'bbr/tekniskeanlaeg':
-    betegnelse= bbr.getKlassifikation(data.Klassifikation) + ' fra ' + data.Etableringsaar;
-    break;
   case 'navngivneveje':
     betegnelse= data.navn + ', ' + data.administrerendekommune.navn + ' Kommune';
     break;
@@ -196,12 +187,6 @@ function getBetegnelse(data) {
 function visueltcenter(ressource,data) {
   let koor= null;
   switch (ressource) {   
-  case 'bbr/bygninger':
-    koor= data.geometry.coordinates;
-    break;
-  case 'bbr/tekniskeanlaeg':
-    koor= data.geometry.coordinates;
-    break;
   case 'adresser':
     koor= data.adgangsadresse.adgangspunkt.koordinater;
     break;
